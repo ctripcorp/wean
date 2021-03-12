@@ -1,8 +1,8 @@
-# wepack：0 配置小程序专属打包器
+<p align="center">
+  <img src="https://i.loli.net/2021/03/11/69sRUvYhkGrInX2.png" alt="fre logo" width="180">
+</p>
 
-```shell
-npm init wepack
-```
+#### `npm init wepack`
 
 wepack 是一个小程序打包工具，它负责将标准的微信小程序打包成 web 项目，这样做有很多好处——
 
@@ -41,7 +41,7 @@ wepack 旨在解决链路问题，它自研编译器和打包器，对于标准�
 
 ### Design
 
-![wepack-1.png](https://i.loli.net/2021/01/29/gnozqutfaDxd7NI.png)
+![wepack](https://i.loli.net/2021/03/11/4fvJhZ2lbUgmsj1.png)
 
 #### License
 
