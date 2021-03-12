@@ -8,7 +8,6 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "node --inspect ./core/index.js",
     "start": "wepack -e ./demo/app.json -o ./dist/"
   },
   "repository": {
