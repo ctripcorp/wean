@@ -1,6 +1,6 @@
 {
     "usingComponents": {
-        "wx-item": "pages/item/index"
+        "use-item": "/pages/item/index"
       }
 
 }

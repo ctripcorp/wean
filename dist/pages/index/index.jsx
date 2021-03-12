@@ -33,14 +33,14 @@
     placeholder: "What needs to be done?",
     value: name,
     id: "test"
-  })), fre.h(fre.Fragment, null, directs.$for(list, item => fre.h(remotes.Block, null, fre.h(remotes.WxItem, {
+  })), fre.h(fre.Fragment, null, directs.$for(list, item => fre.h(remotes.Block, null, fre.h(remotes.UseItem, {
     item: item,
     myevent: e => clickIco(e),
     clear: e => clear(e)
   })), null)), directs.$ensure("$3$template$footer"))));
 };
 
-remotes['WxItem'] = props => {
+remotes['UseItem'] = props => {
   fre.useEffect(() => {
     const params = window.getUrl(window.location.href);
     onLoad && onLoad(params);
@@ -57,7 +57,7 @@ remotes['WxItem'] = props => {
     },
     onLoad,
     onUnload
-  } = useComponent(fre.useState({})[1], props, 'wx-item');
+  } = useComponent(fre.useState({})[1], props, 'use-item');
   return fre.h(fre.Fragment, null, fre.h(remotes.View, null, fre.h(remotes.View, {
     class: "list-items"
   }, fre.h(remotes.Icon, {
@@ -94,7 +94,7 @@ remotes['$3$template$footer'] = props => {
 };
 
 
-    window['berial-ykrhss'] = {
+    window['berial-pajspj'] = {
       async bootstrap({host}){
         const div = document.createElement('div');
         div.id = "root";
