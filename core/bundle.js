@@ -1,7 +1,9 @@
 const fs = require("fs")
 const { promises } = fs
 const Path = require("path")
-const options = {}
+const options = {
+  inputDir: '/'
+}
 
 module.exports = async function build(main) {
   const rootJson = await resolveAsset(Path.resolve(main || ""))
