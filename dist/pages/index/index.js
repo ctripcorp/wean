@@ -94,4 +94,4 @@ Component({
     }
 
   }
-}, "wx-item");
+}, "use-item");
