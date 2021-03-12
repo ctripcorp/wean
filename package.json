@@ -1,0 +1,41 @@
+{
+  "name": "wepack",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "bin": {
+    "wepack": "./core/cli.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "node --inspect ./core/index.js",
+    "start": "wepack -e ./demo/app.json -o ./dist/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com/ctripcorp/wepack.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/core": "^7.12.10",
+    "@babel/plugin-transform-react-jsx": "^7.12.10",
+    "@babel/template": "^7.12.13",
+    "@babel/traverse": "^7.12.0",
+    "@babel/types": "^7.12.13",
+    "axios": "^0.21.1",
+    "babel-plugin-remove-import-export": "^1.1.1",
+    "cross-fetch": "^3.0.6",
+    "himalaya-wxml": "^1.1.0",
+    "nanoid": "^3.1.20",
+    "nodemon": "^2.0.6",
+    "polka": "^0.5.2",
+    "postcss": "^8.2.2",
+    "postcss-selector-parser": "^6.0.4",
+    "posthtml": "^0.15.1",
+    "prettier": "^2.2.1",
+    "sirv": "^1.0.10",
+    "chokidar": "^3.5.1"
+  }
+}

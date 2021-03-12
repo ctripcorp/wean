@@ -1,0 +1,15 @@
+<view class="container" style="{{'padding-top:' + leftcount}}">
+  <import src="./footer.wxml"></import>
+  <view class="title">
+    <text>todos</text>
+  </view>
+  <view class="list">
+    <view class="list-items">
+      <input bindconfirm="addtodo" placeholder="What needs to be done?" value="{{name}}" id="test"></input>
+    </view>
+    <block wx:for="{{list}}" wx:key="id">
+      <wx-item item="{{item}}" bindmyevent="clickIco" bindclear="clear"/>
+    </block>
+    <template is="footer"></template>
+  </view>
+</view>

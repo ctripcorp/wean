@@ -1,0 +1,21 @@
+.list-items {
+  display: flex;
+  padding: 0 30rpx;
+  justify-content: space-around;
+  align-items: center;
+  height: 100rpx;
+  font-size: 40rpx;
+  border-bottom: 1px solid #e6e6e6;
+}
+.selectAll {
+  width: 50rpx;
+  height: 50rpx;
+}
+.list-items input {
+  flex: auto;
+  margin-left: 30rpx;
+}
+.completed {
+  text-decoration: line-through;
+  color: #d9d9d9;
+}

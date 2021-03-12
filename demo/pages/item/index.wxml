@@ -1,0 +1,7 @@
+<view>
+    <view class="list-items">
+        <icon type="{{item.completed?'success':'circle'}}" bind:tap="clickIco" data-id="{{item.id}}"></icon>
+        <input class="aaa {{item.completed?'completed':''}}" bindconfirm="edittodo" data-id="{{item.id}}" value="{{item.name}}"></input>
+        <icon type="clear" bind:tap="clear"></icon>
+    </view>
+</view>
