@@ -31,7 +31,7 @@ function lexText(state) {
     let input = state.input
     let len = input.length
     let endOfText = input.substring(current).search(tagOrCommentStartRE)
-    if (endOfText === -1) { // 纯文字
+    if (endOfText === -1) {
         state.tokens.push({
             type: 'text',
             value: input.slice(current)
