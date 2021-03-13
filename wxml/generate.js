@@ -192,7 +192,7 @@ function generateProps(node, state, asset) {
       } else if (compiled.indexOf("{") > -1) {
         code += name + "={`" + compiled.replace(/{/g, "${") + "`}"
       } else {
-        code += `${name}='${compiled}'`
+        code += `${name}="${compiled}"`
       }
     }
   }
