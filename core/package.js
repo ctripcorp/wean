@@ -89,9 +89,8 @@ function generateBerialCode() {
 async function convert(asset, options) {
   const isRoot = asset.parent && asset.parent.type === "json"
 
-  if (isRoot) {
-    asset.outputPath = asset.type, Path.resolve(options.outputPath, asset.parent.hash + asset.ext)
-  }
+  asset.outputPath = Path.resolve(options.outputPath, asset.hash + asset.ext)
+
 
   switch (asset.type) {
     case "wxss":

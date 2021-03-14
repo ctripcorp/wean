@@ -6,7 +6,7 @@ module.exports = async function packJs(asset, options) {
     const cache = []
     asset.output = asset.code
     for (const dep of asset.depsAssets.values()) {
-      await convert(dep, options, true, asset.outputPath)
+      await convert(dep, options)
       if (dep.tag) {
         defer.push(dep.code)
       } else {
