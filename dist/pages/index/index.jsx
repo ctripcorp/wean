@@ -26,9 +26,7 @@
   }, fre.h(remotes.View, {
     class: "title",
     "data-w-866668": true
-  }, fre.h(remotes.Text, {
-    "data-w-866668": true
-  }, "todos")), fre.h(remotes.View, {
+  }, fre.h(remotes.Text, null, "todos")), fre.h(remotes.View, {
     class: "list",
     "data-w-866668": true
   }, fre.h(remotes.View, {
@@ -38,15 +36,11 @@
     onKeyDown: e => addtodo(e),
     placeholder: "What needs to be done?",
     value: name,
-    id: "test",
-    "data-w-866668": true
-  })), fre.h(fre.Fragment, null, directs.$for(list, item => fre.h(remotes.Block, {
-    "data-w-866668": true
-  }, fre.h(remotes.UseItem, {
+    id: "test"
+  })), fre.h(fre.Fragment, null, directs.$for(list, item => fre.h(remotes.Block, null, fre.h(remotes.UseItem, {
     item: item,
     myevent: e => clickIco(e),
-    clear: e => clear(e),
-    "data-w-866668": true
+    clear: e => clear(e)
   })), null)), directs.$ensure("$3$template$footer"))));
 };
 
@@ -68,26 +62,22 @@ remotes['UseItem'] = props => {
     onLoad,
     onUnload
   } = useComponent(fre.useState({})[1], props, 'use-item');
-  return fre.h(fre.Fragment, null, fre.h(remotes.View, {
-    "data-w-06eca1": true
-  }, fre.h(remotes.View, {
+  return fre.h(fre.Fragment, null, fre.h(remotes.View, null, fre.h(remotes.View, {
     class: "list-items",
-    "data-w-06eca1": true
+    "data-w-e2ba90": true
   }, fre.h(remotes.Icon, {
     type: item.completed ? 'success' : 'circle',
     onClick: e => clickIco(e),
-    "data-id": item.id,
-    "data-w-06eca1": true
+    "data-id": item.id
   }), fre.h(remotes.Input, {
     class: `aaa ${item.completed ? 'completed' : ''}`,
     onKeyDown: e => edittodo(e),
     "data-id": item.id,
     value: item.name,
-    "data-w-06eca1": true
+    "data-w-e2ba90": true
   }), fre.h(remotes.Icon, {
     type: "clear",
-    onClick: e => clear(e),
-    "data-w-06eca1": true
+    onClick: e => clear(e)
   }))));
 };
 
@@ -104,9 +94,7 @@ remotes['$3$template$footer'] = props => {
   return fre.h(fre.Fragment, null, directs.$ensure(null), fre.h(remotes.View, {
     class: "list-items footer",
     "data-w-866668": true
-  }, fre.h(remotes.Text, {
-    "data-w-866668": true
-  }, leftcount, " items left"), directs.$if(() => list.length - leftcount > 0, () => fre.h(remotes.View, {
+  }, fre.h(remotes.Text, null, leftcount, " items left"), directs.$if(() => list.length - leftcount > 0, () => fre.h(remotes.View, {
     class: "clear",
     onClick: e => clearCompleted(e),
     "data-w-866668": true
@@ -114,7 +102,7 @@ remotes['$3$template$footer'] = props => {
 };
 
 
-    window['berial-yfwkht'] = {
+    window['berial-mirxkz'] = {
       async bootstrap({host}){
         const div = document.createElement('div');
         div.id = "root";

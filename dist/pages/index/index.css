@@ -1,4 +1,4 @@
-.list-items[data-w-06eca1] {
+.list-items[data-w-e2ba90] {
   display: flex;
   padding: 0 0.8rem;
   justify-content: space-around;
@@ -7,15 +7,15 @@
   font-size: 1.06667rem;
   border-bottom: 1px solid #e6e6e6;
 }
-.selectAll[data-w-06eca1] {
+.selectAll[data-w-e2ba90] {
   width: 1.33333rem;
   height: 1.33333rem;
 }
-.list-items[data-w-06eca1] input[data-w-06eca1] {
+.list-items[data-w-e2ba90] input {
   flex: auto;
   margin-left: 0.8rem;
 }
-.completed[data-w-06eca1] {
+.completed[data-w-e2ba90] {
   text-decoration: line-through;
   color: #d9d9d9;
 }

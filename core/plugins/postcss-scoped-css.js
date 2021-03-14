@@ -1,5 +1,3 @@
-// Inspried by https://github.com/vuejs/vue-next/blob/master/packages/compiler-sfc/src/stylePluginScoped.ts
-
 const selectorParser = require('postcss-selector-parser')
 module.exports = ({ id = '' }) => {
   return {
@@ -20,7 +18,7 @@ function processRule(id, rule) {
   rule.selector = selectorParser(selectorRoot => {
     selectorRoot.each(selector => {
       selector.each(n => {
-        if (n.value[0] !== ' ' && n.value[0] !== ':') {
+        if (n.type === 'class') {
           selector.insertAfter(
             n,
             selectorParser.attribute({

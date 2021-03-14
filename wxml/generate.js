@@ -194,18 +194,21 @@ function generateProps(node, state, asset) {
       }
     }
   }
-  code += `data-w-${getHash(asset)} >`
+  code += `${getHash(asset, node)} >`
   return code
 }
 
-function getHash(asset) {
+function getHash(asset, node) {
+  if (!node.attributes.class) return ''
+  let hash = ''
   if (asset.tag) {
-    return asset.hash.slice(0, 6)
+    hash = asset.hash.slice(0, 6)
   } else {
     let p = asset
     if (p.parent.type !== 'json') p = p.parent
-    return p.hash.slice(0, 6)
+    hash = p.hash.slice(0, 6)
   }
+  return `data-w-${hash}`
 }
 
 function compileTemplate(template, data, isStr) {
