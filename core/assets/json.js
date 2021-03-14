@@ -33,17 +33,18 @@ module.exports = class JsonAsset extends Asset {
               sibling.dependencies.add({
                 tag,
                 path: path + e,
+                type: e.slice(1)
               })
             })
         }
       }
     }
   }
-  async generate() {}
+  async generate() { }
   refSibling(type, path) {
     for (const dep of this.parent.dependencies) {
       if (Path.dirname(dep.path) === Path.dirname(path)) {
-        if(dep.type === type){
+        if (dep.type === type) {
           return this.parent.depsAssets.get(dep)
         }
       }

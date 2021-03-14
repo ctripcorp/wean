@@ -22,31 +22,31 @@
   return fre.h(fre.Fragment, null, fre.h(remotes.View, {
     class: "container",
     style: 'padding-top:' + leftcount,
-    "data-w-93b885adfe0da089cdf634904fd59f71": true
+    "data-w-866668": true
   }, fre.h(remotes.View, {
     class: "title",
-    "data-w-93b885adfe0da089cdf634904fd59f71": true
+    "data-w-866668": true
   }, fre.h(remotes.Text, {
-    "data-w-93b885adfe0da089cdf634904fd59f71": true
+    "data-w-866668": true
   }, "todos")), fre.h(remotes.View, {
     class: "list",
-    "data-w-93b885adfe0da089cdf634904fd59f71": true
+    "data-w-866668": true
   }, fre.h(remotes.View, {
     class: "list-items",
-    "data-w-93b885adfe0da089cdf634904fd59f71": true
+    "data-w-866668": true
   }, fre.h(remotes.Input, {
     onKeyDown: e => addtodo(e),
     placeholder: "What needs to be done?",
     value: name,
     id: "test",
-    "data-w-93b885adfe0da089cdf634904fd59f71": true
+    "data-w-866668": true
   })), fre.h(fre.Fragment, null, directs.$for(list, item => fre.h(remotes.Block, {
-    "data-w-93b885adfe0da089cdf634904fd59f71": true
+    "data-w-866668": true
   }, fre.h(remotes.UseItem, {
     item: item,
     myevent: e => clickIco(e),
     clear: e => clear(e),
-    "data-w-93b885adfe0da089cdf634904fd59f71": true
+    "data-w-866668": true
   })), null)), directs.$ensure("$3$template$footer"))));
 };
 
@@ -69,25 +69,25 @@ remotes['UseItem'] = props => {
     onUnload
   } = useComponent(fre.useState({})[1], props, 'use-item');
   return fre.h(fre.Fragment, null, fre.h(remotes.View, {
-    "data-w-8666683506aacd900bbd5a74ac4edf68": true
+    "data-w-866668": true
   }, fre.h(remotes.View, {
     class: "list-items",
-    "data-w-8666683506aacd900bbd5a74ac4edf68": true
+    "data-w-866668": true
   }, fre.h(remotes.Icon, {
     type: item.completed ? 'success' : 'circle',
     onClick: e => clickIco(e),
     "data-id": item.id,
-    "data-w-8666683506aacd900bbd5a74ac4edf68": true
+    "data-w-866668": true
   }), fre.h(remotes.Input, {
     class: `aaa ${item.completed ? 'completed' : ''}`,
     onKeyDown: e => edittodo(e),
     "data-id": item.id,
     value: item.name,
-    "data-w-8666683506aacd900bbd5a74ac4edf68": true
+    "data-w-866668": true
   }), fre.h(remotes.Icon, {
     type: "clear",
     onClick: e => clear(e),
-    "data-w-8666683506aacd900bbd5a74ac4edf68": true
+    "data-w-866668": true
   }))));
 };
 
@@ -103,18 +103,18 @@ remotes['$3$template$footer'] = props => {
   } = usePage(null, props);
   return fre.h(fre.Fragment, null, directs.$ensure(null), fre.h(remotes.View, {
     class: "list-items footer",
-    "data-w-8666683506aacd900bbd5a74ac4edf68": true
+    "data-w-866668": true
   }, fre.h(remotes.Text, {
-    "data-w-8666683506aacd900bbd5a74ac4edf68": true
+    "data-w-866668": true
   }, leftcount, " items left"), directs.$if(() => list.length - leftcount > 0, () => fre.h(remotes.View, {
     class: "clear",
     onClick: e => clearCompleted(e),
-    "data-w-8666683506aacd900bbd5a74ac4edf68": true
+    "data-w-866668": true
   }, "clear completed"), null)));
 };
 
 
-    window['berial-zytpmr'] = {
+    window['berial-ahissi'] = {
       async bootstrap({host}){
         const div = document.createElement('div');
         div.id = "root";

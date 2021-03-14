@@ -194,8 +194,14 @@ function generateProps(node, state, asset) {
       }
     }
   }
-  code += `data-w-${asset.hash} >`
+  code += `data-w-${getHash(asset)} >`
   return code
+}
+
+function getHash(asset) {
+  let p = asset
+  if (p.parent.type !== 'json') p = p.parent
+  return p.hash.slice(0, 6)
 }
 
 function compileTemplate(template, data, isStr) {

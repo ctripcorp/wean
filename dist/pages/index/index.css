@@ -1,4 +1,4 @@
-.list-items[data-w-249ba6277758050695e8f5909bacd6d3] {
+.list-items[data-w-5e732a] {
   display: flex;
   padding: 0 0.8rem;
   justify-content: space-around;
@@ -7,41 +7,41 @@
   font-size: 1.06667rem;
   border-bottom: 1px solid #e6e6e6;
 }
-.selectAll[data-w-249ba6277758050695e8f5909bacd6d3] {
+.selectAll[data-w-5e732a] {
   width: 1.33333rem;
   height: 1.33333rem;
 }
-.list-items input[data-w-249ba6277758050695e8f5909bacd6d3] {
+.list-items input[data-w-5e732a] {
   flex: auto;
   margin-left: 0.8rem;
 }
-.completed[data-w-249ba6277758050695e8f5909bacd6d3] {
+.completed[data-w-5e732a] {
   text-decoration: line-through;
   color: #d9d9d9;
 }
 
-.container[data-w-8666683506aacd900bbd5a74ac4edf68]{
+.container[data-w-866668]{
   text-align: center;
   padding:1.06667rem;
 }
-.title[data-w-8666683506aacd900bbd5a74ac4edf68]{
+.title[data-w-866668]{
   font-size: 2.66667rem;
   color:#EAD7D7;
 }
-.list[data-w-8666683506aacd900bbd5a74ac4edf68]{
+.list[data-w-866668]{
   margin-top: 0.8rem;
   text-align: left;
   border:1px solid #E6E6E6;
   box-shadow: 0 0 0.26667rem #878787;
 }
-.footer[data-w-8666683506aacd900bbd5a74ac4edf68]{
+.footer[data-w-866668]{
   height:2.13333rem;
   position:relative;
   color:#878787;
   font-size: 0.74667rem;
   justify-content:space-between;
 }
-.footer[data-w-8666683506aacd900bbd5a74ac4edf68]:before{
+.footer[data-w-866668]:before{
   content: '';
 	position: absolute;
 	right: 0;
@@ -55,7 +55,7 @@
 	            0 0.85333rem 0 -0.32rem #f6f6f6,
 	            0 0.90667rem 0.10667rem -0.32rem rgba(0, 0, 0, 0.2);
 }
-.clear[data-w-8666683506aacd900bbd5a74ac4edf68]{
+.clear[data-w-866668]{
   border:1px solid #D9D9D9;
   padding:0.13333rem;
   border-radius:0.26667rem;
