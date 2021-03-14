@@ -1,7 +1,6 @@
 const md5 = require('md5')
 let clock = 0
 
-
 module.exports = class Asset {
   constructor(path, type, name) {
     this.path = path
