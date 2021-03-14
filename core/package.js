@@ -9,8 +9,6 @@ const packWxss = require('./packagers/wxss.js')
 const packWxml = require('./packagers/wxml.js')
 const packJson = require('./packagers/json.js')
 
-
-
 module.exports = async function pack(asset, options) {
   await convert(asset, options)
   await copySdk(options)
