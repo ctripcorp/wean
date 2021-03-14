@@ -64,7 +64,7 @@ remotes['UseItem'] = props => {
   } = useComponent(fre.useState({})[1], props, 'use-item');
   return fre.h(fre.Fragment, null, fre.h(remotes.View, null, fre.h(remotes.View, {
     class: "list-items",
-    "data-w-e2ba90": true
+    "data-w-06eca1": true
   }, fre.h(remotes.Icon, {
     type: item.completed ? 'success' : 'circle',
     onClick: e => clickIco(e),
@@ -74,7 +74,7 @@ remotes['UseItem'] = props => {
     onKeyDown: e => edittodo(e),
     "data-id": item.id,
     value: item.name,
-    "data-w-e2ba90": true
+    "data-w-06eca1": true
   }), fre.h(remotes.Icon, {
     type: "clear",
     onClick: e => clear(e)
@@ -92,7 +92,7 @@ remotes['$3$template$footer'] = props => {
     clearCompleted
   } = usePage(null, props);
   return fre.h(fre.Fragment, null, directs.$ensure(null), fre.h(remotes.View, {
-    class: "list-items footer",
+    class: "footer",
     "data-w-866668": true
   }, fre.h(remotes.Text, null, leftcount, " items left"), directs.$if(() => list.length - leftcount > 0, () => fre.h(remotes.View, {
     class: "clear",
@@ -102,7 +102,7 @@ remotes['$3$template$footer'] = props => {
 };
 
 
-    window['berial-mirxkz'] = {
+    window['berial-whwhdh'] = {
       async bootstrap({host}){
         const div = document.createElement('div');
         div.id = "root";
