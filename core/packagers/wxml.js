@@ -36,16 +36,16 @@ module.exports = async function packWxml(asset, options) {
       ${output}
     })(window,window.remotes);
     `
-  const path = asset.outputPath
-    .replace(Path.resolve(options.outputPath), "")
-    .replace(/\\/g, "/")
+  const edir = Path.resolve(Path.dirname(options.e))
 
-  const hash = './' + asset.hash
+  const path = asset.path.replace(edir, "").replace(/\\/g, "/").replace('.wxml', "")
+
+  const hash = './' + asset.parent.hash
   manifest.push({
     name,
     scripts: [hash + '.js', hash + '.jsx'],
     styles: [hash + '.css'],
-    path: `${path.replace(".wxml", "")}`,
+    path: `${path}`,
   })
   await write(asset)
 }

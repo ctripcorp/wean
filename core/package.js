@@ -28,7 +28,7 @@ async function copySdk(options) {
     "./runtime/directs.js",
   ]
   let umdPromises = options.umds.map(async (u) => {
-    const dist = Path.join(Path.resolve(options.outputPath), u)
+    const dist = Path.join(Path.resolve(options.o), u)
     await promises.mkdir(Path.dirname(dist), { recursive: true })
     await promises.copyFile(Path.join(__dirname, u), dist)
   })
@@ -70,7 +70,7 @@ async function generateEntry(options) {
   </body>
   </html>`
   await promises.writeFile(
-    Path.join(Path.resolve(options.outputPath), "index.html"),
+    Path.join(Path.resolve(options.o), "index.html"),
     html
   )
 }
@@ -89,7 +89,7 @@ function generateBerialCode() {
 async function convert(asset, options) {
   const isRoot = asset.parent && asset.parent.type === "json"
 
-  asset.outputPath = Path.resolve(options.outputPath, (asset.parent || asset).hash + asset.ext)
+  asset.outputPath = Path.resolve(options.o, (asset.parent || asset).hash + asset.ext)
 
   switch (asset.type) {
     case "wxss":
