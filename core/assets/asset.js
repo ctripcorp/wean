@@ -13,7 +13,7 @@ module.exports = class Asset {
   constructor(path, type, name) {
     this.path = path
     this.id = clock++
-    this.hash = md5(this.id)
+    this.hash = md5(this.id).slice(0, 16)
     this.name = name
     this.ext = exts[type]
     this.type = type.slice(1)

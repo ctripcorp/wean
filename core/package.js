@@ -91,6 +91,11 @@ async function convert(asset, options) {
 
   asset.outputPath = Path.resolve(options.o, (asset.parent || asset).hash + asset.ext)
 
+  if (asset.name === 'app.js') {
+    // TODO 这里在重构 ADT 后就不用单独处理了
+    asset.outputPath = Path.resolve(options.o, './app.js')
+  }
+
   switch (asset.type) {
     case "wxss":
       isRoot && packWxss(asset)

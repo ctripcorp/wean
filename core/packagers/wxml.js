@@ -40,7 +40,7 @@ module.exports = async function packWxml(asset, options) {
 
   const path = asset.path.replace(edir, "").replace(/\\/g, "/").replace('.wxml', "")
 
-  const hash = './' + asset.parent.hash
+  const hash = '/' + asset.parent.hash
   manifest.push({
     name,
     scripts: [hash + '.js', hash + '.jsx'],
