@@ -1,8 +1,18 @@
 const Path = require('path')
 const { promises } = require("fs")
+const {options} = require('../bundle.js')
+
 
 async function write(asset) {
   await promises.mkdir(Path.dirname(asset.outputPath), { recursive: true })
+  await promises.writeFile(
+    asset.outputPath.replace("wxss", "css").replace("wxml", "jsx"),
+    asset.output
+  )
+}
+
+async function swrite(asset){
+  // await promises.mkdir(options.outputPath, { recursive: true })
   await promises.writeFile(
     asset.outputPath.replace("wxss", "css").replace("wxml", "jsx"),
     asset.output

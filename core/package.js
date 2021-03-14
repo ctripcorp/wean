@@ -9,6 +9,8 @@ const packWxss = require('./packagers/wxss.js')
 const packWxml = require('./packagers/wxml.js')
 const packJson = require('./packagers/json.js')
 
+
+
 module.exports = async function pack(asset, options) {
   await convert(asset, options)
   await copySdk(options)
@@ -84,11 +86,12 @@ function generateBerialCode() {
   return dom + script
 }
 
-async function convert(asset, options, isChild, parent = "") {
-  asset.outputPath = isChild
-    ? Path.join(Path.dirname(parent), asset.name)
-    : Path.resolve(options.outputPath, Path.basename(asset.name))
+async function convert(asset, options) {
   const isRoot = asset.parent && asset.parent.type === "json"
+
+  if (isRoot) {
+    asset.outputPath = asset.type, Path.resolve(options.outputPath, asset.parent.hash + asset.ext)
+  }
 
   switch (asset.type) {
     case "wxss":

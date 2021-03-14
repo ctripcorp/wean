@@ -1,5 +1,5 @@
 const { convert, manifest } = require("../package.js")
-const {write,random,titleCase} = require("./util")
+const { write, random, titleCase } = require("./util")
 const Path = require("path")
 
 module.exports = async function packWxml(asset, options) {
