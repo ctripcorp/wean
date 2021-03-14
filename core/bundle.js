@@ -19,15 +19,14 @@ async function loadAsset(asset) {
     await asset.generate()
   }
   const dependencies = Array.from(asset.dependencies)
-  await Promise.all(
-    dependencies.map(async (dep) => {
-      const depAsset = await resolveAsset(dep.path, asset.path)
-      depAsset.tag = dep.tag || null
-      asset.depsAssets.set(dep, depAsset)
-      depAsset.parent = asset
-      await loadAsset(depAsset)
-    })
-  )
+  const all = dependencies.map(async (dep) => {
+    const depAsset = await resolveAsset(dep.path, asset.path)
+    depAsset.tag = dep.tag || null
+    asset.depsAssets.set(dep, depAsset)
+    depAsset.parent = asset
+    await loadAsset(depAsset)
+  })
+  await Promise.all(all)
 }
 
 async function resolveAsset(path = "", parent = "") {

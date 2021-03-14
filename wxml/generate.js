@@ -68,9 +68,8 @@ function generateHook(tag, data, handlers, isTemplate) {
   } else {
     var decode = `const {data:{${data.join(
       ","
-    )}}, onLoad,onUnload,${handlers.join(",")}} = usePage(${
-      isTemplate ? "null" : "fre.useState({})[1]"
-    }, props)`
+    )}}, onLoad,onUnload,${handlers.join(",")}} = usePage(${isTemplate ? "null" : "fre.useState({})[1]"
+      }, props)`
   }
   return isTemplate
     ? `${decode}`
@@ -89,9 +88,8 @@ function generateNode(node, state, asset) {
     return `${compiled}`
   } else if (node.name === "template") {
     const is = node.attributes.is
-    let code = `{directs.$ensure(${
-      is ? '"' + getName(asset, "template", is) + '"' : null
-    })}`
+    let code = `{directs.$ensure(${is ? '"' + getName(asset, "template", is) + '"' : null
+      })}`
     if (node.children) {
       code += `${node.children
         .map((item) => generateNode(item, state, asset))
@@ -196,8 +194,21 @@ function generateProps(node, state, asset) {
       }
     }
   }
-  code += `>`
+  code += `${getHash(asset, node)} >`
   return code
+}
+
+function getHash(asset, node) {
+  if (!node.attributes.class) return ''
+  let hash = ''
+  if (asset.tag) {
+    hash = asset.hash.slice(0, 6)
+  } else {
+    let p = asset
+    if (p.parent.type !== 'json') p = p.parent
+    hash = p.hash.slice(0, 6)
+  }
+  return `data-w-${hash}`
 }
 
 function compileTemplate(template, data, isStr) {

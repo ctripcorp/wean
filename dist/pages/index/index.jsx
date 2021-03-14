@@ -21,13 +21,17 @@
   } = usePage(fre.useState({})[1], props);
   return fre.h(fre.Fragment, null, fre.h(remotes.View, {
     class: "container",
-    style: 'padding-top:' + leftcount
+    style: 'padding-top:' + leftcount,
+    "data-w-866668": true
   }, fre.h(remotes.View, {
-    class: "title"
+    class: "title",
+    "data-w-866668": true
   }, fre.h(remotes.Text, null, "todos")), fre.h(remotes.View, {
-    class: "list"
+    class: "list",
+    "data-w-866668": true
   }, fre.h(remotes.View, {
-    class: "list-items"
+    class: "list-items",
+    "data-w-866668": true
   }, fre.h(remotes.Input, {
     onKeyDown: e => addtodo(e),
     placeholder: "What needs to be done?",
@@ -59,7 +63,8 @@ remotes['UseItem'] = props => {
     onUnload
   } = useComponent(fre.useState({})[1], props, 'use-item');
   return fre.h(fre.Fragment, null, fre.h(remotes.View, null, fre.h(remotes.View, {
-    class: "list-items"
+    class: "list-items",
+    "data-w-06eca1": true
   }, fre.h(remotes.Icon, {
     type: item.completed ? 'success' : 'circle',
     onClick: e => clickIco(e),
@@ -68,7 +73,8 @@ remotes['UseItem'] = props => {
     class: `aaa ${item.completed ? 'completed' : ''}`,
     onKeyDown: e => edittodo(e),
     "data-id": item.id,
-    value: item.name
+    value: item.name,
+    "data-w-06eca1": true
   }), fre.h(remotes.Icon, {
     type: "clear",
     onClick: e => clear(e)
@@ -86,15 +92,17 @@ remotes['$3$template$footer'] = props => {
     clearCompleted
   } = usePage(null, props);
   return fre.h(fre.Fragment, null, directs.$ensure(null), fre.h(remotes.View, {
-    class: "list-items footer"
+    class: "footer",
+    "data-w-866668": true
   }, fre.h(remotes.Text, null, leftcount, " items left"), directs.$if(() => list.length - leftcount > 0, () => fre.h(remotes.View, {
     class: "clear",
-    onClick: e => clearCompleted(e)
+    onClick: e => clearCompleted(e),
+    "data-w-866668": true
   }, "clear completed"), null)));
 };
 
 
-    window['berial-pajspj'] = {
+    window['berial-whwhdh'] = {
       async bootstrap({host}){
         const div = document.createElement('div');
         div.id = "root";

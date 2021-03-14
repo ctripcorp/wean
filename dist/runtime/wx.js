@@ -1,91 +1,115 @@
 window.wx = {
   canIUse(str) {
-    return true
+    return true;
   },
   navigateTo: ({ url, duration }) => {
-    history.pushState({}, "", url)
+    history.pushState({}, "", url);
   },
   navigateBack({ delta }) {
-    history.go(-delta)
+    history.go(-delta);
   },
   reLaunch({ url }) {
-    window.onload = url
+    window.onload = url;
   },
   showToast: (props, timer = null, dom = null) => {
-    clearTimeout(timer)
-    dom = dom || document.createElement("div")
-    fre.render(fre.h(window.Component.Toast, props), dom)
-    document.body.appendChild(dom)
+    clearTimeout(timer);
+    dom = dom || document.createElement("div");
+    fre.render(fre.h(window.Component.Toast, props), dom);
+    document.body.appendChild(dom);
     timer = setTimeout(() => {
-      document.body.removeChild(dom)
-    }, props.duration)
+      document.body.removeChild(dom);
+    }, props.duration);
   },
   showModal: (props, dom = null) => {
-    dom = dom || document.createElement("div")
-    props.dom = dom
-    fre.render(fre.h(window.Component.Modal, props), dom)
-    document.body.appendChild(dom)
+    dom = dom || document.createElement("div");
+    props.dom = dom;
+    fre.render(fre.h(window.Component.Modal, props), dom);
+    document.body.appendChild(dom);
   },
-  setNavigationBarTitle(data) {
-    const fn = () => (document.titile = data.titile)
-    callfn(fn, data)
+  setNavigationBarTitle(options) {
+    options = options || {};
+    const fn = (args) => (document.titile = args.titile);
+    callfn(fn, { ...options });
   },
-  setStorage(data) {
-    const fn = () => localStorage.setItem(data.key, JSON.stringify(data.data))
-    callfn(fn, data)
+  setStorage(options) {
+    options = options || {};
+    const fn = (args) =>
+      localStorage.setItem(args.key, JSON.stringify(args.data));
+    callfn(fn, { ...options });
   },
-  setStorageSync(data) {
-    const fn = () => localStorage.setItem(data.key, JSON.stringify(data.data))
-    callfn(fn, data)
+  setStorageSync(options) {
+    options = options || {};
+    const fn = () => localStorage.setItem(args.key, JSON.stringify(args.data));
+    callfn(fn, { ...options });
   },
-  getStorage(data) {
-    const fn = () => localStorage.getItem(data.key)
-    callfn(fn, data)
+  getStorage(options) {
+    options = options || {};
+    const fn = (args) => {
+      return { data: localStorage.getItem(args.key) };
+    };
+    callfn(fn, { ...options });
   },
-  getStorageSync(data) {
-    const fn = () => localStorage.getItem(data.key)
-    callfn(fn, data)
+  getStorageSync(options) {
+    options = options || {};
+    const fn = (args) => {
+      return { data: localStorage.getItem(args.key) };
+    };
+    callfn(fn, { ...options });
   },
-  removeStorge(data) {
-    const fn = () => localStorage.removeItem(data.key)
-    callfn(fn, data)
+  removeStorge(options) {
+    options = options || {};
+    const fn = (args) => localStorage.removeItem(args.key);
+    callfn(fn, { ...options });
   },
-  celarStorage(data) {
-    const fn = () => localStorage.clear()
-    callfn(fn, data)
+  celarStorage(options) {
+    options = options || {};
+    const fn = () => localStorage.clear();
+    callfn(fn, { ...options });
   },
   request(data) {
-    const config = { method: data.method || "GET", mode: "cors" }
-    if (data.headers) config.headers = data.headers
-    if (data.data) config.data = JSON.stringify(data.data)
+    const config = { method: data.method || "GET", mode: "cors" };
+    if (data.headers) config.headers = data.headers;
+    if (data.data) config.data = JSON.stringify(data.data);
 
     fetch(data.url, config)
       .then((res) => {
-        return res.json()
+        return res.json();
       })
       .then((res) => {
-        data.success && data.success({ data:res })
+        data.success && data.success({ data: res });
       })
       .catch((e) => {
-        data.fail && data.fail(e)
-        throw e
+        data.fail && data.fail(e);
+        throw e;
       })
-      .finally(() => data.complate && data.complate())
+      .finally(() => data.complate && data.complate());
+  },
+  getSystemInfo(options) {
+    options = options || {};
+    const systemInfo = window.navigator;
+    let res = {
+      navHeight: 0,
+      statusBar: 0,
+      pixelRatio: window.devicePixelRatio,
+      screenWidth: screen.width,
+      screenHeight: screen.height,
+      windowWidth: screen.availWidth,
+      windowHeight: screen.availHeight,
+      language: navigator.language,
+      platform: navigator.platform,
+    };
+    const fn = () => res;
+    callfn(fn, { ...options });
   },
   stopPullDownRefresh() {},
-}
-
-function callfn(
-  fn,
-  { success = () => {}, fail = () => {}, complate = () => {} },
-  ...args
-) {
+};
+function callfn(fn, { success, fail, complete, ...args }) {
   try {
-    const res = fn(...args)
-    success(JSON.parse(res))
-  } catch (e) {
-    fail(e)
+    const res = fn(args);
+    success && success(res);
+  } catch (err) {
+    fail && fail(err);
   } finally {
-    complate()
+    complete && complete(status);
   }
 }
