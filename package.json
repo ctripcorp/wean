@@ -1,5 +1,5 @@
 {
-  "name": "wepack",
+  "name": "@wepack/core",
   "version": "0.0.0",
   "description": "",
   "main": "index.js",
