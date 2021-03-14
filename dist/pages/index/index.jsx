@@ -94,7 +94,7 @@ remotes['$3$template$footer'] = props => {
 };
 
 
-    window['berial-cjwecr'] = {
+    window['berial-jihkkk'] = {
       async bootstrap({host}){
         const div = document.createElement('div');
         div.id = "root";
