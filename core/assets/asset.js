@@ -8,6 +8,7 @@ module.exports = class Asset {
     this.id = clock++
     this.hash = md5(this.id)
     this.name = name
+    this.ext = exts[type]
     this.type = type.slice(1)
     this.dependencies = new Set()
     this.depsAssets = new Map()

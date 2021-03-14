@@ -54,3 +54,5 @@ async function resolveAsset(path = "", parent = "") {
   }
   return new Asset(resolvePath, type, path)
 }
+
+module.exports.options = options

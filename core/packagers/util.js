@@ -1,10 +1,11 @@
 const Path = require('path')
 const { promises } = require("fs")
 
+
 async function write(asset) {
   await promises.mkdir(Path.dirname(asset.outputPath), { recursive: true })
   await promises.writeFile(
-    asset.outputPath.replace("wxss", "css").replace("wxml", "jsx"),
+    asset.outputPath,
     asset.output
   )
 }

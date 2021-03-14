@@ -9,6 +9,8 @@ const packWxss = require('./packagers/wxss.js')
 const packWxml = require('./packagers/wxml.js')
 const packJson = require('./packagers/json.js')
 
+
+
 module.exports = async function pack(asset, options) {
   await convert(asset, options)
   await copySdk(options)
@@ -26,7 +28,7 @@ async function copySdk(options) {
     "./runtime/directs.js",
   ]
   let umdPromises = options.umds.map(async (u) => {
-    const dist = Path.join(Path.resolve(options.outputPath), u)
+    const dist = Path.join(Path.resolve(options.o), u)
     await promises.mkdir(Path.dirname(dist), { recursive: true })
     await promises.copyFile(Path.join(__dirname, u), dist)
   })
@@ -68,7 +70,7 @@ async function generateEntry(options) {
   </body>
   </html>`
   await promises.writeFile(
-    Path.join(Path.resolve(options.outputPath), "index.html"),
+    Path.join(Path.resolve(options.o), "index.html"),
     html
   )
 }
@@ -84,11 +86,15 @@ function generateBerialCode() {
   return dom + script
 }
 
-async function convert(asset, options, isChild, parent = "") {
-  asset.outputPath = isChild
-    ? Path.join(Path.dirname(parent), asset.name)
-    : Path.resolve(options.outputPath, Path.basename(asset.name))
+async function convert(asset, options) {
   const isRoot = asset.parent && asset.parent.type === "json"
+
+  asset.outputPath = Path.resolve(options.o, (asset.parent || asset).hash + asset.ext)
+
+  if (asset.name === 'app.js') {
+    // TODO 这里在重构 ADT 后就不用单独处理了
+    asset.outputPath = Path.resolve(options.o, './app.js')
+  }
 
   switch (asset.type) {
     case "wxss":

@@ -1,4 +1,8 @@
+<<<<<<< HEAD:dist/pages/index/index.css
 .list-items[data-w-06eca1] {
+=======
+.list-items[data-w-25daad] {
+>>>>>>> refactor-packager:dist/93b885adfe0da089.css
   display: flex;
   padding: 0 0.8rem;
   justify-content: space-around;
@@ -7,6 +11,7 @@
   font-size: 1.06667rem;
   border-bottom: 1px solid #e6e6e6;
 }
+<<<<<<< HEAD:dist/pages/index/index.css
 .selectAll[data-w-06eca1] {
   width: 1.33333rem;
   height: 1.33333rem;
@@ -16,6 +21,17 @@
   margin-left: 0.8rem;
 }
 .completed[data-w-06eca1] {
+=======
+.selectAll[data-w-25daad] {
+  width: 1.33333rem;
+  height: 1.33333rem;
+}
+.list-items[data-w-25daad] input {
+  flex: auto;
+  margin-left: 0.8rem;
+}
+.completed[data-w-25daad] {
+>>>>>>> refactor-packager:dist/93b885adfe0da089.css
   text-decoration: line-through;
   color: #d9d9d9;
 }
@@ -35,7 +51,11 @@
   box-shadow: 0 0 0.26667rem #878787;
 }
 .footer[data-w-866668]{
+<<<<<<< HEAD:dist/pages/index/index.css
   height:2.13333rem;
+=======
+  padding: 10px;
+>>>>>>> refactor-packager:dist/93b885adfe0da089.css
   position:relative;
   color:#878787;
   font-size: 0.74667rem;
