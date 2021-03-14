@@ -14,7 +14,6 @@ module.exports = class WxssAsset extends Asset {
   }
   async generate() {
     const wxml = this.getWxml(this)
-    console.log(wxml.hash)
     this.code = postcss([
       postcssTagReplacer({
         // css 需要替换的标签

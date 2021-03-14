@@ -199,9 +199,13 @@ function generateProps(node, state, asset) {
 }
 
 function getHash(asset) {
-  let p = asset
-  if (p.parent.type !== 'json') p = p.parent
-  return p.hash.slice(0, 6)
+  if (asset.tag) {
+    return asset.hash.slice(0, 6)
+  } else {
+    let p = asset
+    if (p.parent.type !== 'json') p = p.parent
+    return p.hash.slice(0, 6)
+  }
 }
 
 function compileTemplate(template, data, isStr) {

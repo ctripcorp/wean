@@ -69,25 +69,25 @@ remotes['UseItem'] = props => {
     onUnload
   } = useComponent(fre.useState({})[1], props, 'use-item');
   return fre.h(fre.Fragment, null, fre.h(remotes.View, {
-    "data-w-866668": true
+    "data-w-06eca1": true
   }, fre.h(remotes.View, {
     class: "list-items",
-    "data-w-866668": true
+    "data-w-06eca1": true
   }, fre.h(remotes.Icon, {
     type: item.completed ? 'success' : 'circle',
     onClick: e => clickIco(e),
     "data-id": item.id,
-    "data-w-866668": true
+    "data-w-06eca1": true
   }), fre.h(remotes.Input, {
     class: `aaa ${item.completed ? 'completed' : ''}`,
     onKeyDown: e => edittodo(e),
     "data-id": item.id,
     value: item.name,
-    "data-w-866668": true
+    "data-w-06eca1": true
   }), fre.h(remotes.Icon, {
     type: "clear",
     onClick: e => clear(e),
-    "data-w-866668": true
+    "data-w-06eca1": true
   }))));
 };
 
@@ -114,7 +114,7 @@ remotes['$3$template$footer'] = props => {
 };
 
 
-    window['berial-ahissi'] = {
+    window['berial-yfwkht'] = {
       async bootstrap({host}){
         const div = document.createElement('div');
         div.id = "root";
