@@ -7,9 +7,8 @@ module.exports = async function packWxml(asset, options) {
   let output = `const $${asset.id} = ${asset.code}\n\n`
   for (const dep of asset.depsAssets.values()) {
     await convert(dep, options, true, asset.outputPath)
-    let code = `remotes['${dep.tag ? util.titleCase(dep.tag) : dep.id}'] = ${
-      dep.code
-    }\n\n`
+    let code = `remotes['${dep.tag ? util.titleCase(dep.tag) : dep.id}'] = ${dep.code
+      }\n\n`
     if (cache.indexOf(dep.name) < 0) {
       output += code
       cache.push(dep.name)
@@ -41,10 +40,11 @@ module.exports = async function packWxml(asset, options) {
     .replace(Path.resolve(options.outputPath), "")
     .replace(/\\/g, "/")
 
+  const hash = '/' + asset.hash
   manifest.push({
     name,
-    scripts: [path.replace("wxml", "js"), path.replace("wxml", "jsx")],
-    styles: [path.replace("wxml", "css")],
+    scripts: [hash + '.js', hash + '.jsx'],
+    styles: [hash + '.css'],
     path: `${path.replace(".wxml", "")}`,
   })
   await util.write(asset)

@@ -32,9 +32,9 @@ async function run(argv) {
 
 async function start(options) {
   options.old && options.old.close()
-  const assetTree = await build(options.e)
+  const adt = await build(options.e)
   log("bulid success")
-  await pack(assetTree, {
+  await pack(adt, {
     outputPath: options.o,
   })
   log("package success")
