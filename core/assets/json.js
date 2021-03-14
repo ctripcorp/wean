@@ -47,9 +47,7 @@ module.exports = class JsonAsset extends Asset {
           return this.parent.depsAssets.get(dep)
         }
       }
-      // if (dep.type === type) {
-      //   return this.parent.depsAssets.get(dep)
-      // }
+
     }
   }
 }
