@@ -5,7 +5,7 @@ const selectorParser = require('postcss-selector-parser')
 const animationNameRE = /^(-\w+-)?animation-name$/
 const animationRE = /^(-\w+-)?animation$/
 
-module.exports = (id = '') => {
+module.exports = ({id = ''}) => {
   const keyframes = Object.create(null)
   const shortId = id.replace(/^data-v-/, '')
 
