@@ -13,7 +13,7 @@
   box-shadow: 0 0 10rpx #878787;
 }
 .footer{
-  height:80rpx;
+  padding: 10px;
   position:relative;
   color:#878787;
   font-size: 28rpx;
@@ -38,5 +38,20 @@
   padding:5rpx;
   border-radius:10rpx;
   z-index:1000;
+}
+
+.list-items {
+  display: flex;
+  padding: 0 30rpx;
+  justify-content: space-around;
+  align-items: center;
+  height: 100rpx;
+  font-size: 40rpx;
+  border-bottom: 1px solid #e6e6e6;
+}
+
+.list-items input {
+  flex: auto;
+  margin-left: 30rpx;
 }
 
