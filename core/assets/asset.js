@@ -2,9 +2,10 @@ const md5 = require('md5')
 let clock = 0
 
 let exts = {
-  '.wxml':'.jsx',
-  '.js':'.js',
-  '.wxss':'.css'
+  '.wxml': '.jsx',
+  '.js': '.js',
+  '.wxss': '.css',
+  '.json': '.json'
 }
 
 
