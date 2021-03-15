@@ -18,7 +18,7 @@ module.exports = ({ id = '' }) => {
 
 const processedRules = new WeakSet()
 const exist = n => {
-  if (!processedRules.has(rule)) {
+  if (!processedRules.has(n)) {
     processedRules.add(n)
     return false
   }

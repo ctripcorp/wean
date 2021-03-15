@@ -1,21 +1,20 @@
 const { convert, manifest } = require("../package.js")
-const util = require("./util")
+const { write, random, titleCase } = require("./util")
 const Path = require("path")
 
 module.exports = async function packWxml(asset, options) {
   const cache = []
   let output = `const $${asset.id} = ${asset.code}\n\n`
   for (const dep of asset.depsAssets.values()) {
-    await convert(dep, options, true, asset.outputPath)
-    let code = `remotes['${dep.tag ? util.titleCase(dep.tag) : dep.id}'] = ${
-      dep.code
-    }\n\n`
+    await convert(dep, options)
+    let code = `remotes['${dep.tag ? titleCase(dep.tag) : dep.id}'] = ${dep.code
+      }\n\n`
     if (cache.indexOf(dep.name) < 0) {
       output += code
       cache.push(dep.name)
     }
   }
-  const name = `berial-${util.random()}`
+  const name = `berial-${random()}`
   output += `
     window['${name}'] = {
       async bootstrap({host}){
@@ -37,15 +36,16 @@ module.exports = async function packWxml(asset, options) {
       ${output}
     })(window,window.remotes);
     `
-  const path = asset.outputPath
-    .replace(Path.resolve(options.outputPath), "")
-    .replace(/\\/g, "/")
+  const edir = Path.resolve(Path.dirname(options.e))
 
+  const path = asset.path.replace(edir, "").replace(/\\/g, "/").replace('.wxml', "")
+
+  const hash = '/' + asset.parent.hash
   manifest.push({
     name,
-    scripts: [path.replace("wxml", "js"), path.replace("wxml", "jsx")],
-    styles: [path.replace("wxml", "css")],
-    path: `${path.replace(".wxml", "")}`,
+    scripts: [hash + '.js', hash + '.jsx'],
+    styles: [hash + '.css'],
+    path: `${path}`,
   })
-  await util.write(asset)
+  await write(asset)
 }

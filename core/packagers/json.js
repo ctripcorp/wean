@@ -5,9 +5,7 @@ module.exports = async function packJson(asset, options) {
     for (const dep of asset.depsAssets.values()) {
       convert(
         dep,
-        options,
-        Path.basename(dep.name) !== "app.js",
-        asset.outputPath
+        options
       )
     }
   }
