@@ -1,6 +1,13 @@
 const md5 = require('md5')
 let clock = 0
 
+const exts = {
+  '.js': '.js',
+  '.json': '.json',
+  '.wxml': '.jsx',
+  '.wxss': '.css'
+}
+
 module.exports = class Asset {
   constructor(path, type, name) {
     this.path = path
