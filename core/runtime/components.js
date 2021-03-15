@@ -138,8 +138,8 @@ window.remotes = {
         -webkit-appearance: none;
         -moz-appearance:none;
         transition: all .2s ease;
-        cursor pointer;
-        position:relative;
+        cursor: pointer;
+        position: relative;
         box-shadow: 1px 1px 2px #eaecef inset;
         -webkit-tap-highlight-color:rgba(0,0,0,0);
         &:before{
@@ -152,7 +152,7 @@ window.remotes = {
           background:#fff;
           border-radius: 50%;
           transition: all .2s ease;
-          display inline-block;
+          display: inline-block;
           text-align: center;
           line-height: 36px;
           box-shadow: 2px 0px 2px #d4dae4;
