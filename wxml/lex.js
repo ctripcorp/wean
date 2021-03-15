@@ -20,7 +20,7 @@ function lexstate(state) {
     }
     if (input.substr(state.current, 4) === '<!--') {
       lexComment(state)
-        continue
+      continue
     }
     lexTag(state)
   }

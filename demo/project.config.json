@@ -21,8 +21,9 @@
     "checkSiteMap": true,
     "uploadWithSourceMap": true,
     "compileHotReLoad": false,
-    "useMultiFrameRuntime": false,
+    "useMultiFrameRuntime": true,
     "useApiHook": true,
+    "useApiHostProcess": false,
     "babelSetting": {
       "ignore": [],
       "disablePlugins": [],
@@ -40,7 +41,7 @@
   },
   "compileType": "miniprogram",
   "libVersion": "2.6.6",
-  "appid": "wxc62a7845b7e3795b",
+  "appid": "wxdf7eaa7279443f6d",
   "projectname": "todomvc",
   "debugOptions": {
     "hidedInDevtools": []
@@ -48,6 +49,14 @@
   "isGameTourist": false,
   "simulatorType": "wechat",
   "simulatorPluginLibVersion": {},
+  "wepack": {
+    "imports": {
+      "fre": "https://unpkg.com/fre"
+    },
+    "proxy": {
+      "/api/**": "https://api.clicli.us"
+    }
+  },
   "condition": {
     "search": {
       "list": []
@@ -61,14 +70,6 @@
     },
     "miniprogram": {
       "list": []
-    }
-  },
-  "wepack": {
-    "imports": {
-      "fre": "https://unpkg.com/fre"
-    },
-    "proxy": {
-      "/api/**": "https://api.clicli.us"
     }
   }
 }
