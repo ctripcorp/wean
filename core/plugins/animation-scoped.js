@@ -63,7 +63,7 @@ function isFillMode(p) {
 }
 
 // https://developer.mozilla.org/zh-CN/docs/Web/CSS/custom-ident#%E8%AF%AD%E6%B3%95
-const symbols = /[,'"\(\)!]/
+const symbols = /[,'"\(\)!;]/
 function isLegalName(p) {
   if (symbols.test(p)) return false
   switch (p) {
@@ -103,14 +103,14 @@ function tokenizer(input) {
   }
 
   for (const char of input) {
-    if (char === ',' || char === ')' || char === '') {
+    if (char === ',' || char === ')' || char === ';') {
       push()
       buf += char
       push()
     } else if (char === '(') {
       push()
       if (tokens[tokens.length - 1] === ' ') {
-        console.error(`[Wepack warn]: Invalid property value: "${input}"`)
+        console.error(`Invalid property value: "${input}"`)
         return false
       }
       buf += char
@@ -229,7 +229,7 @@ function stringify(tree, scope) {
             ? ps[i]
             : splice(ps[i])
 
-        if (next === ',' || next === '') {
+        if (next === ',' || next === ';') {
           // Nothing to do
         } else if (nextIsArray) {
           const fillUp = ps[i + 2] === ',' ? '' : ' '
