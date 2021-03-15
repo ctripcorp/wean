@@ -50,6 +50,9 @@ async function generateEntry(options) {
         margin:0;
         padding:0
       }
+      html {
+        font-size: calc(100vw / 7.50);
+      }
       body{
         --primary-color: #2577e3;
         --primary-border-color: #1d67dd;

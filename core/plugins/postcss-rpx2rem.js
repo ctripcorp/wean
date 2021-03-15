@@ -3,7 +3,7 @@ const postcss = require("postcss")
 const defaults = {
   targetUnit: "rpx",
   outputUnit: "rem",
-  proportion: 10 / 375, // 10rem / 750rpx; proportion = ouput / target
+  proportion: 0.01, // 1rpx = 0.01rem
   unitPrecision: 5,
   replace: true,
   mediaQuery: false,

@@ -26,13 +26,13 @@
     "axios": "^0.21.1",
     "chokidar": "^3.5.1",
     "cross-fetch": "^3.0.6",
+    "md5": "^2.3.0",
     "nanoid": "^3.1.21",
     "nodemon": "^2.0.6",
     "polka": "^0.5.2",
     "postcss": "^8.2.2",
     "postcss-selector-parser": "^6.0.4",
     "prettier": "^2.2.1",
-    "sirv": "^1.0.10",
-    "md5": "^2.3.0"
+    "sirv": "^1.0.10"
   }
 }
