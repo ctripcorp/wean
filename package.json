@@ -35,9 +35,7 @@
     "postcss-selector-parser": "^6.0.4",
     "posthtml": "^0.15.1",
     "prettier": "^2.2.1",
-    "sirv": "^1.0.10"
-  },
-  "dependencies": {
+    "sirv": "^1.0.10",
     "md5": "^2.3.0"
   }
 }
