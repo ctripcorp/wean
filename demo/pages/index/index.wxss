@@ -5,6 +5,7 @@
 .title{
   font-size: 100rpx;
   color:#EAD7D7;
+  animation: move 3s infinite;
 }
 .list{
   margin-top: 30rpx;
@@ -55,3 +56,11 @@
   margin-left: 30rpx;
 }
 
+@keyframes move {
+  0% {
+    width: 80%;
+  }
+  100% {
+    width: 100%;
+  }
+}

@@ -13,7 +13,6 @@ module.exports = class JSAsset extends Asset {
     this.ast = babel.parse(input)
     traverse(this.ast, hoist, null, this)
   }
-
   async generate() {
     const { code } = transformFromAst(this.ast, null, {
       presets: [],
@@ -21,5 +20,4 @@ module.exports = class JSAsset extends Asset {
     })
     this.code = code
   }
-
 }
