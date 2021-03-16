@@ -41,8 +41,8 @@ async function start(options) {
 
 const getOptions = (argv) => {
   let out = {
-    e: "app.json",
-    o: "/dist/",
+    e: "./demo/app.json",
+    o: "./dist/",
   }
   for (let i = 0; i < argv.length; i++) {
     const name = argv[i]
