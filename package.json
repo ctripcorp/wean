@@ -1,18 +1,18 @@
 {
-  "name": "@wepack/core",
+  "name": "wean",
   "version": "0.0.0",
   "description": "",
   "main": "index.js",
   "bin": {
-    "wepack": "./core/cli.js"
+    "wean": "./core/cli.js"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "wepack -e ./demo/app.json -o ./dist/"
+    "start": "wean -e ./demo/app.json -o ./dist/"
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com/ctripcorp/wepack.git"
+    "url": "git@github.com/ctripcorp/wean.git"
   },
   "keywords": [],
   "author": "",
