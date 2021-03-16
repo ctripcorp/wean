@@ -43,7 +43,7 @@ async function generateEntry(options) {
   <head>
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>miniapp-h5</title>
+      <title>wean-demo</title>
       <link rel="stylesheet" type="text/css" href="//at.alicdn.com/t/font_2365862_1fzp0ur9aqn.css">
       <style>
       *{
