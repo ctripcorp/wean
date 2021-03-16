@@ -1,4 +1,4 @@
-.list-items[data-w-5e732a] {
+.list-items[data-w-25daad] {
   display: flex;
   padding: 0 0.3rem;
   justify-content: space-around;
@@ -7,15 +7,15 @@
   font-size: 0.4rem;
   border-bottom: 1px solid #e6e6e6;
 }
-.selectAll[data-w-5e732a] {
+.selectAll[data-w-25daad] {
   width: 0.5rem;
   height: 0.5rem;
 }
-.list-items[data-w-5e732a] input {
+.list-items[data-w-25daad] input {
   flex: auto;
   margin-left: 0.3rem;
 }
-.completed[data-w-5e732a] {
+.completed[data-w-25daad] {
   text-decoration: line-through;
   color: #d9d9d9;
 }

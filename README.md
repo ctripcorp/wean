@@ -16,16 +16,11 @@ wean 借助 [fre](https://github.com/yisar/fre) 实现组件化的支持，借�
 
 除了基本的编译打包，wean 实现了一些先进特性：**Tree shaking**、**Module federation**、**Hot reload**，做更现代，更简洁的小程序子集
 
-### Use
+### Run
 
 ```shell
-
-npm link
-wean -e app.js -o /dist/
-
-npm init wean
-
-npm start
+$ npm link
+$ wean -e app.js -o /dist/
 ```
 
 如果小程序工具导入 dist 目录，遇到 dist 缺少 app.json 和 sitemap.json 的报错，先手动将 demo 里的这两个文件拷贝到 dist 下，能跑起来再说。
