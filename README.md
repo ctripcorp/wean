@@ -38,8 +38,8 @@ wean 旨在解决链路问题，它自研编译器和打包器，对于标准小
 
 | Package                       | Description      | Version                                                                        |
 | ----------------------------- | :--------------- | :----------------------------------------------------------------------------- |
-| [@wean/core](packages/core) | 微信小程序打包器 | [![npm](https://img.shields.io/npm/v/wean.svg)](https://npm.im/@wean/core) |
-| [@wean/wxml](packages/wxml) | wxml 编译器      | [![npm](https://img.shields.io/npm/v/wean.svg)](https://npm.im/@wean/wxml) |
+| [wean](packages/core) | 微信小程序打包器 | [![npm](https://img.shields.io/npm/v/wean.svg)](https://npm.im/@wean/core) |
+| [wean/wxml](packages/wxml) | wxml 编译器      | [![npm](https://img.shields.io/npm/v/wean.svg)](https://npm.im/@wean/wxml) |
 
 ### Design
 
