@@ -20,6 +20,9 @@ window.directs = {
       return ""
     }
   },
+  $elseif(){
+    // todo 咋实现这个？
+  },
   $ensure(name) {
     if (name) {
       return window.remotes[name]()
