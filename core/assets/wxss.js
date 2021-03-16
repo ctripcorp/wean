@@ -26,7 +26,7 @@ module.exports = class WxssAsset extends Asset {
         },
       }),
       postcssSopedCss({
-        id: `data-w-${wxml.hash.slice(0, 6)}`
+        id: `data-w-${wxml ? wxml.hash.slice(0, 6) : ''}`,
       }),
       postcssRpx2rem(),
     ]).process(this.input).css
