@@ -19,6 +19,7 @@ wean 借助 [fre](https://github.com/yisar/fre) 实现组件化的支持，借�
 ### Run
 
 ```shell
+$ npm install
 $ npm link
 $ wean -e app.js -o /dist/
 ```
