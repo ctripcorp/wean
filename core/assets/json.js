@@ -1,6 +1,7 @@
 const Asset = require("./asset")
 const Path = require("path")
 
+const exts = [".json", ".js", ".wxml", ".wxss"]
 module.exports = class JsonAsset extends Asset {
   constructor(path, type, name) {
     super(path, type, name)
@@ -9,7 +10,6 @@ module.exports = class JsonAsset extends Asset {
     this.ast = JSON.parse(input)
     for (const key in this.ast) {
       const value = this.ast[key]
-      const exts = [".json", ".js", ".wxml", ".wxss"]
       if (key === "pages") {
         for (let i = 0; i < value.length; i++) {
           const path = value[i]
