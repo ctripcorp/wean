@@ -1,0 +1,17 @@
+{
+	"version": "0.1.0",
+	"configurations": [
+		{
+			"type": "node",
+			"request": "launch",
+			"name": "debug demo",
+            "program": "${workspaceFolder}/core/cli.js",
+            "args": [
+                "-e",
+                "./demo/app.json",
+                "-o",
+                "./dist/"
+            ]
+        }
+    ]
+}
