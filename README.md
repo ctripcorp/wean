@@ -2,7 +2,7 @@
   <img src="https://i.loli.net/2021/03/11/69sRUvYhkGrInX2.png" alt="fre logo" width="180">
 </p>
 
-> ！！wean 仍处于早期实验阶段，但无论如何我想将它开源出来，需要大家不同的 idea 让它变稳定
+> ！wean 仍处于早期实验阶段，但无论如何我想将它开源出来，需要大家不同的 idea 让它变稳定
 
 wean 是一个小程序打包工具，它负责将标准的微信小程序打包成 web 项目，这样做有很多好处——
 
