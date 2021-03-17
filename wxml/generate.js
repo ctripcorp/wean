@@ -59,14 +59,15 @@ function generate(asset) {
 }
 
 function generateHook(tag, data, handlers, isTemplate) {
+  let decode
   if (tag) {
-    var decode = `const {properties:{${data.join(
+    decode = `const {properties:{${data.join(
       ","
     )}}, methods:{${handlers.join(
       ","
     )}},onLoad,onUnload} = useComponent(fre.useState({})[1], props,'${tag}')`
   } else {
-    var decode = `const {data:{${data.join(
+    decode = `const {data:{${data.join(
       ","
     )}}, onLoad,onUnload,${handlers.join(",")}} = usePage(${
       isTemplate ? "null" : "fre.useState({})[1]"
