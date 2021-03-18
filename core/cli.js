@@ -12,10 +12,8 @@ async function run(options) {
     console.log("v0.0.1")
   } else {
     start({
-      e: "./demo/app.json",
-      o: "./dist/",
-      w: options.watch,
-      e: options.entry,
+      w: options.watch || "./dist/",
+      e: options.entry || "./demo/app.json",
       o: options.output
     })
     if (options.w) {
