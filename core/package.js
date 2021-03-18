@@ -1,4 +1,5 @@
 const { promises } = require("fs")
+const ejs = require('ejs')
 const Path = require("path")
 const manifest = []
 module.exports.manifest = manifest
@@ -34,57 +35,17 @@ async function copySdk(options) {
 }
 
 async function generateEntry(options) {
-  let umds = options.umds
-    .concat(["./app.js"])
-    .map((u) => `<script src="${u}"></script>`)
-    .join("\n")
-  let html = `<!DOCTYPE html>
-  <html>
-  <head>
-      <meta charset="UTF-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>wean-demo</title>
-      <link rel="stylesheet" type="text/css" href="//at.alicdn.com/t/font_2365862_1fzp0ur9aqn.css">
-      <style>
-      *{
-        margin:0;
-        padding:0
-      }
-      html {
-        font-size: calc(100vw / 7.50);
-      }
-      body{
-        --primary-color: #2577e3;
-        --primary-border-color: #1d67dd;
-        --warn-color: #e65f40;
-        --warn-border-color: #E64340;
-        --default-color: #f0f2f5;
-        --default-border-color: #eaecef;
-        --link-color: #576b95;
-        --outline-color: #bfd7fd;
-      }
-      </style>  
-      ${umds}
-  </head>
-  <body>
-      ${generateBerialCode()}
-  </body>
-  </html>`
+  const html = await ejs.renderFile(
+    Path.resolve(__dirname, 'template/index.html.ejs'),
+    {
+      umds: options.umds,
+      manifest
+    }
+  )
   await promises.writeFile(
     Path.join(Path.resolve(options.o), "index.html"),
     html
   )
-}
-
-function generateBerialCode() {
-  const dom = `${manifest.map(({ name }) => `<${name}></${name}>`).join("\n")}`
-  const script = `
-  <script>
-    goober.setup(fre.h);
-    berial.register(${JSON.stringify(manifest)})
-  </script>
-  `
-  return dom + script
 }
 
 async function convert(asset, options) {
