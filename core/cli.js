@@ -3,19 +3,22 @@
 const build = require("./bundle")
 const pack = require("./package")
 const serve = require("./serve")
-const options = require('./commander')
+const argv = require('./commander')
 const chokidar = require("chokidar")
 const Path = require("path")
 
-async function run(options) {
-  if (options.version) {
+async function run(argv) {
+  if (argv.version) {
     console.log("v0.0.1")
   } else {
-    start({
-      w: options.watch || "./dist/",
-      e: options.entry || "./demo/app.json",
-      o: options.output
-    })
+    const options = {
+      e: "./demo/app.json",
+      o: "./dist/",
+      w: argv.watch,
+      e: argv.entry,
+      o: argv.output
+    }
+    start(options)
     if (options.w) {
       chokidar
         .watch(Path.dirname(options.e), {
@@ -43,7 +46,7 @@ async function start(options) {
   options.old = serve()
 }
 
-run(options)
+run(argv)
 
 function log(msg, color) {
   switch (color) {
