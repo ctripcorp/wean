@@ -3,15 +3,21 @@
 const build = require("./bundle")
 const pack = require("./package")
 const serve = require("./serve")
+const options = require('./commander')
 const chokidar = require("chokidar")
 const Path = require("path")
 
-async function run(argv) {
-  if (argv[0] === "-v" || argv[0] === "--version") {
+async function run(options) {
+  if (options.version) {
     console.log("v0.0.1")
   } else {
-    const options = getOptions(argv)
-    start(options)
+    start({
+      e: "./demo/app.json",
+      o: "./dist/",
+      w: options.watch,
+      e: options.entry,
+      o: options.output
+    })
     if (options.w) {
       chokidar
         .watch(Path.dirname(options.e), {
@@ -39,31 +45,7 @@ async function start(options) {
   options.old = serve()
 }
 
-const getOptions = (argv) => {
-  let out = {
-    e: "./demo/app.json",
-    o: "./dist/",
-  }
-  for (let i = 0; i < argv.length; i++) {
-    const name = argv[i]
-    const value = argv[i + 1]
-    if (name === "-w" || name === "--watch") {
-      out["w"] = true
-    }
-    if (name[0] !== "-" || !value) {
-      continue
-    }
-    if (name === "-e" || name === "--entry") {
-      out["e"] = value
-    }
-    if (name === "-o" || name === "--output") {
-      out["o"] = value
-    }
-  }
-  return out
-}
-
-run(process.argv.slice(2))
+run(options)
 
 function log(msg, color) {
   switch (color) {
