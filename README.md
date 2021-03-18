@@ -4,7 +4,7 @@
 
 ---
 
-**:fire: Note this is early WIP! 实验阶段的主要工作是想办法让整体架构变稳定、简洁，不建议上生产。**
+**:fire: Note this is early experimental! 实验阶段的主要工作是想办法让整体架构变稳定、简洁，不建议上生产。**
 
 ---
 
