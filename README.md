@@ -23,7 +23,7 @@ wean 借助 [fre](https://github.com/yisar/fre) 实现渲染，借助 [berial](h
 ```shell
 $ npm install
 $ npm link
-$ wean -e app.js -o /dist/
+$ wean -e app.json -o /dist/
 ```
 
 如果小程序工具导入 dist 目录，遇到 dist 缺少 app.json 和 sitemap.json 的报错，先手动将 demo 里的这两个文件拷贝到 dist 下，能跑起来再说。
