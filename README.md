@@ -8,13 +8,13 @@
 
 ---
 
-wean 是一个小程序打包工具，它负责将标准的微信小程序打包成 web 项目，这样做有很多好处——
+wean 是一个小程序构建工具，它负责将标准的微信小程序打包成 web 项目，这样做有很多好处——
 
 - **小程序引擎** - 将打包产物跑到 APP webview 上，就可以成为专属小程序，如“携程小程序”
 - **开箱即用** - 更现代的标准，更短的开发链路，从某种程度上缓解微信小程序的历史包袱
 - **跨双端** - 以保住微信为前提，一套代码，支持微信和 h5 两个端
 
-wean 借助 [fre](https://github.com/yisar/fre) 实现组件化的支持，借助 [berial](https://github.com/berialjs/berial) 实现路由和沙箱，不借助 webpack 等打包工具
+wean 借助 [fre](https://github.com/yisar/fre) 实现渲染，借助 [berial](https://github.com/berialjs/berial) 实现路由和沙箱，不需要 wepack 等
 
 除了基本的编译打包，wean 实现了一些先进特性：**Tree shaking**、**Module federation**、**Hot reload**，做更现代，更简洁的小程序子集
 
