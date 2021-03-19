@@ -14,5 +14,5 @@
   </view> -->
   <view wx:if="{{a}}"></view>
   <view wx:elseif="{{b}}"></view>
-  <view wx:else="{{c}}"></view>
+  <!-- <view wx:else="{{c}}"></view> -->
 </view>

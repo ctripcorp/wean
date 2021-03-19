@@ -80,7 +80,7 @@ function generateHook(tag, data, handlers, isTemplate) {
     `
 }
 
-function generateNode(node, state, asset) {
+function generateNode(node, state, asset, nextNode) {
   if (typeof node === "string") {
     let compiled = compileTemplate(node, state.data, true)
     return `${compiled}`
@@ -103,14 +103,15 @@ function generateNode(node, state, asset) {
     code += generateProps(node, state, asset)
     if (node.children) {
       code += `${node.children
-        .map((item) => generateNode(item, state, asset))
+        .map((item, index) =>
+          generateNode(item, state, asset, node.children[index + 1])
+        )
         .join("\n")}`
     }
     code += `</${titleCase(node.name)}>`
 
     if (node.name === "import") code = ""
-
-    if (node.directives) code = generateDirect(node, code, state)
+    if (node.directives) code = generateDirect(node, code, state, nextNode)
     if (node.handlers) pushDirect(node.handlers, state.handlers)
     if (node.imports) pushDirect(node.imports, state.imports)
 
@@ -127,7 +128,7 @@ function pushDirect(a, b) {
 
 let ifcode = ""
 
-function generateDirect(node, code, state) {
+function generateDirect(node, code, state, next) {
   for (let i = 0; i < node.directives.length; i++) {
     const [name, value] = node.directives[i]
     const compiled = compileTemplate(value, state.data)
@@ -144,21 +145,46 @@ function generateDirect(node, code, state) {
 
     if (name === "wx:if") {
       ifcode += `{${compiled}?${code}:`
-      continue
+      if (isElse(next)) {
+        continue
+      } else {
+        code = ifcode + "null}"
+        ifcode = ""
+        return code
+      }
     }
 
     if (name === "wx:elseif") {
       ifcode += `${compiled}?${code}:`
-      continue
+      if (isElse(next)) {
+        continue
+      } else {
+        code = ifcode + "null}"
+        ifcode = ""
+        return code
+      }
     }
 
     if (name === "wx:else") {
       ifcode += `${compiled}?${code}:null}`
-      let out = ifcode
-      return out
+      code = ifcode
+      ifcode = ""
+      return code
     }
     return code
   }
+}
+
+function isElse(node) {
+  if (node) {
+    for (const name in node.attributes) {
+      if (name.indexOf("else") > -1) {
+        console.log(true)
+        return true
+      }
+    }
+  }
+  return false
 }
 
 function findItem(node) {
