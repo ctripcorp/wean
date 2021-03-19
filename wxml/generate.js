@@ -86,9 +86,9 @@ function generateNode(node, state, asset, nextNode) {
     return `${compiled}`
   } else if (node.name === "template") {
     const is = node.attributes.is
-    let code = `{directs.$ensure(${
+    let code = `{window.remotes[${
       is ? '"' + getName(asset, "template", is) + '"' : null
-    })}`
+    }]()}`
     if (node.children) {
       code += `${node.children
         .map((item) => generateNode(item, state, asset))
@@ -137,7 +137,7 @@ function generateDirect(node, code, state, next) {
     }
     if (name === "wx:for") {
       const item = findItem(node)
-      code =`{directs.$for(
+      code = `{$for(
                               ${compiled}, 
                               (${item}) => (${code})
               )}`
