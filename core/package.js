@@ -24,7 +24,6 @@ async function copySdk(options) {
     "./runtime/api.js",
     "./runtime/wx.js",
     "./runtime/components.js",
-    "./runtime/directs.js",
   ]
   let umdPromises = options.umds.map(async (u) => {
     const dist = Path.join(Path.resolve(options.o), u)
