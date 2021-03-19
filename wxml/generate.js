@@ -133,11 +133,11 @@ function generateDirect(node, code, state, next) {
     const [name, value] = node.directives[i]
     const compiled = compileTemplate(value, state.data)
     if (code[0] === "{") {
-      return `<>${code}</>`
+      code = `<>${code}</>`
     }
     if (name === "wx:for") {
       const item = findItem(node)
-      return `{directs.$for(
+      code =`{directs.$for(
                               ${compiled}, 
                               (${item}) => (${code})
               )}`
@@ -150,7 +150,6 @@ function generateDirect(node, code, state, next) {
       } else {
         code = ifcode + "null}"
         ifcode = ""
-        return code
       }
     }
 
@@ -161,7 +160,6 @@ function generateDirect(node, code, state, next) {
       } else {
         code = ifcode + "null}"
         ifcode = ""
-        return code
       }
     }
 
@@ -169,8 +167,8 @@ function generateDirect(node, code, state, next) {
       ifcode += `${compiled}?${code}:null}`
       code = ifcode
       ifcode = ""
-      return code
     }
+
     return code
   }
 }
