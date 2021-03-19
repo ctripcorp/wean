@@ -36,7 +36,7 @@ async function copySdk(options) {
 
 async function generateEntry(options) {
   const html = await ejs.renderFile(
-    Path.resolve(__dirname, 'template/index.html.ejs'),
+    Path.resolve(__dirname, 'index.ejs'),
     {
       umds: options.umds,
       manifest
