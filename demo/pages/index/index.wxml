@@ -1,5 +1,5 @@
 <view class="container" style="{{'padding-top:' + leftcount}}">
-  <import src="./footer.wxml"></import>
+  <!-- <import src="./footer.wxml"></import>
   <view class="title">
     <text>todos</text>
   </view>
@@ -11,5 +11,8 @@
       <use-item item="{{item}}" bindmyevent="clickIco" bindclear="clear"/>
     </block>
     <template is="footer"></template>
-  </view>
+  </view> -->
+  <view wx:if="{{a}}"></view>
+  <view wx:elseif="{{b}}"></view>
+  <!-- <view wx:else="{{c}}"></view> -->
 </view>

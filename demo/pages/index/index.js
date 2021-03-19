@@ -12,6 +12,9 @@ Page({
     editname: "",
     list: [],
     leftcount: 0,
+    a:true,
+    b:true,
+    c:false
   },
 
   onShow: function () {
