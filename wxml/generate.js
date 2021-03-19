@@ -61,17 +61,13 @@ function generate(asset) {
 function generateHook(tag, data, handlers, isTemplate) {
   let decode
   if (tag) {
-    decode = `const {properties:{${data.join(
-      ","
-    )}}, methods:{${handlers.join(
+    decode = `const {properties:{${data.join(",")}}, methods:{${handlers.join(
       ","
     )}},onLoad,onUnload} = useComponent(fre.useState({})[1], props,'${tag}')`
   } else {
-    decode = `const {data:{${data.join(
+    decode = `const {data:{${data.join(",")}}, onLoad,onUnload,${handlers.join(
       ","
-    )}}, onLoad,onUnload,${handlers.join(",")}} = usePage(${
-      isTemplate ? "null" : "fre.useState({})[1]"
-    }, props)`
+    )}} = usePage(${isTemplate ? "null" : "fre.useState({})[1]"}, props)`
   }
   return isTemplate
     ? `${decode}`
@@ -129,45 +125,40 @@ function pushDirect(a, b) {
   }
 }
 
+let ifcode = ""
+
 function generateDirect(node, code, state) {
   for (let i = 0; i < node.directives.length; i++) {
     const [name, value] = node.directives[i]
     const compiled = compileTemplate(value, state.data)
     if (code[0] === "{") {
-      code = `<>${code}</>`
+      return `<>${code}</>`
     }
-    switch (name) {
-      case "wx:if":
-        code = `{directs.$if(
-                          () => ${compiled}, 
-                          () => (${code}), 
-                      )}`
-        break
-      case "wx:else":
-        code = `{directs.$else(
-                          () => ${compiled}, 
-                          () => (${code}), 
-                      )}`
-        break
-      case "wx:elseif":
-        code = `{directs.$elseif(
-                            () => ${compiled}, 
-                            () => (${code}), 
-                        )}`
-        break
-      case "wx:for":
-        const item = findItem(node)
-        code = `{directs.$for(
+    if (name === "wx:for") {
+      const item = findItem(node)
+      return `{directs.$for(
                               ${compiled}, 
-                              (${item}) => (${code}), 
-                              null
-                          )}`
-        break
-      case "wx:key":
-        break
+                              (${item}) => (${code})
+              )}`
     }
+
+    if (name === "wx:if") {
+      ifcode += `{${compiled}?${code}:`
+      continue
+    }
+
+    if (name === "wx:elseif") {
+      ifcode += `${compiled}?${code}:`
+      continue
+    }
+
+    if (name === "wx:else") {
+      ifcode += `${compiled}?${code}:null}`
+      let out = ifcode
+      return out
+    }
+    return code
   }
-  return code
 }
 
 function findItem(node) {
