@@ -20,5 +20,6 @@ module.exports = class Asset {
     this.childAssets = new Map()
     this.siblingAssets = new Map() // 0 wxml 1 js 2 wxss
     this.symbols = new Map()
+    this.output = {}
   }
 }

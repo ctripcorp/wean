@@ -1,5 +1,3 @@
-const write = require('./util').write
-
 module.exports = async function packJs(asset) {
     const defer = []
     const cache = []
@@ -18,4 +16,5 @@ module.exports = async function packJs(asset) {
     for (const code of defer) {
       asset.output += "\n" + code
     }
+    return asset.output
   }

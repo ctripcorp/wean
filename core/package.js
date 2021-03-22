@@ -19,11 +19,10 @@ async function packageAsset(asset, options) {
   await packageJson(asset, options)
   const all = Array.from(asset.childAssets.values()).map(async (child) => {
     await packageAsset(child, options)
-    if (asset.type === "page") {
-      asset.output.css += child.output.css
-      asset.output.js += child.output.js
-      asset.output.jsx += child.output.jsx
-    }
+    console.log(child.output.jsx,asset.output.jsx)
+    asset.output.css += child.output.css
+    asset.output.js += child.output.js
+    asset.output.jsx += child.output.jsx
   })
   await Promise.all(all)
 }
