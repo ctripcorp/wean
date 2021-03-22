@@ -12,9 +12,8 @@ class JsonAsset extends Asset {
       if (key === "pages") {
         for (let i = 0; i < value.length; i++) {
           const path = value[i]
-          this.dependencies.add({ path, type: ".page" })
+          this.dependencies.add({ path, ext: ".page" })
         }
-        this.dependencies.add("app.js")
       }
       if (key === "usingComponents") {
         // toto 公共组件
@@ -35,7 +34,7 @@ class PageAsset extends Asset {
       if (key === "usingComponents") {
         for (const k in value) {
           const v = value[k]
-          this.dependencies.add({ path: v, tag: k, type: ".component" })
+          this.dependencies.add({ path: v, tag: k, ext: ".component" })
         }
       }
     }

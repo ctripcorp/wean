@@ -20,8 +20,12 @@ async function loadAsset(asset) {
   }
   const dependencies = Array.from(asset.dependencies)
   const all = dependencies.map(async (dep) => {
-    const depAsset = await resolveAsset(dep, asset.path)
-    asset.depsAssets.set(dep, depAsset)
+    const depAsset = await resolveAsset(
+      dep.path.replace(dep.ext, "") + dep.ext,
+      asset.path
+    )
+    depAsset.tag = dep.tag
+    asset.childAssets.set(dep.path, depAsset)
     depAsset.parent = asset
     await loadAsset(depAsset)
   })
@@ -29,8 +33,7 @@ async function loadAsset(asset) {
 }
 
 async function resolveAsset(path = "", parent = "") {
-  const ext = Path.extname(path)
-  const [type, tag] = ext.split("@")
+  const type = Path.extname(path)
   switch (type) {
     case ".js":
       Asset = require("./assets/js")
@@ -54,16 +57,13 @@ async function resolveAsset(path = "", parent = "") {
       break
   }
 
-  const realPath = path
-    .replace(".page", ".json")
-    .replace(".component", ".json")
-    .split("@")[0]
+  path = path.replace(".component", ".json").replace(".page", ".json")
 
-  let resolvePath = Path.join(Path.dirname(parent), realPath)
+  let resolvePath = Path.join(Path.dirname(parent), path)
   if (!fs.existsSync(resolvePath)) {
-    resolvePath = Path.join(options.inputDir, realPath)
+    resolvePath = Path.join(options.inputDir, path)
   }
-  return new Asset(resolvePath, type, path, tag)
+  return new Asset(resolvePath, type, path)
 }
 
 module.exports.options = options
