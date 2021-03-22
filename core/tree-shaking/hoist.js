@@ -47,7 +47,7 @@ module.exports = {
       asset.symbols.set(prefix + p, name)
       rename(path.scope, localName, name)
     }
-    asset.dependencies.add({ path: p })
+    asset.dependencies.add({ path: p, ext: ".js" })
     path.remove()
   },
   ExportNamedDeclaration(path, asset) {

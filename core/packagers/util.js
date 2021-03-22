@@ -1,15 +1,3 @@
-const Path = require('path')
-const { promises } = require("fs")
-
-
-async function write(asset) {
-  await promises.mkdir(Path.dirname(asset.outputPath), { recursive: true })
-  await promises.writeFile(
-    asset.outputPath,
-    asset.output
-  )
-}
-
 function toHump(name) {
   return name.replace(/\-(\w)/g, (all, letter) => letter.toUpperCase())
 }
@@ -27,7 +15,6 @@ const random = function randomString(len) {
 }
 
 module.exports = {
-  write: write,
   titleCase: titleCase,
   random: random,
 }

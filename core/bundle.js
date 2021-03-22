@@ -1,13 +1,12 @@
 const fs = require("fs")
 const { promises } = fs
 const Path = require("path")
-const options = {
-  inputDir: '/'
-}
+let ref = {}
 
-module.exports = async function build(main) {
+module.exports = async function build(main, options) {
+  ref.options = options
   const rootJson = await resolveAsset(Path.resolve(main || ""))
-  options.inputDir = Path.dirname(rootJson.path)
+  ref.options.i = Path.dirname(rootJson.path)
   await loadAsset(rootJson)
   return rootJson
 }
@@ -18,25 +17,52 @@ async function loadAsset(asset) {
     await asset.parse(input.toString())
     await asset.generate()
   }
+
+  if (asset.type === "page") {
+    asset.outputPath = Path.resolve(ref.options.o, (asset.parent || asset).hash)
+  }
+
+  let siblings = [".wxml", ".js", ".wxss"]
+
+  if (asset.type === "page" || asset.type === "component") {
+    siblings = siblings.map(async (type) => {
+      if (asset.parent) {
+        const depAsset = await resolveAsset(asset.path.replace(".json", type))
+        asset.siblingAssets.set(type, depAsset)
+        depAsset.parent = asset
+        await loadAsset(depAsset)
+      }
+    })
+  }
+
   const dependencies = Array.from(asset.dependencies)
-  const all = dependencies.map(async (dep) => {
-    const depAsset = await resolveAsset(dep.path, asset.path)
-    depAsset.tag = dep.tag || null
-    asset.depsAssets.set(dep, depAsset)
+  const childs = dependencies.map(async (dep) => {
+    const depAsset = await resolveAsset(
+      dep.path.replace(dep.ext, "") + dep.ext,
+      asset.path
+    )
+    depAsset.tag = dep.tag
+    asset.childAssets.set(dep.path, depAsset)
     depAsset.parent = asset
     await loadAsset(depAsset)
   })
-  await Promise.all(all)
+  await Promise.all(siblings.concat(childs))
 }
 
-async function resolveAsset(path = "", parent = "") {
-  const type = Path.extname(path)
+async function resolveAsset(path = "", parent) {
+  let type = Path.extname(path)
   switch (type) {
     case ".js":
       Asset = require("./assets/js")
       break
     case ".json":
-      Asset = require("./assets/json")
+      Asset = require("./assets/json").App
+      break
+    case ".page":
+      Asset = require("./assets/json").Page
+      break
+    case ".component":
+      Asset = require("./assets/json").Component
       break
     case ".wxml":
       Asset = require("./assets/wxml")
@@ -48,11 +74,12 @@ async function resolveAsset(path = "", parent = "") {
       break
   }
 
-  let resolvePath = Path.join(Path.dirname(parent), path)
+  path = path.replace(".component", ".json").replace(".page", ".json")
+  type = type === ".json" ? ".app" : type
+
+  let resolvePath = parent ? Path.join(Path.dirname(parent), path) : path
   if (!fs.existsSync(resolvePath)) {
-    resolvePath = Path.join(options.inputDir, path)
+    resolvePath = Path.join(ref.options.i, path)
   }
   return new Asset(resolvePath, type, path)
 }
-
-module.exports.options = options

@@ -3,7 +3,7 @@
 const build = require("./bundle")
 const pack = require("./package")
 const serve = require("./serve")
-const argv = require('./commander')
+const argv = require("./commander")
 const chokidar = require("chokidar")
 const Path = require("path")
 
@@ -14,9 +14,10 @@ async function run(argv) {
     const options = {
       e: "./demo/app.json",
       o: "./dist/",
+      i: "/",
       w: argv.watch,
       e: argv.entry,
-      o: argv.output
+      o: argv.output,
     }
     start(options)
     if (options.w) {
@@ -39,7 +40,8 @@ async function run(argv) {
 
 async function start(options) {
   options.old && options.old.close()
-  const adt = await build(options.e)
+  const adt = await build(options.e, options)
+  // console.log(adt)
   log("bulid success")
   await pack(adt, options)
   log("package success")
