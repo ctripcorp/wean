@@ -32,7 +32,7 @@ async function packageAsset(asset, options) {
       asset.outputPath = Path.resolve(options.o) + `\\${asset.hash}`
       asset.output.js = asset.siblingAssets.get(".js").code
       asset.output.css = asset.siblingAssets.get(".wxss").code
-      options.umds.push("./" + asset.hash + ".js", "./" + asset.hash + ".css")
+      options.umds.push("./" + asset.hash + ".js")
       write(asset, options)
     }
   })
@@ -77,7 +77,7 @@ async function copySdk(options) {
     await promises.copyFile(Path.join(__dirname, u), dist)
   })
   await Promise.all(umdPromises)
-  options.umds.concat(umds)
+  options.umds = umds.concat(options.umds)
 }
 
 async function generateEntry(options) {

@@ -2,7 +2,7 @@ const { manifest } = require("../package.js")
 const { random, titleCase } = require("./util")
 const Path = require("path")
 
-module.exports = async function packAll(asset,options) {
+module.exports = async function packAll(asset, options) {
   const name = `berial-${random()}`
   asset.output.jsx += `
     window['${name}'] = {
@@ -13,7 +13,9 @@ module.exports = async function packAll(asset,options) {
       },
       async mount({host}){
         window.remotes.host = host;
-        fre.render(fre.h('div',{},fre.h($${asset.id})),host.getElementById("root"));
+        fre.render(fre.h('div',{},fre.h($${
+          asset.id + 1
+        })),host.getElementById("root"));
       },
       async unmount({host}){
         host.getElementById("root").innerHTML = ""
