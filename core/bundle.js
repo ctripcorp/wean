@@ -1,13 +1,12 @@
 const fs = require("fs")
 const { promises } = fs
 const Path = require("path")
-const options = {
-  inputDir: "/",
-}
+let ref = {}
 
-module.exports = async function build(main) {
+module.exports = async function build(main, options) {
+  ref.options = options
   const rootJson = await resolveAsset(Path.resolve(main || ""))
-  options.inputDir = Path.dirname(rootJson.path)
+  ref.options.i = Path.dirname(rootJson.path)
   await loadAsset(rootJson)
   return rootJson
 }
@@ -17,6 +16,13 @@ async function loadAsset(asset) {
     const input = await promises.readFile(asset.path)
     await asset.parse(input.toString())
     await asset.generate()
+  }
+
+  if (asset.ext) {
+    asset.outputPath = Path.resolve(
+      ref.options.o,
+      (asset.parent || asset).hash + asset.ext
+    )
   }
 
   let siblings = [".wxml", ".js", ".wxss"]
@@ -76,9 +82,7 @@ async function resolveAsset(path = "", parent) {
 
   let resolvePath = parent ? Path.join(Path.dirname(parent), path) : path
   if (!fs.existsSync(resolvePath)) {
-    resolvePath = Path.join(options.inputDir, path)
+    resolvePath = Path.join(ref.options.i, path)
   }
   return new Asset(resolvePath, type, path)
 }
-
-module.exports.options = options

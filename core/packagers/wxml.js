@@ -1,4 +1,4 @@
-const { convert, manifest } = require("../package.js")
+const { manifest } = require("../package.js")
 const { write, random, titleCase } = require("./util")
 const Path = require("path")
 
@@ -6,7 +6,6 @@ module.exports = async function packWxml(asset, options) {
   const cache = []
   let output = `const $${asset.id} = ${asset.code}\n\n`
   for (const dep of asset.depsAssets.values()) {
-    await convert(dep, options)
     let code = `remotes['${dep.tag ? titleCase(dep.tag) : dep.id}'] = ${dep.code
       }\n\n`
     if (cache.indexOf(dep.name) < 0) {

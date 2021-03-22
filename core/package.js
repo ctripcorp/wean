@@ -14,13 +14,7 @@ module.exports = async function pack(asset, options) {
   await generateEntry(options)
 }
 
-async function packageAsset(asset, options) {
-  if (asset.ext) {
-    asset.outputPath = Path.resolve(
-      options.o,
-      (asset.parent || asset).hash + asset.ext
-    )
-  }
+async function packageAsset(asset) {
   const all = Array.from(asset.childAssets.values()).map(
     async (child) => await packageJson(child)
   )
@@ -30,8 +24,8 @@ async function packageAsset(asset, options) {
 async function packageJson(asset) {
   const siblings = asset.siblingAssets
   if (siblings) {
-    await packJs(siblings.get(".js"))
-    await packWxml(siblings.get(".wxml"))
+    // await packJs(siblings.get(".js"))
+    // await packWxml(siblings.get(".wxml"))
     await packWxss(siblings.get(".wxss"))
   }
 }
