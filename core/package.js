@@ -9,7 +9,7 @@ module.exports.manifest = manifest
 const packJs = require("./packagers/js.js")
 const packWxss = require("./packagers/wxss.js")
 const packWxml = require("./packagers/wxml.js")
-const packAll = require("./packagers/all.js")
+const packBerial = require("./packagers/berial.js")
 
 module.exports = async function pack(asset, options) {
   options.umds = []
@@ -26,7 +26,7 @@ async function packageAsset(asset, options) {
       asset.output.css += child.output.css
       asset.output.js += child.output.js
       asset.output.jsx += child.output.jsx
-      asset.output.jsx = await packAll(asset, options)
+      asset.output.jsx = await packBerial(asset, options)
       write(asset, options)
     } else if (asset.type === "app") {
       asset.outputPath = Path.resolve(options.o) + `\\${asset.hash}`
