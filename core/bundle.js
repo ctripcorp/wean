@@ -20,7 +20,7 @@ async function loadAsset(asset) {
   }
   const dependencies = Array.from(asset.dependencies)
   const all = dependencies.map(async (dep) => {
-    const depAsset = await resolveAsset(dep.path, asset.path)
+    const depAsset = await resolveAsset(dep, asset.path)
     depAsset.tag = dep.tag || null
     asset.depsAssets.set(dep, depAsset)
     depAsset.parent = asset
@@ -30,6 +30,7 @@ async function loadAsset(asset) {
 }
 
 async function resolveAsset(path = "", parent = "") {
+  console.log(path)
   const type = Path.extname(path)
   switch (type) {
     case ".js":
