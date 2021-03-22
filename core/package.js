@@ -15,8 +15,9 @@ module.exports = async function pack(asset, options) {
 }
 
 async function packageAsset(asset, options) {
+  await packageJson(asset, options)
   const all = Array.from(asset.childAssets.values()).map(
-    async (child) => await packageJson(child, options)
+    async (child) => await packageAsset(child, options)
   )
   await Promise.all(all)
 }
@@ -24,9 +25,13 @@ async function packageAsset(asset, options) {
 async function packageJson(asset, options) {
   const siblings = asset.siblingAssets
   if (siblings) {
-    await packJs(siblings.get(".js"))
-    await packWxml(siblings.get(".wxml"), options)
-    await packWxss(siblings.get(".wxss"))
+    siblings.forEach(async (value, key) => {
+      if (value) {
+        if (key === ".js") await packJs(siblings.get(".js"))
+        if (key === ".wxml") await packWxml(siblings.get(".wxml"), options)
+        if (key === ".wxss") await packWxss(siblings.get(".wxss"))
+      }
+    })
   }
 }
 
