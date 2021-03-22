@@ -27,6 +27,11 @@ async function packageAsset(asset, options) {
       asset.output.jsx += child.output.jsx
       asset.output.jsx = await packAll(asset, options)
       write(asset, child)
+    } else if (asset.type === "app") {
+      // // asset.outputPath = Path.resolve(options.o) + `\\${asset.hash}`
+      // asset.output.js = asset.siblingAssets.get(".js").code
+      // asset.output.css = asset.siblingAssets.get(".wxss").code
+      // write(asset)
     }
   })
   await Promise.all(all)
@@ -34,9 +39,8 @@ async function packageAsset(asset, options) {
 
 async function write(asset) {
   for (const key in asset.output) {
-    asset.outputPath = asset.outputPath + `.${key}`
-    await promises.mkdir(Path.dirname(asset.outputPath), { recursive: true })
-    await promises.writeFile(asset.outputPath, asset.output[key])
+    let path = asset.outputPath + `.${key}`
+    await promises.writeFile(path, asset.output[key])
   }
 }
 

@@ -22,16 +22,25 @@ async function loadAsset(asset) {
     asset.outputPath = Path.resolve(ref.options.o, (asset.parent || asset).hash)
   }
 
-  let siblings = [".wxml", ".js", ".wxss"]
+  var siblings = []
 
   if (asset.type === "page" || asset.type === "component") {
-    siblings = siblings.map(async (type) => {
+    siblings = [".wxml", ".js", ".wxss"].map(async (type) => {
       if (asset.parent) {
         const depAsset = await resolveAsset(asset.path.replace(".json", type))
         asset.siblingAssets.set(type, depAsset)
         depAsset.parent = asset
         await loadAsset(depAsset)
       }
+    })
+  }
+
+  if (asset.type === "app") {
+    siblings = [".js", ".wxss"].map(async (type) => {
+      const depAsset = await resolveAsset(asset.path.replace(".json", type))
+      asset.siblingAssets.set(type, depAsset)
+      depAsset.parent = asset
+      await loadAsset(depAsset)
     })
   }
 
