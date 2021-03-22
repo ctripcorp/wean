@@ -13,6 +13,8 @@ module.exports = class Wxss extends Asset {
     this.input = input
   }
   async generate() {
+    const wxml = this.parent.siblingAssets.get('.wxml')
+    const id = wxml?`data-w-${wxml.hash.slice(0, 6)}`:null
     this.code = postcss([
       postcssTagReplacer({
         // css 需要替换的标签
@@ -23,6 +25,9 @@ module.exports = class Wxss extends Asset {
           navigator: "a",
           image: "img",
         },
+      }),
+      postcssSopedCss({
+        id
       }),
       postcssRpx2rem(),
     ]).process(this.input).css

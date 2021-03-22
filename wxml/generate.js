@@ -87,7 +87,7 @@ function generateNode(node, state, asset, nextNode) {
   } else if (node.name === "template") {
     const is = node.attributes.is
     const name = is ? '"' + getName(asset, "template", is) + '"' : null
-    let code = name ? `{window.remotes[${name}]()}` : ''
+    let code = name ? `{window.remotes[${name}]()}` : ""
     if (node.children) {
       code += `${node.children
         .map((item) => generateNode(item, state, asset))
@@ -221,12 +221,13 @@ function generateProps(node, state, asset) {
 function getHash(asset, node) {
   if (!node.attributes.class) return ""
   let hash = ""
-  if (asset.tag) {
+  if (asset.parent.tag) {
     hash = asset.hash.slice(0, 6)
   } else {
-    let p = asset
-    if (p.parent.type !== "json") p = p.parent
-    hash = p.hash.slice(0, 6)
+    let p = asset.parent
+    if (p.parent.type !== "wxml") p = p.parent
+    const wxml = p.siblingAssets.get(".wxml") || asset
+    hash = wxml.hash.slice(0, 6)
   }
   return `data-w-${hash}`
 }
