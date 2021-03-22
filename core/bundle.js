@@ -19,7 +19,7 @@ async function loadAsset(asset) {
   }
 
   if (asset.type === "page") {
-    asset.outputPath = Path.resolve(ref.options.o, (asset.parent || asset).hash)
+    asset.outputPath = Path.resolve(ref.options.o, asset.hash)
   }
 
   var siblings = []

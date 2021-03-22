@@ -26,13 +26,13 @@ module.exports = async function packAll(asset,options) {
     })(window,window.remotes);
     `
   const edir = Path.resolve(Path.dirname(options.e))
-  
+
   const path = asset.path
     .replace(edir, "")
     .replace(/\\/g, "/")
     .replace(".json", "")
 
-  const hash = "/" + asset.parent.hash
+  const hash = "/" + asset.hash
   manifest.push({
     name,
     scripts: [hash + ".js", hash + ".jsx"],

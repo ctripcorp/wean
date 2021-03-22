@@ -12,6 +12,7 @@ const packWxml = require("./packagers/wxml.js")
 const packAll = require("./packagers/all.js")
 
 module.exports = async function pack(asset, options) {
+  options.umds = []
   await packageAsset(asset, options)
   await copySdk(options)
   await generateEntry(options)
@@ -26,19 +27,20 @@ async function packageAsset(asset, options) {
       asset.output.js += child.output.js
       asset.output.jsx += child.output.jsx
       asset.output.jsx = await packAll(asset, options)
-      write(asset, child)
+      write(asset, options)
     } else if (asset.type === "app") {
-      asset.outputPath = Path.resolve(options.o) + '\\app'
-      console.log(asset.outputPath)
+      asset.outputPath = Path.resolve(options.o) + `\\${asset.hash}`
       asset.output.js = asset.siblingAssets.get(".js").code
       asset.output.css = asset.siblingAssets.get(".wxss").code
-      write(asset)
+      options.umds.push("./" + asset.hash + ".js", "./" + asset.hash + ".css")
+      write(asset, options)
     }
   })
   await Promise.all(all)
 }
 
-async function write(asset) {
+async function write(asset, options) {
+  await promises.mkdir(Path.resolve(options.o), { recursive: true })
   for (const key in asset.output) {
     let path = asset.outputPath + `.${key}`
     await promises.writeFile(path, asset.output[key])
@@ -61,7 +63,7 @@ async function packageJson(asset, options) {
 }
 
 async function copySdk(options) {
-  options.umds = [
+  let umds = [
     "./sdk/berial.js",
     "./sdk/fre.js",
     "./sdk/goober.js",
@@ -69,12 +71,13 @@ async function copySdk(options) {
     "./runtime/wx.js",
     "./runtime/components.js",
   ]
-  let umdPromises = options.umds.map(async (u) => {
+  let umdPromises = umds.map(async (u) => {
     const dist = Path.join(Path.resolve(options.o), u)
     await promises.mkdir(Path.dirname(dist), { recursive: true })
     await promises.copyFile(Path.join(__dirname, u), dist)
   })
   await Promise.all(umdPromises)
+  options.umds.concat(umds)
 }
 
 async function generateEntry(options) {
