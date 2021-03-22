@@ -176,7 +176,6 @@ function isElse(node) {
   if (node) {
     for (const name in node.attributes) {
       if (name.indexOf("else") > -1) {
-        console.log(true)
         return true
       }
     }

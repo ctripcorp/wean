@@ -30,7 +30,6 @@ async function loadAsset(asset) {
 }
 
 async function resolveAsset(path = "", parent = "") {
-  console.log(path)
   const type = Path.extname(path)
   switch (type) {
     case ".js":
@@ -39,21 +38,23 @@ async function resolveAsset(path = "", parent = "") {
     case ".json":
       Asset = require("./assets/json").Json
       break
-    case ".wxml":
-      Asset = require("./assets/wxml")
-      break
-    case ".wxss":
-      Asset = require("./assets/wxss")
-      break
     case ".page":
       Asset = require("./assets/json").Page
       break
     case ".component":
       Asset = require("./assets/json").Component
       break
+    case ".wxml":
+      Asset = require("./assets/wxml")
+      break
+    case ".wxss":
+      Asset = require("./assets/wxss")
+      break
     default:
       break
   }
+
+  path = path.replace(".page", ".json").replace(".component", ".json")
 
   let resolvePath = Path.join(Path.dirname(parent), path)
   if (!fs.existsSync(resolvePath)) {
