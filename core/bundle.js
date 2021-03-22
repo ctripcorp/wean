@@ -2,7 +2,7 @@ const fs = require("fs")
 const { promises } = fs
 const Path = require("path")
 const options = {
-  inputDir: '/'
+  inputDir: "/",
 }
 
 module.exports = async function build(main) {
@@ -37,13 +37,19 @@ async function resolveAsset(path = "", parent = "") {
       Asset = require("./assets/js")
       break
     case ".json":
-      Asset = require("./assets/json")
+      Asset = require("./assets/json").Json
       break
     case ".wxml":
       Asset = require("./assets/wxml")
       break
     case ".wxss":
       Asset = require("./assets/wxss")
+      break
+    case ".page":
+      Asset = require("./assets/json").Page
+      break
+    case ".component":
+      Asset = require("./assets/json").Component
       break
     default:
       break
