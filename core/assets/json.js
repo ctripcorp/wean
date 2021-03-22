@@ -35,7 +35,7 @@ class PageAsset extends Asset {
       if (key === "usingComponents") {
         for (const k in value) {
           const v = value[k]
-          this.dependencies.add(k + ":" + v + ".component")
+          this.dependencies.add(v + ".component" + "@" + k)
         }
       }
     }

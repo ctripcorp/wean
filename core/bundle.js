@@ -54,11 +54,16 @@ async function resolveAsset(path = "", parent = "") {
       break
   }
 
-  path = path.replace(".page", ".json").replace(".component", ".json")
+  const realPath = path
+    .replace(".page", ".json")
+    .replace(".component", ".json")
+    .split("@")[0]
 
-  let resolvePath = Path.join(Path.dirname(parent), path)
+    console.log(realPath)
+
+  let resolvePath = Path.join(Path.dirname(parent), realPath)
   if (!fs.existsSync(resolvePath)) {
-    resolvePath = Path.join(options.inputDir, path)
+    resolvePath = Path.join(options.inputDir, realPath)
   }
   return new Asset(resolvePath, type, path)
 }
