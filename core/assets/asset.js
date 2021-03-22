@@ -9,8 +9,9 @@ const exts = {
 }
 
 module.exports = class Asset {
-  constructor(path, type, name) {
+  constructor(path, type, name,tag) {
     this.path = path
+    this.tag = tag
     this.id = clock++
     this.hash = md5(this.id)
     this.name = name
