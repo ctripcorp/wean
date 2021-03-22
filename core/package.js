@@ -1,6 +1,7 @@
 const { promises } = require("fs")
 const ejs = require("ejs")
 const Path = require("path")
+
 const manifest = []
 
 module.exports.manifest = manifest
@@ -8,6 +9,7 @@ module.exports.manifest = manifest
 const packJs = require("./packagers/js.js")
 const packWxss = require("./packagers/wxss.js")
 const packWxml = require("./packagers/wxml.js")
+const packAll = require("./packagers/all.js")
 
 module.exports = async function pack(asset, options) {
   await packageAsset(asset, options)
@@ -19,12 +21,23 @@ async function packageAsset(asset, options) {
   await packageJson(asset, options)
   const all = Array.from(asset.childAssets.values()).map(async (child) => {
     await packageAsset(child, options)
-    console.log(child.output.jsx,asset.output.jsx)
-    asset.output.css += child.output.css
-    asset.output.js += child.output.js
-    asset.output.jsx += child.output.jsx
+    if (asset.type === "page") {
+      asset.output.css += child.output.css
+      asset.output.js += child.output.js
+      asset.output.jsx += child.output.jsx
+      asset.output.jsx = await packAll(asset, options)
+      write(asset, child)
+    }
   })
   await Promise.all(all)
+}
+
+async function write(asset) {
+  for (const key in asset.output) {
+    asset.outputPath = asset.outputPath + `.${key}`
+    await promises.mkdir(Path.dirname(asset.outputPath), { recursive: true })
+    await promises.writeFile(asset.outputPath, asset.output[key])
+  }
 }
 
 async function packageJson(asset, options) {

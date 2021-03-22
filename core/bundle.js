@@ -18,11 +18,8 @@ async function loadAsset(asset) {
     await asset.generate()
   }
 
-  if (asset.ext) {
-    asset.outputPath = Path.resolve(
-      ref.options.o,
-      (asset.parent || asset).hash + asset.ext
-    )
+  if (asset.type === "page") {
+    asset.outputPath = Path.resolve(ref.options.o, (asset.parent || asset).hash)
   }
 
   let siblings = [".wxml", ".js", ".wxss"]
