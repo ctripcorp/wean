@@ -28,10 +28,11 @@ async function packageAsset(asset, options) {
       asset.output.jsx = await packAll(asset, options)
       write(asset, child)
     } else if (asset.type === "app") {
-      // // asset.outputPath = Path.resolve(options.o) + `\\${asset.hash}`
-      // asset.output.js = asset.siblingAssets.get(".js").code
-      // asset.output.css = asset.siblingAssets.get(".wxss").code
-      // write(asset)
+      asset.outputPath = Path.resolve(options.o) + '\\app'
+      console.log(asset.outputPath)
+      asset.output.js = asset.siblingAssets.get(".js").code
+      asset.output.css = asset.siblingAssets.get(".wxss").code
+      write(asset)
     }
   })
   await Promise.all(all)
