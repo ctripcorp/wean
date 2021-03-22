@@ -18,8 +18,24 @@ async function loadAsset(asset) {
     await asset.parse(input.toString())
     await asset.generate()
   }
+
+  let siblings = [".wxml", ".js", ".wxss"]
+
+  if (asset.type === "page" || asset.type === "component") {
+    siblings = siblings.map(async (type) => {
+      if (asset.parent) {
+        const depAsset = await resolveAsset(asset.path.replace(".json", type))
+        asset.siblingAssets.set(type, depAsset)
+        depAsset.parent = asset
+        return loadAsset(depAsset)
+      } else {
+        return null
+      }
+    })
+  }
+
   const dependencies = Array.from(asset.dependencies)
-  const all = dependencies.map(async (dep) => {
+  const childs = dependencies.map(async (dep) => {
     const depAsset = await resolveAsset(
       dep.path.replace(dep.ext, "") + dep.ext,
       asset.path
@@ -29,10 +45,10 @@ async function loadAsset(asset) {
     depAsset.parent = asset
     await loadAsset(depAsset)
   })
-  await Promise.all(all)
+  await Promise.all(siblings.concat(childs))
 }
 
-async function resolveAsset(path = "", parent = "") {
+async function resolveAsset(path = "", parent) {
   const type = Path.extname(path)
   switch (type) {
     case ".js":
@@ -59,7 +75,7 @@ async function resolveAsset(path = "", parent = "") {
 
   path = path.replace(".component", ".json").replace(".page", ".json")
 
-  let resolvePath = Path.join(Path.dirname(parent), path)
+  let resolvePath = parent ? Path.join(Path.dirname(parent), path) : path
   if (!fs.existsSync(resolvePath)) {
     resolvePath = Path.join(options.inputDir, path)
   }

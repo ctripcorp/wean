@@ -19,7 +19,7 @@ module.exports = class Asset {
     this.type = type.slice(1)
     this.dependencies = new Set()
     this.childAssets = new Map()
-    this.siblingAssets = new Set() // 0 wxml 1 js 2 wxss
+    this.siblingAssets = new Map() // 0 wxml 1 js 2 wxss
     this.symbols = new Map()
   }
 }
