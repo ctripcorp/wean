@@ -3,7 +3,7 @@ const { lex, parse, generate } = require("../../wxml/index.js")
 const babel = require("@babel/core")
 const jsx = require("@babel/plugin-transform-react-jsx").default
 
-module.exports = class WxmlAsset extends Asset {
+module.exports = class Wxml extends Asset {
   constructor(path, type, name) {
     super(path, type, name)
   }

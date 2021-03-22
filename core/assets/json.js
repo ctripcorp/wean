@@ -1,6 +1,6 @@
 const Asset = require("./asset")
 
-class AppAsset extends Asset {
+class App extends Asset {
   // app.json
   constructor(path, type, name) {
     super(path, type, name)
@@ -23,7 +23,7 @@ class AppAsset extends Asset {
   async generate() {}
 }
 
-class PageAsset extends Asset {
+class Page extends Asset {
   constructor(path, type, name) {
     super(path, type, name)
   }
@@ -42,7 +42,7 @@ class PageAsset extends Asset {
   async generate() {}
 }
 
-class ComponentAsset extends Asset {
+class Component extends Asset {
   constructor(path, type, name) {
     super(path, type, name)
   }
@@ -62,7 +62,7 @@ class ComponentAsset extends Asset {
 }
 
 module.exports = {
-  App: AppAsset,
-  Page: PageAsset,
-  Component: ComponentAsset,
+  App: App,
+  Page: Page,
+  Component: Component,
 }

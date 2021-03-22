@@ -5,7 +5,7 @@ const postcssRpx2rem = require("../plugins/postcss-rpx2rem")
 const postcssSopedCss = require('../plugins/postcss-scoped-css')
 const Path = require('path')
 
-module.exports = class WxssAsset extends Asset {
+module.exports = class Wxss extends Asset {
   constructor(path, type, name) {
     super(path, type, name)
   }

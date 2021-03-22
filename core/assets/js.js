@@ -5,7 +5,7 @@ const { transformFromAst } = require("@babel/core")
 const componentTag = require("../plugins/babel-component-tag")
 const hoist = require("../tree-shaking/hoist")
 
-module.exports = class JSAsset extends Asset {
+module.exports = class JS extends Asset {
   constructor(path, type, name) {
     super(path, type, name)
   }
