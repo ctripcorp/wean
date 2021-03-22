@@ -3,6 +3,7 @@ const { write, random, titleCase } = require("./util")
 const Path = require("path")
 
 module.exports = async function packWxml(asset, options) {
+
   const cache = []
   let output = `const $${asset.id} = ${asset.code}\n\n`
   for (const dep of asset.childAssets.values()) {
@@ -46,5 +47,4 @@ module.exports = async function packWxml(asset, options) {
     styles: [hash + '.css'],
     path: `${path}`,
   })
-  await write(asset)
 }

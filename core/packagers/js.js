@@ -18,5 +18,4 @@ module.exports = async function packJs(asset) {
     for (const code of defer) {
       asset.output += "\n" + code
     }
-    write(asset)
   }

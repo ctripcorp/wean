@@ -2,6 +2,7 @@ const { promises } = require("fs")
 const ejs = require("ejs")
 const Path = require("path")
 const manifest = []
+
 module.exports.manifest = manifest
 
 const packJs = require("./packagers/js.js")
@@ -16,9 +17,14 @@ module.exports = async function pack(asset, options) {
 
 async function packageAsset(asset, options) {
   await packageJson(asset, options)
-  const all = Array.from(asset.childAssets.values()).map(
-    async (child) => await packageAsset(child, options)
-  )
+  const all = Array.from(asset.childAssets.values()).map(async (child) => {
+    await packageAsset(child, options)
+    if (asset.type === "page") {
+      asset.output.css += child.output.css
+      asset.output.js += child.output.js
+      asset.output.jsx += child.output.jsx
+    }
+  })
   await Promise.all(all)
 }
 
@@ -27,9 +33,11 @@ async function packageJson(asset, options) {
   if (siblings) {
     siblings.forEach(async (value, key) => {
       if (value) {
-        if (key === ".js") await packJs(siblings.get(".js"))
-        if (key === ".wxml") await packWxml(siblings.get(".wxml"), options)
-        if (key === ".wxss") await packWxss(siblings.get(".wxss"))
+        if (key === ".js") asset.output.js = await packJs(siblings.get(".js"))
+        if (key === ".wxml")
+          asset.output.jsx = await packWxml(siblings.get(".wxml"), options)
+        if (key === ".wxss")
+          asset.output.css = await packWxss(siblings.get(".wxss"))
       }
     })
   }
