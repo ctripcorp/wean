@@ -42,8 +42,8 @@ async function start(options) {
   const adt = await build(options.e)
   // console.log(adt)
   log("bulid success")
-  // await pack(adt, options)
-  // log("package success")
+  await pack(adt, options)
+  log("package success")
   options.old = serve()
 }
 

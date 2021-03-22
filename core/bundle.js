@@ -27,7 +27,7 @@ async function loadAsset(asset) {
         const depAsset = await resolveAsset(asset.path.replace(".json", type))
         asset.siblingAssets.set(type, depAsset)
         depAsset.parent = asset
-        return loadAsset(depAsset)
+        await loadAsset(depAsset)
       }
     })
   }
@@ -47,7 +47,7 @@ async function loadAsset(asset) {
 }
 
 async function resolveAsset(path = "", parent) {
-  const type = Path.extname(path)
+  let type = Path.extname(path)
   switch (type) {
     case ".js":
       Asset = require("./assets/js")
@@ -72,6 +72,7 @@ async function resolveAsset(path = "", parent) {
   }
 
   path = path.replace(".component", ".json").replace(".page", ".json")
+  type = type === ".json" ? ".app" : type
 
   let resolvePath = parent ? Path.join(Path.dirname(parent), path) : path
   if (!fs.existsSync(resolvePath)) {

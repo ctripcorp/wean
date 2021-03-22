@@ -3,9 +3,8 @@ let clock = 0
 
 const exts = {
   '.js': '.js',
-  '.json': '.json',
   '.wxml': '.jsx',
-  '.wxss': '.css'
+  '.wxss': '.css',
 }
 
 module.exports = class Asset {
