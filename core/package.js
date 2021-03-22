@@ -14,18 +14,18 @@ module.exports = async function pack(asset, options) {
   await generateEntry(options)
 }
 
-async function packageAsset(asset) {
+async function packageAsset(asset, options) {
   const all = Array.from(asset.childAssets.values()).map(
-    async (child) => await packageJson(child)
+    async (child) => await packageJson(child, options)
   )
   await Promise.all(all)
 }
 
-async function packageJson(asset) {
+async function packageJson(asset, options) {
   const siblings = asset.siblingAssets
   if (siblings) {
-    // await packJs(siblings.get(".js"))
-    // await packWxml(siblings.get(".wxml"))
+    await packJs(siblings.get(".js"))
+    await packWxml(siblings.get(".wxml"), options)
     await packWxss(siblings.get(".wxss"))
   }
 }
