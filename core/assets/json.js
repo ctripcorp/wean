@@ -12,7 +12,7 @@ class JsonAsset extends Asset {
       if (key === "pages") {
         for (let i = 0; i < value.length; i++) {
           const path = value[i]
-          this.dependencies.add(path + ".page")
+          this.dependencies.add({ path, type: ".page" })
         }
         this.dependencies.add("app.js")
       }
@@ -35,7 +35,26 @@ class PageAsset extends Asset {
       if (key === "usingComponents") {
         for (const k in value) {
           const v = value[k]
-          this.dependencies.add(v + ".component" + "@" + k)
+          this.dependencies.add({ path: v, tag: k, type: ".component" })
+        }
+      }
+    }
+  }
+  async generate() {}
+}
+
+class ComponentAsset extends Asset {
+  constructor(path, type, name) {
+    super(path, type, name)
+  }
+  async parse(input) {
+    this.ast = JSON.parse(input)
+    for (const key in this.ast) {
+      const value = this.ast[key]
+      if (key === "usingComponents") {
+        for (const k in value) {
+          const v = value[k]
+          this.dependencies.add({ path: v, tag: k, type: ".component" })
         }
       }
     }
@@ -46,5 +65,5 @@ class PageAsset extends Asset {
 module.exports = {
   Json: JsonAsset,
   Page: PageAsset,
-  Component: PageAsset,
+  Component: ComponentAsset,
 }
