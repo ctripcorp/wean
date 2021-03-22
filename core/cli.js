@@ -40,6 +40,7 @@ async function run(argv) {
 async function start(options) {
   options.old && options.old.close()
   const adt = await build(options.e)
+  // console.log(adt)
   log("bulid success")
   // await pack(adt, options)
   // log("package success")

@@ -28,8 +28,6 @@ async function loadAsset(asset) {
         asset.siblingAssets.set(type, depAsset)
         depAsset.parent = asset
         return loadAsset(depAsset)
-      } else {
-        return null
       }
     })
   }
@@ -55,7 +53,7 @@ async function resolveAsset(path = "", parent) {
       Asset = require("./assets/js")
       break
     case ".json":
-      Asset = require("./assets/json").Json
+      Asset = require("./assets/json").App
       break
     case ".page":
       Asset = require("./assets/json").Page

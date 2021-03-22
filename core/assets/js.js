@@ -16,7 +16,7 @@ module.exports = class JSAsset extends Asset {
   async generate() {
     const { code } = transformFromAst(this.ast, null, {
       presets: [],
-      plugins: [[componentTag(), { tag: this.tag }]],
+      plugins: [[componentTag(), { tag: this.parent.tag }]],
     })
     this.code = code
   }
