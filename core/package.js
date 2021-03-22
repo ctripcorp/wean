@@ -25,7 +25,7 @@ async function packageAsset(asset, options) {
     if (asset.type === "page") {
       asset.output.css += child.output.css
       asset.output.js += child.output.js
-      asset.output.jsx += child.output.jsx
+      asset.output.jsx = child.output.jsx + asset.output.jsx
       asset.output.jsx = await packBerial(asset, options)
       write(asset, options)
     } else if (asset.type === "app") {

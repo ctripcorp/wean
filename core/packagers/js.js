@@ -16,5 +16,5 @@ module.exports = async function packJs(asset) {
     for (const code of defer) {
       asset.output += "\n" + code
     }
-    return asset.output
+    return asset.output + '\n\n'
   }
