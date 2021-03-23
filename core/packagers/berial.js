@@ -13,9 +13,7 @@ module.exports = async function packAll(asset, options) {
       },
       async mount({host}){
         window.remotes.host = host;
-        fre.render(fre.h('div',{},fre.h($${
-          asset.id + 1
-        })),host.getElementById("root"));
+        fre.render(fre.h('div',{},fre.h($${asset.id})),host.getElementById("root"));
       },
       async unmount({host}){
         host.getElementById("root").innerHTML = ""

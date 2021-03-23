@@ -110,7 +110,9 @@ function generateNode(node, state, asset, nextNode) {
     code += `</${titleCase(node.name)}>`
 
     if (node.name === "import") code = ""
-    if (node.directives) code = generateDirect(node, code, state, nextNode)
+    if (node.directives) {
+      code = generateDirect(node, code, state, nextNode)
+    }
     if (node.handlers) pushDirect(node.handlers, state.handlers)
     if (node.imports) pushDirect(node.imports, state.imports)
 
@@ -163,11 +165,11 @@ function generateDirect(node, code, state, next) {
     }
 
     if (name === "wx:else") {
+      if (ifcode === "") ifcode = "{"
       ifcode += `${compiled}?${code}:null}`
       code = ifcode
       ifcode = ""
     }
-
     return code
   }
 }
