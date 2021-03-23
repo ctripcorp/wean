@@ -16,7 +16,13 @@ wean 是一个小程序构建工具，它负责将标准的微信小程序打包
 
 wean 借助 [fre](https://github.com/yisar/fre) 实现渲染，借助 [berial](https://github.com/berialjs/berial) 实现路由和沙箱，不需要 webpack 等
 
-除了基本的编译打包，wean 实现了一些先进特性：**Tree shaking**、**Module federation**、**Hot reload**，做更现代，更简洁的小程序子集
+除了基本的编译打包，wean 实现了一些先进特性：**Tree shaking**、**Module federation**、**Hot reload**，做更现代，更精简的小程序子集
+
+### Demo
+
+- [tuchong](https://github.com/yisar/wean-demo-tuchong)
+
+- [TodoMVC](https://github.com/ctripcorp/wean/tree/master/demo)
 
 ### Run
 
@@ -25,8 +31,6 @@ $ npm install
 $ npm link
 $ wean -e app.json -o /dist/
 ```
-
-如果小程序工具导入 dist 目录，遇到 dist 缺少 app.json 和 sitemap.json 的报错，先手动将 demo 里的这两个文件拷贝到 dist 下，能跑起来再说。
 
 剩下的只需要按照 [微信小程序开发文档](https://developers.weixin.qq.com/miniprogram/dev/framework/) 开发即可
 
