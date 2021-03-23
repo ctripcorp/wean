@@ -36,7 +36,7 @@ async function packageAsset(asset, options) {
     options.umds.push("./" + asset.hash + ".js")
   }
   if (asset.type === "page" || asset.type === "app") {
-    write(asset, options)
+    await write(asset, options)
   }
   await Promise.all(all)
 }

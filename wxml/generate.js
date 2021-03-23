@@ -165,8 +165,11 @@ function generateDirect(node, code, state, next) {
     }
 
     if (name === "wx:else") {
-      if (ifcode === "") ifcode = "{"
-      ifcode += `${compiled}?${code}:null}`
+      if (ifcode === "") {
+        ifcode += `{!${compiled}?${code}:null}`
+      } else {
+        ifcode += `${compiled}?${code}:null}`
+      }
       code = ifcode
       ifcode = ""
     }
