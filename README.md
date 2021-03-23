@@ -20,7 +20,7 @@ wean 借助 [fre](https://github.com/yisar/fre) 实现渲染，借助 [berial](h
 
 ### Demo
 
-- [tuchong](https://github.com/yisar/wean-demo-tuchong)
+- [图虫小程序 @ 飘香豆腐](https://github.com/yisar/wean-demo-tuchong)
 
 - [TodoMVC](https://github.com/ctripcorp/wean/tree/master/demo)
 
