@@ -11,21 +11,17 @@ module.exports = {
     const name =
       asset.parent.symbols.get(path.node.id.name + asset.name) ||
       getName(asset, "export", path.node.id.name)
-    if (name.indexOf(path.node.id.name) < 0) {
-      rename(path.scope, path.node.id.name, name)
-      path.replaceWith(path.node)
-    }
+    rename(path.scope, path.node.id.name, name)
+    path.replaceWith(path.node)
   },
   VariableDeclaration(path, asset) {
     for (const decl of path.node.declarations) {
       const name =
         asset.parent.symbols.get(decl.id.name + asset.name) ||
         getName(asset, "export", decl.id.name)
-      if (name.indexOf(decl.id.name) < 0) {
-        rename(path.scope, decl.id.name, name)
-        path.node.kind = "var"
-        path.replaceWith(path.node)
-      }
+      rename(path.scope, decl.id.name, name)
+      path.node.kind = "var"
+      path.replaceWith(path.node)
     }
   },
   ExportDefaultDeclaration(path, asset) {

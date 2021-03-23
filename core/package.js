@@ -27,15 +27,17 @@ async function packageAsset(asset, options) {
       asset.output.js += child.output.js
       asset.output.jsx = child.output.jsx + asset.output.jsx
       asset.output.jsx = await packBerial(asset, options)
-      write(asset, options)
-    } else if (asset.type === "app") {
-      asset.outputPath = Path.resolve(options.o) + `\\${asset.hash}`
-      asset.output.js = asset.siblingAssets.get(".js").code
-      asset.output.css = asset.siblingAssets.get(".wxss").code
-      options.umds.push("./" + asset.hash + ".js")
-      write(asset, options)
     }
   })
+  if (asset.type === "app") {
+    asset.outputPath = Path.resolve(options.o) + `\\${asset.hash}`
+    asset.output.js = asset.siblingAssets.get(".js").code
+    asset.output.css = asset.siblingAssets.get(".wxss").code
+    options.umds.push("./" + asset.hash + ".js")
+  }
+  if (asset.type === "page" || asset.type === "app") {
+    write(asset, options)
+  }
   await Promise.all(all)
 }
 
