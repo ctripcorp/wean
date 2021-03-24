@@ -11,6 +11,12 @@ window.Page = (option) => {
   graph.set(window.location.pathname, childs)
 }
 
+window.$for = (arr, fn, key) => {
+  arr = arr || []
+  const res = arr.map((item) => fn(item))
+  return fre.h("div", { children: res })
+}
+
 window.Component = (option, tag) => {
   const page = graph.get(window.location.pathname)
   if (page) {

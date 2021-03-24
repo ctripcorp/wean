@@ -1,4 +1,4 @@
-const { getName } = require("../core/tree-shaking/util")
+const { getName } = require("../core/hoist/util")
 
 const openRE = /\{\{/
 const closeRE = /\s*\}\}/
@@ -61,17 +61,13 @@ function generate(asset) {
 function generateHook(tag, data, handlers, isTemplate) {
   let decode
   if (tag) {
-    decode = `const {properties:{${data.join(
-      ","
-    )}}, methods:{${handlers.join(
+    decode = `const {properties:{${data.join(",")}}, methods:{${handlers.join(
       ","
     )}},onLoad,onUnload} = useComponent(fre.useState({})[1], props,'${tag}')`
   } else {
-    decode = `const {data:{${data.join(
+    decode = `const {data:{${data.join(",")}}, onLoad,onUnload,${handlers.join(
       ","
-    )}}, onLoad,onUnload,${handlers.join(",")}} = usePage(${
-      isTemplate ? "null" : "fre.useState({})[1]"
-    }, props)`
+    )}} = usePage(${isTemplate ? "null" : "fre.useState({})[1]"}, props)`
   }
   return isTemplate
     ? `${decode}`
@@ -84,15 +80,14 @@ function generateHook(tag, data, handlers, isTemplate) {
     `
 }
 
-function generateNode(node, state, asset) {
+function generateNode(node, state, asset, nextNode) {
   if (typeof node === "string") {
     let compiled = compileTemplate(node, state.data, true)
     return `${compiled}`
   } else if (node.name === "template") {
     const is = node.attributes.is
-    let code = `{directs.$ensure(${
-      is ? '"' + getName(asset, "template", is) + '"' : null
-    })}`
+    const name = is ? '"' + getName(asset, "template", is) + '"' : null
+    let code = name ? `{window.remotes[${name}]()}` : ""
     if (node.children) {
       code += `${node.children
         .map((item) => generateNode(item, state, asset))
@@ -107,14 +102,17 @@ function generateNode(node, state, asset) {
     code += generateProps(node, state, asset)
     if (node.children) {
       code += `${node.children
-        .map((item) => generateNode(item, state, asset))
+        .map((item, index) =>
+          generateNode(item, state, asset, node.children[index + 1])
+        )
         .join("\n")}`
     }
     code += `</${titleCase(node.name)}>`
 
     if (node.name === "import") code = ""
-
-    if (node.directives) code = generateDirect(node, code, state)
+    if (node.directives) {
+      code = generateDirect(node, code, state, nextNode)
+    }
     if (node.handlers) pushDirect(node.handlers, state.handlers)
     if (node.imports) pushDirect(node.imports, state.imports)
 
@@ -129,45 +127,65 @@ function pushDirect(a, b) {
   }
 }
 
-function generateDirect(node, code, state) {
+let ifcode = ""
+
+function generateDirect(node, code, state, next) {
   for (let i = 0; i < node.directives.length; i++) {
     const [name, value] = node.directives[i]
     const compiled = compileTemplate(value, state.data)
     if (code[0] === "{") {
       code = `<>${code}</>`
     }
-    switch (name) {
-      case "wx:if":
-        code = `{directs.$if(
-                          () => ${compiled}, 
-                          () => (${code}), 
-                      )}`
-        break
-      case "wx:else":
-        code = `{directs.$else(
-                          () => ${compiled}, 
-                          () => (${code}), 
-                      )}`
-        break
-      case "wx:elseif":
-        code = `{directs.$elseif(
-                            () => ${compiled}, 
-                            () => (${code}), 
-                        )}`
-        break
-      case "wx:for":
-        const item = findItem(node)
-        code = `{directs.$for(
+    if (name === "wx:for") {
+      const item = findItem(node)
+      code = `{$for(
                               ${compiled}, 
-                              (${item}) => (${code}), 
-                              null
-                          )}`
-        break
-      case "wx:key":
-        break
+                              (${item}) => (${code})
+              )}`
+    }
+
+    if (name === "wx:if") {
+      ifcode += `{${compiled}?${code}:`
+      if (isElse(next)) {
+        continue
+      } else {
+        code = ifcode + "null}"
+        ifcode = ""
+      }
+    }
+
+    if (name === "wx:elseif") {
+      ifcode += `${compiled}?${code}:`
+      if (isElse(next)) {
+        continue
+      } else {
+        code = ifcode + "null}"
+        ifcode = ""
+      }
+    }
+
+    if (name === "wx:else") {
+      if (ifcode === "") {
+        ifcode += `{!${compiled}?${code}:null}`
+      } else {
+        ifcode += `${compiled}?${code}:null}`
+      }
+      code = ifcode
+      ifcode = ""
+    }
+    return code
+  }
+}
+
+function isElse(node) {
+  if (node) {
+    for (const name in node.attributes) {
+      if (name.indexOf("else") > -1) {
+        return true
+      }
     }
   }
-  return code
+  return false
 }
 
 function findItem(node) {
@@ -208,12 +226,13 @@ function generateProps(node, state, asset) {
 function getHash(asset, node) {
   if (!node.attributes.class) return ""
   let hash = ""
-  if (asset.tag) {
+  if (asset.parent.tag) {
     hash = asset.hash.slice(0, 6)
   } else {
-    let p = asset
-    if (p.parent.type !== "json") p = p.parent
-    hash = p.hash.slice(0, 6)
+    let p = asset.parent
+    if (p.parent.type !== "wxml") p = p.parent
+    const wxml = p.siblingAssets.get(".wxml") || asset
+    hash = wxml.hash.slice(0, 6)
   }
   return `data-w-${hash}`
 }

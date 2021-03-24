@@ -1,12 +1,8 @@
-const convert = require('../package.js').convert
-const write = require('./util').write
-
-module.exports = async function packJs(asset, options) {
+module.exports = async function packJs(asset) {
     const defer = []
     const cache = []
     asset.output = asset.code
-    for (const dep of asset.depsAssets.values()) {
-      await convert(dep, options)
+    for (const dep of asset.childAssets.values()) {
       if (dep.tag) {
         defer.push(dep.code)
       } else {
@@ -20,5 +16,5 @@ module.exports = async function packJs(asset, options) {
     for (const code of defer) {
       asset.output += "\n" + code
     }
-    write(asset)
+    return asset.output + '\n\n'
   }

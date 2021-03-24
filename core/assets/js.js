@@ -3,9 +3,9 @@ const babel = require("@babel/core")
 const traverse = require("@babel/traverse").default
 const { transformFromAst } = require("@babel/core")
 const componentTag = require("../plugins/babel-component-tag")
-const hoist = require("../tree-shaking/hoist")
+const hoist = require("../hoist/hoist")
 
-module.exports = class JSAsset extends Asset {
+module.exports = class JS extends Asset {
   constructor(path, type, name) {
     super(path, type, name)
   }
@@ -16,7 +16,7 @@ module.exports = class JSAsset extends Asset {
   async generate() {
     const { code } = transformFromAst(this.ast, null, {
       presets: [],
-      plugins: [[componentTag(), { tag: this.tag }]],
+      plugins: [[componentTag(), { tag: this.parent.tag }]],
     })
     this.code = code
   }
