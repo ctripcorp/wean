@@ -1,64 +1,51 @@
-#!/usr/bin/env node
-
+const chokidar = require("chokidar")
+const chalk = require("chalk")
+const Path = require("path")
 const build = require("./bundle")
 const pack = require("./package")
 const serve = require("./serve")
 const argv = require("./commander")
-const chokidar = require("chokidar")
-const Path = require("path")
 
-async function run(argv) {
-  if (argv.version) {
-    console.log("v0.0.1")
-  } else {
-    const options = {
-      e: "./app.json",
-      o: "./dist/",
-      i: "/",
-      w: argv.watch,
-      e: argv.entry,
-      o: argv.output,
-      p: argv.publicUrl
-    }
-    start(options)
-    if (options.w) {
-      chokidar
-        .watch(Path.dirname(options.e), {
-          ignored: /(dist|.git)/,
-          persistent: true,
-          awaitWriteFinish: {
-            stabilityThreshold: 500,
-            pollInterval: 500,
-          },
-        })
-        .on("change", (path) => {
-          log(`rebuild ${path}`, 1)
-          start(options)
-        })
-    }
+async function run(b) {
+  const options = {
+    e: "./app.json",
+    o: "./dist/",
+    i: "/",
+    w: argv.watch,
+    e: argv.entry,
+    o: argv.output,
+    p: argv.publicUrl,
+    b,
+  }
+  start(options)
+  if (options.w) {
+    chokidar
+      .watch(Path.dirname(options.e), {
+        ignored: /(dist|.git)/,
+        persistent: true,
+        awaitWriteFinish: {
+          stabilityThreshold: 500,
+          pollInterval: 500,
+        },
+      })
+      .on("change", (path) => {
+        console.log(chalk.green(`rebuild ${path}`))
+        start(options)
+      })
   }
 }
 
 async function start(options) {
   options.old && options.old.close()
   const adt = await build(options.e, options)
-  log("bundle success")
+  console.log(chalk.green("bundle success"))
   await pack(adt, options)
-  log("package success")
-  options.old = serve(options)
-}
-
-run(argv)
-
-function log(msg, color) {
-  switch (color) {
-    case 1:
-      console.log("\033[43;30m DONE \033[40;33m " + msg + "\033[0m")
-      break
-    default:
-      console.log("\033[42;30m DONE \033[40;32m " + msg + "\033[0m")
-      break
+  console.log(chalk.green("package success"))
+  if (!options.b) {
+    options.old = serve(options)
+  } else {
+    console.log(chalk.green("build success"))
   }
 }
 
-module.exports.log = log
+run(argv.b)

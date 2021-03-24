@@ -1,15 +1,15 @@
 {
   "name": "wean",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "",
   "main": "index.js",
   "bin": {
-    "wean": "./core/cli.js"
+    "wean": "bin/index.js"
   },
   "scripts": {
-    "start": "wean -e ./demo/app.json -o ./dist/",
-    "build":"wean build abc -e ./demo/app.json -o ./dist/",
-    "dev": "node --inspect ./core/cli.js -e ./demo/app.json -o ./dist/"
+    "dev": "wean -e ./demo/app.json -o ./dist/",
+    "build": "wean build -e ./demo/app.json -o ./dist/",
+    "debug": "node --inspect ./core/cli.js -e ./demo/app.json -o ./dist/"
   },
   "repository": {
     "type": "git",
@@ -37,6 +37,7 @@
     "sirv": "^1.0.10"
   },
   "dependencies": {
+    "chalk": "^4.1.0",
     "commander": "^7.1.0",
     "ejs": "^3.1.6"
   }

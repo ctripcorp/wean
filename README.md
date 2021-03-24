@@ -18,6 +18,10 @@ wean 借助 [fre](https://github.com/yisar/fre) 实现渲染，借助 [berial](h
 
 除了基本的编译打包，wean 实现了一些先进特性：**Tree shaking**、**Module federation**、**Hot reload**，做更现代，更精简的小程序子集
 
+### QQ group
+
+<img src="https://i.loli.net/2021/03/24/wYdhGJuNzZXT1QW.jpg" alt="wean logo" width="250">
+
 ### Demo
 
 - [图虫小程序 @ 飘香豆腐](https://github.com/yisar/wean-demo-tuchong)
@@ -29,7 +33,7 @@ wean 借助 [fre](https://github.com/yisar/fre) 实现渲染，借助 [berial](h
 ```shell
 $ npm install
 $ npm link
-$ wean -e app.json -o /dist/
+$ wean -e ./app.json -o ./dist/
 ```
 
 剩下的只需要按照 [微信小程序开发文档](https://developers.weixin.qq.com/miniprogram/dev/framework/) 开发即可
