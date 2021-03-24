@@ -12,12 +12,13 @@ async function run(argv) {
     console.log("v0.0.1")
   } else {
     const options = {
-      e: "./demo/app.json",
+      e: "./app.json",
       o: "./dist/",
       i: "/",
       w: argv.watch,
       e: argv.entry,
       o: argv.output,
+      p: argv.publicUrl
     }
     start(options)
     if (options.w) {

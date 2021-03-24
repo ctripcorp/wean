@@ -32,12 +32,14 @@ module.exports = async function packAll(asset, options) {
     .replace(/\\/g, "/")
     .replace(".json", "")
 
-  const hash = "/" + asset.hash
+  const prefix = options.p ? options.p : "/"
+  const basename = options.p ? `${"/" + Path.basename(options.p)}` : ""
+  const hash = prefix + asset.hash
   manifest.push({
     name,
     scripts: [hash + ".js", hash + ".jsx"],
     styles: [hash + ".css"],
-    path: `${path}`,
+    path: `${basename + path}`,
   })
   return asset.output.jsx
 }
