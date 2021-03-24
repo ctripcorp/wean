@@ -8,6 +8,7 @@
   },
   "scripts": {
     "start": "wean -e ./demo/app.json -o ./dist/",
+    "build":"wean build abc -e ./demo/app.json -o ./dist/",
     "dev": "node --inspect ./core/cli.js -e ./demo/app.json -o ./dist/"
   },
   "repository": {

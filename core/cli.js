@@ -8,6 +8,7 @@ const chokidar = require("chokidar")
 const Path = require("path")
 
 async function run(argv) {
+  console.log(argv)
   if (argv.version) {
     console.log("v0.0.1")
   } else {
@@ -42,7 +43,7 @@ async function run(argv) {
 async function start(options) {
   options.old && options.old.close()
   const adt = await build(options.e, options)
-  log("bulidle success")
+  log("bundle success")
   await pack(adt, options)
   log("package success")
   options.old = serve(options)
