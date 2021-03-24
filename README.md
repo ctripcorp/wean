@@ -18,6 +18,10 @@ wean 借助 [fre](https://github.com/yisar/fre) 实现渲染，借助 [berial](h
 
 除了基本的编译打包，wean 实现了一些先进特性：**Tree shaking**、**Module federation**、**Hot reload**，做更现代，更精简的小程序子集
 
+### QQ group
+
+![](https://ws1.sinaimg.cn/large/0065Zy9egy1gov6po5yt0j30ku11cacf.jpg)
+
 ### Demo
 
 - [图虫小程序 @ 飘香豆腐](https://github.com/yisar/wean-demo-tuchong)
