@@ -1,9 +1,9 @@
 const polka = require("polka")
 const { PORT = 1234 } = process.env
 const fetch = require("cross-fetch")
-module.exports = function serve() {
+module.exports = function serve(options) {
   const app = polka()
-    .use(require("sirv")("dist"))
+    .use(require("sirv")(options.o))
     .use(redirect)
     .get("/tuchong/", (req, res) => {
       fetch("https://api.tuchong.com/feed-app")

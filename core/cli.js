@@ -44,7 +44,7 @@ async function start(options) {
   log("bulidle success")
   await pack(adt, options)
   log("package success")
-  options.old = serve()
+  options.old = serve(options)
 }
 
 run(argv)
