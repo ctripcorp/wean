@@ -7,9 +7,9 @@
     "wean": "bin/index.js"
   },
   "scripts": {
-    "start": "wean -e ./demo/app.json -o ./dist/",
+    "dev": "wean -e ./demo/app.json -o ./dist/",
     "build": "wean build -e ./demo/app.json -o ./dist/",
-    "dev": "node --inspect ./core/cli.js -e ./demo/app.json -o ./dist/"
+    "debug": "node --inspect ./core/cli.js -e ./demo/app.json -o ./dist/"
   },
   "repository": {
     "type": "git",
