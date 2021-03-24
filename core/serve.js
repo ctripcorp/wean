@@ -24,7 +24,7 @@ module.exports = function serve(options) {
     })
     .listen(PORT, (err) => {
       if (err) throw err
-      require('./cli.js').log(`serve on localhost:${PORT}`)
+      console.log(`serve on localhost:${PORT}`)
     })
     return app.server
 }
