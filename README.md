@@ -20,7 +20,7 @@ wean 借助 [fre](https://github.com/yisar/fre) 实现渲染，借助 [berial](h
 
 ### QQ group
 
-![qq](https://i.loli.net/2021/03/24/wYdhGJuNzZXT1QW.jpg)
+<img src="https://i.loli.net/2021/03/24/wYdhGJuNzZXT1QW.jpgg" alt="wean logo" width="250">
 
 ### Demo
 
