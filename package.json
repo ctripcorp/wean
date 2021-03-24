@@ -7,7 +7,7 @@
     "wean": "./core/cli.js"
   },
   "scripts": {
-    "start": "wean -e ./demo/app.json -o ./dist/ -p https://yisar.github.io/wean-demo-tuchong/",
+    "start": "wean -e ./demo/app.json -o ./dist/",
     "dev": "node --inspect ./core/cli.js -e ./demo/app.json -o ./dist/"
   },
   "repository": {
