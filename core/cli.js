@@ -8,7 +8,6 @@ const chokidar = require("chokidar")
 const Path = require("path")
 
 async function run(argv) {
-  console.log(argv)
   if (argv.version) {
     console.log("v0.0.1")
   } else {
