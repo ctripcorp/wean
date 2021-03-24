@@ -3,7 +3,7 @@ const babel = require("@babel/core")
 const traverse = require("@babel/traverse").default
 const { transformFromAst } = require("@babel/core")
 const componentTag = require("../plugins/babel-component-tag")
-const hoist = require("../tree-shaking/hoist")
+const hoist = require("../hoist/hoist")
 
 module.exports = class JS extends Asset {
   constructor(path, type, name) {

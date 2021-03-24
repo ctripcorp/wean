@@ -1,4 +1,4 @@
-const { getName } = require("../core/tree-shaking/util")
+const { getName } = require("../core/hoist/util")
 
 const openRE = /\{\{/
 const closeRE = /\s*\}\}/
