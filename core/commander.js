@@ -12,6 +12,4 @@ program
 
 const options = program.opts();
 
-console.log(options)
-
 module.exports = options;
