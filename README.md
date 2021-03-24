@@ -20,7 +20,7 @@ wean 借助 [fre](https://github.com/yisar/fre) 实现渲染，借助 [berial](h
 
 ### QQ group
 
-[!](https://ws1.sinaimg.cn/large/0065Zy9egy1gov6po5yt0j30ku11cacf.jpg)
+![](https://ws1.sinaimg.cn/large/0065Zy9egy1gov6po5yt0j30ku11cacf.jpg)
 
 ### Demo
 
