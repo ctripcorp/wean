@@ -14,7 +14,6 @@ module.exports = class Wxml extends Asset {
   }
   async generate() {
     const { hook, code: newCode, imports } = generate(this)
-    console.log(newCode)
     imports.forEach((i) => this.dependencies.add({ path: i, ext: ".wxml" }))
     const { code } = await babel.transformAsync(newCode, {
       presets: [],
