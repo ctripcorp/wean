@@ -1,4 +1,4 @@
-<view class="container" style="{{'padding-top:' + leftcount}}">
+<view class="container">
   <import src="./footer.wxml"></import>
   <view class="title">
     <text>todos</text>
