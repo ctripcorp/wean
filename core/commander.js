@@ -1,14 +1,14 @@
 const { program } = require("commander")
 
 program
-  .arguments("[build]")
+  .arguments("[buildType]")
   .option("-v, --version", "get version")
-  .option("-w, --watch", "wean watch")
-  .option("-e, --entry <value>", "wean entry")
-  .option("-o, --output <value>", "wean output")
+  .option("-w, --watch", "wean watch", false)
+  .option("-e, --entry <value>", "wean entry", "./app.json")
+  .option("-o, --output <value>", "wean output", "./dist/")
   .option("-p, --public-url <value>", "wean public-url")
-  .action((build, command) => (command.b = build))
-  .parse(process.argv)
+  .action((buildType, command) => (command.t = buildType))
+  .parse()
 
 const options = program.opts()
 
