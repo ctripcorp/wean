@@ -6,6 +6,9 @@
 
 **:fire: Note this is early experimental! 实验阶段的主要工作是想办法让整体架构变稳定、简洁，不建议上生产。**
 
+[![Build Status](https://github.com/ctripcorp/wean/workflows/ci/badge.svg?branch=master)](https://github.com/ctripcorp/wean/actions)
+
+
 ---
 
 wean 是一个小程序构建工具，它负责将标准的微信小程序打包成 web 项目，这样做有很多好处——
