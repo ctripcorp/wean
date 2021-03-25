@@ -33,7 +33,7 @@ async function packageAsset(asset, options) {
     }
   })
   if (asset.type === "app") {
-    asset.outputPath = Path.resolve(options.o) + `\\${asset.hash}`
+    asset.outputPath = Path.resolve(options.o, asset.hash)
     asset.output.js = asset.siblingAssets.get(".js").code
     asset.output.css = asset.siblingAssets.get(".wxss").code
     options.umds.push("./" + asset.hash + ".js")

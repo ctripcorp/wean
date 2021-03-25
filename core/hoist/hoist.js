@@ -1,6 +1,6 @@
+const t = require("@babel/types")
 const rename = require("./rename")
 const { getName } = require("./util")
-const t = require("@babel/types")
 const treeShake = require("./shake")
 
 module.exports = {

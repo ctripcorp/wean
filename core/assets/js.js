@@ -1,7 +1,7 @@
-const Asset = require("./asset")
 const babel = require("@babel/core")
 const traverse = require("@babel/traverse").default
 const { transformFromAst } = require("@babel/core")
+const Asset = require("./asset")
 const componentTag = require("../plugins/babel-component-tag")
 const hoist = require("../hoist/hoist")
 

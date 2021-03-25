@@ -1,5 +1,3 @@
-const { minify } = require("terser")
-
 module.exports = async function packJs(asset, options) {
   const defer = []
   const cache = []

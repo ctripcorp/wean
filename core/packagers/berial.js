@@ -1,6 +1,6 @@
-const { manifest } = require("../package.js")
-const { random, titleCase } = require("./util")
 const Path = require("path")
+const { manifest } = require("../package.js")
+const { random } = require("./util")
 
 module.exports = async function packAll(asset, options) {
   const name = `berial-${random()}`

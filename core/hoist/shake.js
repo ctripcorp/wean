@@ -42,8 +42,6 @@ function treeShake(scope) {
   } while (removed)
 }
 
-module.exports = treeShake
-
 function getUnusedBinding(path, name) {
   let binding = path.scope.getBinding(name)
   if (!binding) return null
@@ -72,3 +70,5 @@ function isExportAssignment(path) {
     path.parentPath.parentPath.node.left === path.parentPath.node
   )
 }
+
+module.exports = treeShake
