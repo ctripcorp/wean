@@ -78,6 +78,13 @@ window.useComponent = (setState, props, tag) => {
         fn.call(component, e)
       }
     }
+
+    console.log(option)
+
+    if (option.lifetimes) {
+      component.onLoad = option.lifetimes.attached
+      component.unLoad = option.lifetimes.detached
+    }
   }
 
   component.triggerEvent = function (key, e) {
@@ -90,11 +97,6 @@ window.useComponent = (setState, props, tag) => {
       page.data = { ...option.data, ...data }
       setState({})
     }
-  }
-
-  if (component.lifetimes) {
-    component.onLoad = component.lifetimes.attached
-    component.unLoad = component.lifetimes.detached
   }
 
   return component

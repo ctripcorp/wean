@@ -90,8 +90,8 @@ function generateHook(tag, data, handlers, isTemplate) {
   }
   return isTemplate
     ? `${decode}`
-    : `${code}
-    ${decode}
+    : `${decode}
+    ${code}
     `
 }
 
