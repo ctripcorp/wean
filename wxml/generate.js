@@ -28,7 +28,7 @@ function generate(asset) {
     }
   }
 
-  let { imports, handlers, data } = state
+  let { imports, handlers } = state
   let hook = generateHook(tag, handlers, root && root.name === "template")
   return { hook, code, imports }
 }
@@ -72,7 +72,7 @@ function generateHook(tag, handlers, isTemplate) {
 
 function generateNode(node, state, asset, nextNode) {
   if (typeof node === "string") {
-    let compiled = compileExpression(node)
+    let compiled = compileExpression(node, true)
     return `${compiled}`
   } else if (node.name === "template") {
     const is = node.attributes.is
@@ -199,16 +199,36 @@ function generateProps(node, state, asset) {
       node.imports = node.imports || []
       node.imports.push(value)
     } else {
-      let compiled = compileExpression(value)
-      console.log(compiled)
+      let compiled = compileExpression(value, name)
+      code += `${name}="${compiled}"`
     }
   }
   code += `${getHash(asset, node)} >`
   return code
 }
 
-function compileExpression(expression) {
-  return expression.replace(/{{/g, "").replace(/}}/g, "")
+function compileExpression(expression, name) {
+  if (!name) {
+    return expression.replace(/{{/g, "").replace(/}}/g, "")
+  } else {
+    const exps = expression.match(/{{(.+)}}/g)
+    if (!exps) {
+      return expression
+    } else {
+      exps.forEach((e) => {
+        expression = expression.replace(e, (match) => {
+          if (expression.length > match.length) {
+            return (
+              "`" + expression.replace(/{{/g, "${").replace(/}}/g, "}") + "`"
+            )
+          } else {
+            return expression.replace(/{{/g, "{").replace(/}}/g, "}")
+          }
+        })
+      })
+      return expression
+    }
+  }
 }
 
 function getHash(asset, node) {
