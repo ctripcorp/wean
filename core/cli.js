@@ -9,6 +9,8 @@ const { BUILD_TYPE } = require("./util/constant")
 
 async function run(argv) {
   const options = {
+    e: argv.entry || './app.json',
+    o: argv.output || './dist/',
     i: "/",
     w: argv.watch,
     p: argv.publicUrl,
@@ -33,6 +35,7 @@ async function run(argv) {
 }
 
 async function start(options) {
+  console.log(options)
   options.old && options.old.close()
   const adt = await build(options.e, options)
   console.log(chalk.green("bundle success"))

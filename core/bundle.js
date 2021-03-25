@@ -60,6 +60,7 @@ async function loadAsset(asset) {
 
 async function resolveAsset(path = "", parent) {
   let type = Path.extname(path)
+
   switch (type) {
     case ".js":
       Asset = require("./assets/js")
