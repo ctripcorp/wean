@@ -1,15 +1,15 @@
-const { program } = require("commander")
+const { program } = require("commander");
 
 program
   .arguments("[build]")
   .option("-v, --version", "get version")
   .option("-w, --watch", "wean watch")
-  .option("-e, --entry <value>", "wean entry")
-  .option("-o, --output <value>", "wean output")
+  .option("-e, --entry <value>", "wean entry", "./app.json")
+  .option("-o, --output <value>", "wean output", "./dist/")
   .option("-p, --public-url <value>", "wean public-url")
   .action((build, command) => (command.b = build))
-  .parse(process.argv)
+  .parse();
 
-const options = program.opts()
+const options = program.opts();
 
-module.exports = options
+module.exports = options;

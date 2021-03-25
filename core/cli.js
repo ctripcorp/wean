@@ -6,16 +6,14 @@ const pack = require("./package")
 const serve = require("./serve")
 const argv = require("./commander")
 
-async function run(b) {
+async function run(argv) {
   const options = {
-    e: "./app.json",
-    o: "./dist/",
     i: "/",
     w: argv.watch,
-    e: argv.entry,
-    o: argv.output,
+    e: argv.entry || "./app.json",
+    o: argv.output || "./dist/",
     p: argv.publicUrl,
-    b,
+    b: argv.b,
   }
   start(options)
   if (options.w) {
@@ -48,4 +46,4 @@ async function start(options) {
   }
 }
 
-run(argv.b)
+run(argv)
