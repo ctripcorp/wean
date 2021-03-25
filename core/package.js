@@ -66,9 +66,6 @@ async function packageJson(asset, options) {
 
 async function copySdk(options) {
   let umds = [
-    "./sdk/berial.js",
-    "./sdk/fre.js",
-    "./sdk/goober.js",
     "./runtime/api.js",
     "./runtime/wx.js",
     "./runtime/components.js",
