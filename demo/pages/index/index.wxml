@@ -8,12 +8,12 @@
       <input bindconfirm="addtodo" placeholder="What needs to be done?" value="{{name}}" id="test"></input>
     </view>
     <block wx:for="{{list}}" wx:key="id">
-      <block wx:if="{{item}}">
+      <!-- <block wx:if="{{item}}">
         <text class="strong">{{item}}</text>
       </block>
       <block wx:else>
         <text>暂无报价</text>
-      </block>
+      </block> -->
       <use-item item="{{item}}" bindmyevent="clickIco" bindclear="clear" />
     </block>
     <template is="footer"></template>
