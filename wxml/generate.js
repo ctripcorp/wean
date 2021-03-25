@@ -77,7 +77,7 @@ function lifeCode() {
 }
 
 function generateHook(tag, data, handlers, isTemplate) {
-  let { life, code } = lifeCode()
+  let { life, code } = lifeCode(tag)
   let decode
   if (tag) {
     decode = `const {properties:{${data.join(",")}}, methods:{${handlers.join(

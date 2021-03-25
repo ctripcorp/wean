@@ -92,6 +92,11 @@ window.useComponent = (setState, props, tag) => {
     }
   }
 
+  if (component.lifetimes) {
+    component.onLoad = component.lifetimes.attached
+    component.unLoad = component.lifetimes.detached
+  }
+
   return component
 }
 
