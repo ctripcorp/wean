@@ -15,9 +15,5 @@ module.exports = async function packWxml(asset, options) {
       cache.push(dep.name)
     }
   }
-  if (options.m) {
-    return minify(asset.output, {})
-  } else {
-    return asset.output
-  }
+  return asset.output
 }

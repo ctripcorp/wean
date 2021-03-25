@@ -3,7 +3,6 @@ const postcss = require("postcss")
 const postcssTagReplacer = require("../plugins/postcss-tag-replacer")
 const postcssRpx2rem = require("../plugins/postcss-rpx2rem")
 const postcssSopedCss = require("../plugins/postcss-scoped-css")
-const Path = require("path")
 
 module.exports = class Wxss extends Asset {
   constructor(path, type, name) {

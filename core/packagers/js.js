@@ -18,10 +18,5 @@ module.exports = async function packJs(asset, options) {
   for (const code of defer) {
     asset.output += "\n" + code
   }
-  if (options.m) {
-    const fileData = await minify(asset.output + "\n\n", {})
-    return fileData.code
-  } else {
-    return asset.output + "\n\n"
-  }
+  return asset.output + "\n\n"
 }
