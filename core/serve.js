@@ -30,6 +30,7 @@ module.exports = function serve(options) {
       if (err) throw err
       console.log(chalk.green(`serve on localhost:${PORT}`))
     })
+    console.log(app)
   return app.server
 }
 
