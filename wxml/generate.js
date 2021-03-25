@@ -1,20 +1,7 @@
 const { getName } = require("../core/hoist/util")
 
-const openRE = /\{\{/
-const closeRE = /\s*\}\}/
-const whitespaceRE = /\s/
-const escapeRE = /(?:(?:&(?:lt|gt|quot|amp);)|"|\\|\n)/g
-const expressionRE = /"[^"]*"|'[^']*'|\.\w*[a-zA-Z$_]\w*|\w*[a-zA-Z$_]\w*:|(\w*[a-zA-Z$_]\w*)/g
-const globals = ["true", "false", "undefined", "null", "NaN", "typeof", "in"]
-const escapeMap = {
-  "&lt;": "<",
-  "&gt;": ">",
-  "&quot;": '\\"',
-  "&amp;": "&",
-  "\\": "\\\\",
-  '"': '\\"',
-  "\n": "\\n",
-}
+const expressionRE = /"[^"]*"|'[^']*'|\d+[a-zA-Z$_]\w*|\.[a-zA-Z$_]\w*|[a-zA-Z$_]\w*:|([a-zA-Z$_]\w*)/g
+
 const eventMap = {
   tap: "onClick",
   confirm: "onKeyDown",
@@ -97,7 +84,7 @@ function generateHook(tag, data, handlers, isTemplate) {
 
 function generateNode(node, state, asset, nextNode) {
   if (typeof node === "string") {
-    let compiled = compileTemplate(node, state.data, true)
+    let compiled = compileExpression(node, state.data, true)
     return `${compiled}`
   } else if (node.name === "template") {
     const is = node.attributes.is
@@ -147,7 +134,7 @@ let ifcode = ""
 function generateDirect(node, code, state, next) {
   for (let i = 0; i < node.directives.length; i++) {
     const [name, value] = node.directives[i]
-    const compiled = compileTemplate(value, state.data)
+    const compiled = compileExpression(value, state.data)
     if (code[0] === "{") {
       code = `<>${code}</>`
     }
@@ -224,18 +211,16 @@ function generateProps(node, state, asset) {
       node.imports = node.imports || []
       node.imports.push(value)
     } else {
-      let compiled = compileTemplate(value, state.data, true)
-      if (compiled[0] === "{") {
-        code += `${name}=${compiled}`
-      } else if (compiled.indexOf("{") > -1) {
-        code += name + "={`" + compiled.replace(/{/g, "${") + "`}"
-      } else {
-        code += `${name}="${compiled}"`
-      }
+      let compiled = compileExpression(value)
+      console.log(compiled)
     }
   }
   code += `${getHash(asset, node)} >`
   return code
+}
+
+function compileExpression(expression) {
+  return "`" + expression.replace(/{{/g, "${").replace(/}}/g, "}") + "`"
 }
 
 function getHash(asset, node) {
@@ -251,83 +236,6 @@ function getHash(asset, node) {
   }
   return `data-w-${hash}`
 }
-
-function compileTemplate(template, data, isStr) {
-  let state = {
-    current: 0,
-    template,
-    data,
-    output: "",
-  }
-  compileState(state, isStr)
-  return state.output
-}
-
-function compileState(state, isStr) {
-  let template = state.template
-  let length = template.length
-  while (state.current < length) {
-    let value = scanUntil(state, openRE)
-    if (value.length !== 0) {
-      state.output += escapecodeing(value)
-    }
-    if (state.current === length) break
-    state.current += 2
-    cosumeWritespace(state)
-    let name = scanUntil(state, closeRE)
-
-    if (name.length !== 0) {
-      compileExpression(name, state.data)
-      if (isStr) name = `{${name}}`
-      state.output += name
-    }
-    cosumeWritespace(state)
-    state.current += 2
-  }
-}
-
-function compileExpression(expr, deps) {
-  expr.replace(expressionRE, function (match, reference) {
-    if (
-      reference !== undefined &&
-      deps.indexOf(reference) === -1 &&
-      globals.indexOf(reference) === -1
-    ) {
-      deps.push(reference)
-    }
-  })
-  return deps
-}
-
-function scanUntil(state, re) {
-  var template = state.template
-  var tail = template.substring(state.current)
-  var idx = tail.search(re)
-  var match = ""
-  switch (idx) {
-    case -1:
-      match = tail
-      break
-    case 0:
-      match = ""
-      break
-    default:
-      match = tail.substring(0, idx)
-  }
-  state.current += match.length
-  return match
-}
-
-function cosumeWritespace(state) {
-  var template = state.template
-  var char = template[state.current]
-  while (whitespaceRE.test(char)) {
-    char = template[++state.current]
-  }
-}
-
-const escapecodeing = (code) =>
-  code.replace(escapeRE, (match) => escapeMap[match])
 
 const titleCase = (str) =>
   "remotes." + str.slice(0, 1).toUpperCase() + toHump(str).slice(1)
