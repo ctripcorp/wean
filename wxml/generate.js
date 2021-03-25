@@ -183,10 +183,9 @@ function generateDirect(node, code, state, next) {
       if (ifcode === "") {
         ifcode += `{!${compiled}?${code}:null}`
       } else {
-        ifcode += `${code}`
+        ifcode += `${code}}`
       }
       code = ifcode
-      console.log(code)
       ifcode = ""
     }
     return code
