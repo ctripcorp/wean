@@ -13,8 +13,6 @@ async function run(argv) {
     o: argv.output || './dist/',
     i: "/",
     w: argv.watch,
-    e: argv.entry,
-    o: argv.output,
     m: argv.minify,
     p: argv.publicUrl,
     t: argv.t,
