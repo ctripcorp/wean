@@ -28,7 +28,7 @@ module.exports = function serve(options) {
     })
     .listen(PORT, (err) => {
       if (err) throw err
-      console.log(chalk(`serve on localhost:${PORT}`))
+      console.log(chalk.green(`serve on localhost:${PORT}`))
     })
   return app.server
 }

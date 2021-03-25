@@ -2,9 +2,12 @@
   <img src="https://i.loli.net/2021/03/11/69sRUvYhkGrInX2.png" alt="wean logo" width="180">
 </p>
 
+[![Build Status](https://github.com/ctripcorp/wean/workflows/ci/badge.svg?branch=master)](https://github.com/ctripcorp/wean/actions)
+
 ---
 
-**:fire: Note this is early experimental! 实验阶段的主要工作是想办法让整体架构变稳定、简洁，不建议上生产。**
+**:fire: Note this is early experimental! 实验阶段的主要工作是想办法让整体架构变稳定、简洁，不建议上生产。** 
+
 
 ---
 

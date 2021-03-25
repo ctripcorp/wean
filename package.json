@@ -39,6 +39,7 @@
   "dependencies": {
     "chalk": "^4.1.0",
     "commander": "^7.1.0",
-    "ejs": "^3.1.6"
+    "ejs": "^3.1.6",
+    "terser": "^5.6.1"
   }
 }

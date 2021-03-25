@@ -1,4 +1,6 @@
-module.exports = async function packJs(asset) {
+const { minify } = require("terser");
+
+module.exports = async function packJs(asset, options) {
     const defer = []
     const cache = []
     asset.output = asset.code
@@ -16,5 +18,10 @@ module.exports = async function packJs(asset) {
     for (const code of defer) {
       asset.output += "\n" + code
     }
-    return asset.output + '\n\n'
+    if (options.m) {
+      const fileData = await minify(asset.output + '\n\n', {})
+      return fileData.code;
+    } else {
+      return asset.output + '\n\n'
+    }
   }
