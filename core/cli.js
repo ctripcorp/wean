@@ -5,15 +5,14 @@ const build = require("./bundle")
 const pack = require("./package")
 const serve = require("./serve")
 const argv = require("./commander")
+const { BUILD_TYPE } = require("./util/constant")
 
-async function run(b) {
+async function run(argv) {
   const options = {
-    e: argv.entry || "./app.json",
-    o: argv.output || "./dist/",
     i: "/",
     w: argv.watch,
     p: argv.publicUrl,
-    b,
+    t: argv.t,
   }
   start(options)
   if (options.w) {
@@ -39,11 +38,15 @@ async function start(options) {
   console.log(chalk.green("bundle success"))
   await pack(adt, options)
   console.log(chalk.green("package success"))
-  if (!options.b) {
-    options.old = serve(options)
-  } else {
+  if (options.t === BUILD_TYPE.BUILD) {
     console.log(chalk.green("build success"))
+  } else {
+    options.old = serve(options)
   }
 }
 
-run(argv.b)
+if (argv.version) {
+  console.log('version:', require('../package.json').version)
+} else {
+  run(argv)
+}
