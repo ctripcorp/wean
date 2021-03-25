@@ -40,6 +40,7 @@ module.exports = async function packAll(asset, options) {
     scripts: [hash + ".js", hash + ".jsx"],
     styles: [hash + ".css"],
     path: `${basename + path}`,
+    allowList: ['fre']
   })
   return asset.output.jsx
 }
