@@ -11,6 +11,9 @@ async function run(argv) {
   const options = {
     i: "/",
     w: argv.watch,
+    e: argv.entry,
+    o: argv.output,
+    m: argv.minify,
     p: argv.publicUrl,
     t: argv.t,
   }
@@ -46,7 +49,7 @@ async function start(options) {
 }
 
 if (argv.version) {
-  console.log('version:', require('../package.json').version)
+  console.log(chalk('version:', require('../package.json').version))
 } else {
   run(argv)
 }
