@@ -1,6 +1,7 @@
 const { promises } = require("fs")
 const ejs = require("ejs")
 const Path = require("path")
+const { minify } = require("terser");
 
 const manifest = []
 
@@ -54,7 +55,7 @@ async function packageJson(asset, options) {
   if (siblings) {
     siblings.forEach(async (value, key) => {
       if (value) {
-        if (key === ".js") asset.output.js = await packJs(siblings.get(".js"))
+        if (key === ".js") asset.output.js = await packJs(siblings.get(".js"), options)
         if (key === ".wxml")
           asset.output.jsx = await packWxml(siblings.get(".wxml"), options)
         if (key === ".wxss")
@@ -73,7 +74,13 @@ async function copySdk(options) {
   let umdPromises = umds.map(async (u) => {
     const dist = Path.join(Path.resolve(options.o), u)
     await promises.mkdir(Path.dirname(dist), { recursive: true })
-    await promises.copyFile(Path.join(__dirname, u), dist)
+    if (options.m) {
+      const file = await promises.readFile(Path.join(__dirname, u))
+      const miniFile = await minify(file.toString(), {})
+      await promises.writeFile(dist, miniFile.code)
+    } else {
+      await promises.copyFile(Path.join(__dirname, u), dist)
+    }
   })
   await Promise.all(umdPromises)
   options.umds = umds.concat(options.umds)
