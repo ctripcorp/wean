@@ -58,24 +58,39 @@ function generate(asset) {
   return { output, imports }
 }
 
+function lifeCode() {
+  let life = `onLoad,onUnload,onShow,onHide`
+  let code = `fre.useEffect(()=>{
+    const params = window.getUrl(window.location.href)
+    onShow && onShow(params)
+    return onHide && onHide(params)
+  },[])
+  fre.useLayout(()=>{
+    const params = window.getUrl(window.location.href)
+    onLoad && onLoad(params)
+    return onUnload && onUnload(params)
+  },[])`
+  return {
+    life,
+    code,
+  }
+}
+
 function generateHook(tag, data, handlers, isTemplate) {
+  let { life, code } = lifeCode()
   let decode
   if (tag) {
     decode = `const {properties:{${data.join(",")}}, methods:{${handlers.join(
       ","
-    )}},onLoad,onUnload} = useComponent(fre.useState({})[1], props,'${tag}')`
+    )}},${life}} = useComponent(fre.useState({})[1], props,'${tag}')`
   } else {
-    decode = `const {data:{${data.join(",")}}, onLoad,onUnload,${handlers.join(
+    decode = `const {data:{${data.join(",")}}, ${life},${handlers.join(
       ","
     )}} = usePage(${isTemplate ? "null" : "fre.useState({})[1]"}, props)`
   }
   return isTemplate
     ? `${decode}`
-    : `fre.useEffect(()=>{
-      const params = window.getUrl(window.location.href)
-      onLoad && onLoad(params)
-      return onUnload && onUnload(params)
-    },[])
+    : `${code}
     ${decode}
     `
 }
@@ -139,8 +154,8 @@ function generateDirect(node, code, state, next) {
     if (name === "wx:for") {
       const item = findItem(node)
       code = `{$for(
-                              ${compiled}, 
-                              (${item}) => (${code})
+                  ${compiled}, 
+                  (${item}) => (${code})
               )}`
     }
 
