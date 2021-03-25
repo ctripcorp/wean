@@ -186,6 +186,7 @@ function generateDirect(node, code, state, next) {
         ifcode += `${code}`
       }
       code = ifcode
+      console.log(code)
       ifcode = ""
     }
     return code
