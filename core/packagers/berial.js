@@ -40,7 +40,20 @@ module.exports = async function packAll(asset, options) {
     scripts: [hash + ".js", hash + ".jsx"],
     styles: [hash + ".css"],
     path: `${basename + path}`,
-    allowList: ['fre']
+    allowList: [
+      "fre",
+      "usePage",
+      "App",
+      "Component",
+      "$for",
+      "getApp",
+      "getPage",
+      "remotes",
+      "useComponent",
+      "wx",
+      "getUrl",
+      "Page",
+    ],
   })
   return asset.output.jsx
 }
