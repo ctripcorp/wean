@@ -33,7 +33,7 @@ async function packageAsset(asset, options) {
     }
   })
   if (asset.type === "app") {
-    asset.outputPath = Path.resolve(options.o) + `\\${asset.hash}`
+    asset.outputPath = Path.resolve(options.o, asset.hash)
     asset.output.js = asset.siblingAssets.get(".js").code
     asset.output.css = asset.siblingAssets.get(".wxss").code
     options.umds.push("./" + asset.hash + ".js")
@@ -47,11 +47,11 @@ async function packageAsset(asset, options) {
 async function write(asset, options) {
   await promises.mkdir(Path.resolve(options.o), { recursive: true })
   for (const key in asset.output) {
-    let path = asset.outputPath + `.${key}`
+    let path = `${asset.outputPath}.${key}`
     let code = asset.output[key]
     if (key.startsWith("js")) {
       if (options.m) {
-        code = await minify(code, {}).code
+        code = (await minify(code, {})).code
       } else {
         code = prettier.format(code, {
           semi: true,
