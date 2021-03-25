@@ -2,7 +2,8 @@ const { promises } = require("fs")
 const ejs = require("ejs")
 const Path = require("path")
 const { minify } = require("terser")
-var csso = require('csso')
+var csso = require("csso")
+const prettier = require('prettier')
 
 const manifest = []
 
@@ -54,6 +55,13 @@ async function write(asset, options) {
         code = fileData.code
       } else if (key === "css") {
         code = csso.minify(code).css
+      }
+    } else {
+      if (key.startsWith("js")) {
+        code = prettier.format(code, {
+          semi: true,
+          parser: "babel",
+        })
       }
     }
     await promises.writeFile(path, code)
