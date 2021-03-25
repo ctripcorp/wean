@@ -9,8 +9,8 @@ const { BUILD_TYPE } = require("./util/constant")
 
 async function run(argv) {
   const options = {
-    e: argv.entry || './app.json',
-    o: argv.output || './dist/',
+    e: argv.entry,
+    o: argv.output,
     i: "/",
     w: argv.watch,
     m: argv.minify,
