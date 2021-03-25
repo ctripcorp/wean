@@ -8,12 +8,10 @@ const argv = require("./commander")
 
 async function run(b) {
   const options = {
-    e: "./app.json",
-    o: "./dist/",
+    e: argv.entry || "./app.json",
+    o: argv.output || "./dist/",
     i: "/",
     w: argv.watch,
-    e: argv.entry,
-    o: argv.output,
     p: argv.publicUrl,
     b,
   }
