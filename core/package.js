@@ -1,7 +1,9 @@
 const { promises } = require("fs")
 const ejs = require("ejs")
 const Path = require("path")
-const { minify } = require("terser");
+const { minify } = require("terser")
+var csso = require("csso")
+const prettier = require('prettier')
 
 const manifest = []
 
@@ -46,7 +48,23 @@ async function write(asset, options) {
   await promises.mkdir(Path.resolve(options.o), { recursive: true })
   for (const key in asset.output) {
     let path = asset.outputPath + `.${key}`
-    await promises.writeFile(path, asset.output[key])
+    let code = asset.output[key]
+    if (options.m) {
+      if (key.startsWith("js")) {
+        const fileData = await minify(code, {})
+        code = fileData.code
+      } else if (key === "css") {
+        code = csso.minify(code).css
+      }
+    } else {
+      if (key.startsWith("js")) {
+        code = prettier.format(code, {
+          semi: true,
+          parser: "babel",
+        })
+      }
+    }
+    await promises.writeFile(path, code)
   }
 }
 
@@ -55,7 +73,8 @@ async function packageJson(asset, options) {
   if (siblings) {
     siblings.forEach(async (value, key) => {
       if (value) {
-        if (key === ".js") asset.output.js = await packJs(siblings.get(".js"), options)
+        if (key === ".js")
+          asset.output.js = await packJs(siblings.get(".js"), options)
         if (key === ".wxml")
           asset.output.jsx = await packWxml(siblings.get(".wxml"), options)
         if (key === ".wxss")
@@ -66,11 +85,7 @@ async function packageJson(asset, options) {
 }
 
 async function copySdk(options) {
-  let umds = [
-    "./runtime/api.js",
-    "./runtime/wx.js",
-    "./runtime/components.js",
-  ]
+  let umds = ["./runtime/api.js", "./runtime/wx.js", "./runtime/components.js"]
   let umdPromises = umds.map(async (u) => {
     const dist = Path.join(Path.resolve(options.o), u)
     await promises.mkdir(Path.dirname(dist), { recursive: true })

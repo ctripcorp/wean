@@ -8,7 +8,7 @@
   },
   "scripts": {
     "dev": "wean -e ./demo/app.json -o ./dist/",
-    "build": "wean build -e ./demo/app.json -o ./dist/",
+    "build": "wean build -e ./demo/app.json -o ./dist/ -m",
     "debug": "node --inspect ./core/cli.js -e ./demo/app.json -o ./dist/"
   },
   "repository": {
@@ -27,6 +27,8 @@
     "axios": "^0.21.1",
     "chokidar": "^3.5.1",
     "cross-fetch": "^3.0.6",
+    "cssnano": "^4.1.10",
+    "csso": "^4.2.0",
     "md5": "^2.3.0",
     "nanoid": "^3.1.21",
     "nodemon": "^2.0.6",

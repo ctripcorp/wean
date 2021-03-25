@@ -1,4 +1,5 @@
-const {titleCase } = require("./util")
+const { titleCase } = require("./util")
+const { minify } = require("terser")
 
 module.exports = async function packWxml(asset, options) {
   const cache = []
