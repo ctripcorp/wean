@@ -1,7 +1,5 @@
 const { getName } = require("../core/hoist/util")
 
-const expressionRE = /"[^"]*"|'[^']*'|\d+[a-zA-Z$_]\w*|\.[a-zA-Z$_]\w*|[a-zA-Z$_]\w*:|([a-zA-Z$_]\w*)/g
-
 const eventMap = {
   tap: "onClick",
   confirm: "onKeyDown",
@@ -15,7 +13,6 @@ function generate(asset) {
   let state = {
     imports: [],
     handlers: [],
-    data: [],
   }
 
   let code = ""
@@ -32,17 +29,8 @@ function generate(asset) {
   }
 
   let { imports, handlers, data } = state
-  let hookCode = generateHook(
-    tag,
-    data,
-    handlers,
-    root && root.name === "template"
-  )
-  let output = `(props) => {
-              ${hookCode}
-              return <>${code}</>
-          }`
-  return { output, imports }
+  let hook = generateHook(tag, handlers, root && root.name === "template")
+  return { hook, code, imports }
 }
 
 function lifeCode() {
@@ -63,17 +51,17 @@ function lifeCode() {
   }
 }
 
-function generateHook(tag, data, handlers, isTemplate) {
+function generateHook(tag, handlers, isTemplate) {
   let { life, code } = lifeCode(tag)
   let decode
   if (tag) {
-    decode = `const {properties:{${data.join(",")}}, methods:{${handlers.join(
+    decode = `const {properties:data, methods:{${handlers.join(
       ","
     )}},${life}} = useComponent(fre.useState({})[1], props,'${tag}')`
   } else {
-    decode = `const {data:{${data.join(",")}}, ${life},${handlers.join(
-      ","
-    )}} = usePage(${isTemplate ? "null" : "fre.useState({})[1]"}, props)`
+    decode = `const {data, ${life}, ${handlers.join(",")}} = usePage(${
+      isTemplate ? "null" : "fre.useState({})[1]"
+    }, props)`
   }
   return isTemplate
     ? `${decode}`
@@ -84,7 +72,7 @@ function generateHook(tag, data, handlers, isTemplate) {
 
 function generateNode(node, state, asset, nextNode) {
   if (typeof node === "string") {
-    let compiled = compileExpression(node, state.data, true)
+    let compiled = compileExpression(node)
     return `${compiled}`
   } else if (node.name === "template") {
     const is = node.attributes.is
@@ -134,7 +122,7 @@ let ifcode = ""
 function generateDirect(node, code, state, next) {
   for (let i = 0; i < node.directives.length; i++) {
     const [name, value] = node.directives[i]
-    const compiled = compileExpression(value, state.data)
+    const compiled = compileExpression(value)
     if (code[0] === "{") {
       code = `<>${code}</>`
     }
@@ -220,7 +208,7 @@ function generateProps(node, state, asset) {
 }
 
 function compileExpression(expression) {
-  return "`" + expression.replace(/{{/g, "${").replace(/}}/g, "}") + "`"
+  return expression.replace(/{{/g, "").replace(/}}/g, "")
 }
 
 function getHash(asset, node) {
