@@ -2,8 +2,8 @@ const { promises } = require("fs")
 const ejs = require("ejs")
 const Path = require("path")
 const { minify } = require("terser")
-var csso = require("csso")
-const prettier = require('prettier')
+const csso = require("csso")
+const prettier = require("prettier")
 
 const manifest = []
 
@@ -49,18 +49,21 @@ async function write(asset, options) {
   for (const key in asset.output) {
     let path = asset.outputPath + `.${key}`
     let code = asset.output[key]
-    if (options.m) {
-      if (key.startsWith("js")) {
-        const fileData = await minify(code, {})
-        code = fileData.code
-      } else if (key === "css") {
-        code = csso.minify(code).css
-      }
-    } else {
-      if (key.startsWith("js")) {
+    if (key.startsWith("js")) {
+      if (options.m) {
+        code = await minify(code, {}).code
+      } else {
         code = prettier.format(code, {
           semi: true,
           parser: "babel",
+        })
+      }
+    } else if (key === "css") {
+      if (options.m) {
+        code = csso.minify(code).css
+      } else {
+        code = prettier.format(code, {
+          parser: "css",
         })
       }
     }
