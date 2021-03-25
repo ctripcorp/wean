@@ -72,7 +72,7 @@ function generateHook(tag, handlers, isTemplate) {
 
 function generateNode(node, state, asset, nextNode) {
   if (typeof node === "string") {
-    let compiled = compileExpression(node, true)
+    let compiled = compileExpression(node, "text")
     return `${compiled}`
   } else if (node.name === "template") {
     const is = node.attributes.is
@@ -200,7 +200,7 @@ function generateProps(node, state, asset) {
       node.imports.push(value)
     } else {
       let compiled = compileExpression(value, name)
-      code += `${name}="${compiled}"`
+      code += `${name}=${compiled}`
     }
   }
   code += `${getHash(asset, node)} >`
@@ -213,20 +213,24 @@ function compileExpression(expression, name) {
   } else {
     const exps = expression.match(/{{(.+)}}/g)
     if (!exps) {
-      return expression
+      if (name === "text") {
+        return expression
+      } else {
+        return `"${expression}"`
+      }
     } else {
       exps.forEach((e) => {
         expression = expression.replace(e, (match) => {
           if (expression.length > match.length) {
-            return (
-              "`" + expression.replace(/{{/g, "${").replace(/}}/g, "}") + "`"
-            )
+            return match.replace(/{{/g, "${").replace(/}}/g, "}")
           } else {
-            return expression.replace(/{{/g, "{").replace(/}}/g, "}")
+            return match.replace(/{{/g, "{").replace(/}}/g, "}")
           }
         })
       })
-      return expression
+      return expression.indexOf("$") > -1
+        ? "{`" + expression + "`}"
+        : expression
     }
   }
 }
