@@ -11,8 +11,6 @@ async function run(argv) {
   const options = {
     i: "/",
     w: argv.watch,
-    e: argv.entry,
-    o: argv.output,
     p: argv.publicUrl,
     t: argv.t,
   }

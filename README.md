@@ -33,7 +33,7 @@ wean 借助 [fre](https://github.com/yisar/fre) 实现渲染，借助 [berial](h
 ```shell
 $ npm install
 $ npm link
-$ wean -e ./app.json -o ./dist/
+$ wean
 ```
 
 剩下的只需要按照 [微信小程序开发文档](https://developers.weixin.qq.com/miniprogram/dev/framework/) 开发即可
