@@ -17,31 +17,33 @@ const packBerial = require("./packagers/berial.js")
 module.exports = async function pack(asset, options) {
   options.umds = []
   await packageAsset(asset, options)
+  await writeAsset(asset, options)
   await copySdk(options)
   await generateEntry(options)
+}
+
+async function writeAsset(asset, options) {
+  if (asset.type === "app") {
+    asset.outputPath = Path.resolve(options.o, asset.hash)
+    asset.output.js = asset.siblingAssets.get(".js").code
+    asset.output.css = asset.siblingAssets.get(".wxss").code
+    options.umds.push("./" + asset.hash + ".js")
+    await write(asset, options)
+  }
+  const childs = Array.from(asset.childAssets.values()).map(async (page) => {
+    await packBerial(asset, options)
+    await write(asset, options)
+  })
+  await Promise.all(childs)
 }
 
 async function packageAsset(asset, options) {
   await packageJson(asset, options)
   const all = Array.from(asset.childAssets.values()).map(async (child) => {
     await packageAsset(child, options)
-    if (asset.type === "page") {
-      asset.output.css += child.output.css
-      asset.output.js += child.output.js
-      asset.output.jsx = child.output.jsx + asset.output.jsx
-    }
   })
-  if (asset.type === "app") {
-    asset.outputPath = Path.resolve(options.o, asset.hash)
-    asset.output.js = asset.siblingAssets.get(".js").code
-    asset.output.css = asset.siblingAssets.get(".wxss").code
-    options.umds.push("./" + asset.hash + ".js")
-  }
+
   await Promise.all(all)
-  if (asset.type === "page" || asset.type === "app") {
-    await packBerial(asset, options)
-    await write(asset, options)
-  }
 }
 
 async function write(asset, options) {
