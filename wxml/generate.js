@@ -123,6 +123,7 @@ function generateDirect(node, code, state, next) {
   for (let i = 0; i < node.directives.length; i++) {
     const [name, value] = node.directives[i]
     const compiled = compileExpression(value, "direct")
+
     if (code[0] === "{") {
       code = `<>${code}</>`
     }
