@@ -182,7 +182,7 @@ function generateProps(node, state, asset) {
     } else if (node.name === "import") {
       state.imports.push(value)
     } else {
-      let compiled = compileExpression(value, "attr")
+      let compiled = compileExpression(value, node.type)
       code += `${name}=${compiled}`
     }
   }
@@ -199,17 +199,12 @@ function compileExpression(expression, type) {
       return exps
         ? expression.replace(/{{/g, "{").replace(/}}/g, "}")
         : expression
-    case "attr":
+    case "component":
       if (!exps) return `"${expression}"`
-      exps.forEach((e) => {
-        expression = expression.replace(e, (match) => {
-          if (expression.length > match.length || exps.length > 1) {
-            return match.replace(/{{/g, "${").replace(/}}/g, "}")
-          } else {
-            return match.replace(/{{/g, "{").replace(/}}/g, "}")
-          }
-        })
-      })
+      return expression.replace(/{{/g, "{").replace(/}}/g, "}")
+    case "node":
+      if (!exps) return `"${expression}"`
+      expression = expression.replace(/{{/g, "${").replace(/}}/g, "}")
       return expression.indexOf("$") > -1
         ? "{`" + expression + "`}"
         : expression
