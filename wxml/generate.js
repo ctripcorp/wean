@@ -122,7 +122,8 @@ let ifcode = ""
 function generateDirect(node, code, state, next) {
   for (let i = 0; i < node.directives.length; i++) {
     const [name, value] = node.directives[i]
-    const compiled = compileExpression(value)
+    const compiled = compileExpression(value, "direct")
+
     if (code[0] === "{") {
       code = `<>${code}</>`
     }
@@ -199,7 +200,7 @@ function generateProps(node, state, asset) {
       node.imports = node.imports || []
       node.imports.push(value)
     } else {
-      let compiled = compileExpression(value, name)
+      let compiled = compileExpression(value, "attr")
       code += `${name}=${compiled}`
     }
   }
@@ -207,18 +208,17 @@ function generateProps(node, state, asset) {
   return code
 }
 
-function compileExpression(expression, name) {
-  if (!name) {
-    return expression.replace(/{{/g, "").replace(/}}/g, "")
-  } else {
-    const exps = expression.match(/{{(.+)}}/g)
-    if (!exps) {
-      if (name === "text") {
-        return expression
-      } else {
-        return `"${expression}"`
-      }
-    } else {
+function compileExpression(expression, type) {
+  const exps = expression.match(/{{(.+)}}/g)
+  switch (type) {
+    case "direct":
+      return expression.replace(/{{/g, "").replace(/}}/g, "")
+    case "text":
+      return exps
+        ? expression.replace(/{{/g, "{").replace(/}}/g, "}")
+        : expression
+    case "attr":
+      if (!exps) return `"${expression}"`
       exps.forEach((e) => {
         expression = expression.replace(e, (match) => {
           if (expression.length > match.length) {
@@ -229,9 +229,8 @@ function compileExpression(expression, name) {
         })
       })
       return expression.indexOf("$") > -1
-        ? "{`" + expression + "`}"
-        : expression
-    }
+      ? "{`" + expression + "`}"
+      : expression
   }
 }
 
