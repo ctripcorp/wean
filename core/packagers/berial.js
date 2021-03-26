@@ -2,7 +2,7 @@ const { manifest } = require("../package.js")
 const { random, titleCase } = require("./util")
 const Path = require("path")
 
-module.exports = async function packAll(asset, options) {
+module.exports = async function packBerial(asset, options) {
   const name = `berial-${random()}`
   asset.output.jsx += `
     window['${name}'] = {

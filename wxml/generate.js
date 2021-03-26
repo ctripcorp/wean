@@ -174,7 +174,9 @@ function generateProps(node, state, asset) {
       node.directives = node.directives || []
       node.directives.push([name, value])
     } else if (name.startsWith("bind")) {
-      state.methods.push(value)
+      if (state.methods.indexOf(value) < 0) {
+        state.methods.push(value)
+      }
       const n = name.replace("bind:", "").replace("bind", "")
       code += ` ${eventMap[n] || n}={e => ${value}(e)} `
     } else if (node.name === "import") {
@@ -201,7 +203,11 @@ function compileExpression(expression, type) {
       if (!exps) return `"${expression}"`
       exps.forEach((e) => {
         expression = expression.replace(e, (match) => {
-          return match.replace(/{{/g, "${").replace(/}}/g, "}")
+          if (expression.length > match.length || exps.length > 1) {
+            return match.replace(/{{/g, "${").replace(/}}/g, "}")
+          } else {
+            return match.replace(/{{/g, "{").replace(/}}/g, "}")
+          }
         })
       })
       return expression.indexOf("$") > -1

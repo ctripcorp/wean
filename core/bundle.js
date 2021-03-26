@@ -36,7 +36,7 @@ async function loadAsset(asset) {
   }
 
   if (asset.type === "app") {
-    siblings = [".js", ".wxss"].map(async (type) => {
+    siblings = [".js"].map(async (type) => {
       const depAsset = await resolveAsset(asset.path.replace(".json", type))
       asset.siblingAssets.set(type, depAsset)
       depAsset.parent = asset

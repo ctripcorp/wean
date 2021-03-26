@@ -59,7 +59,7 @@ window.usePage = (setState) => {
 
 window.useComponent = (setState, props, tag) => {
   const page = graph.get(window.location.pathname)
-  if (page) var option = page.get(tag) // {}
+  if (page) var option = page.get(tag)
   let component = {
     methods: {},
   }
