@@ -75,7 +75,7 @@ function generateNode(node, state, asset, nextNode) {
   } else if (node.name === "template") {
     const is = node.attributes.is
     if (is) {
-      const name ='"' + getName(asset, "template", is) + '"'
+      const name = '"' + getName(asset, "template", is) + '"'
       asset.symbols.set(is, getName(asset, "template", is))
       return `{window.remotes[${name}]()}`
     } else {
@@ -187,7 +187,7 @@ function generateProps(node, state, asset) {
       code += `${name}=${compiled}`
     }
   }
-  code += `${getHash(asset, node)} >`
+  code += ` ${getHash(asset, node)} >`
   return code
 }
 
@@ -204,11 +204,7 @@ function compileExpression(expression, type) {
       if (!exps) return `"${expression}"`
       exps.forEach((e) => {
         expression = expression.replace(e, (match) => {
-          if (expression.length > match.length) {
-            return match.replace(/{{/g, "${").replace(/}}/g, "}")
-          } else {
-            return match.replace(/{{/g, "{").replace(/}}/g, "}")
-          }
+          return match.replace(/{{/g, "${").replace(/}}/g, "}")
         })
       })
       return expression.indexOf("$") > -1
