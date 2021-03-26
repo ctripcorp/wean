@@ -75,12 +75,10 @@ function generateNode(node, state, asset, nextNode) {
   } else if (node.name === "template") {
     const is = node.attributes.is
     if (is) {
-      const name = is ? '"' + getName(asset, "template", is) + '"' : null
-      is && asset.symbols.set(is, getName(asset, "template", is))
+      const name ='"' + getName(asset, "template", is) + '"'
+      asset.symbols.set(is, getName(asset, "template", is))
       return `{window.remotes[${name}]()}`
     } else {
-      // const name = asset.parent.symbols.get(node.attributes.name)
-
       return node.children
         .map((item) => generateNode(item, state, asset))
         .join("\n")
