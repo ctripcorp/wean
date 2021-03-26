@@ -44,29 +44,9 @@ async function packageAsset(asset, options) {
   }
   const all = Array.from(asset.childAssets.values()).map(async (child) => {
     await packageAsset(child, options)
-<<<<<<< HEAD
-    if (asset.type === "page") {
-      asset.output.css += child.output.css
-      asset.output.js += child.output.js
-      asset.output.jsx = child.output.jsx + asset.output.jsx
-    }
-  })
-  if (asset.type === "app") {
-    asset.outputPath = Path.resolve(options.o, asset.hash)
-    asset.output.js = asset.siblingAssets.get(".js").code
-    asset.output.css = asset.siblingAssets.get(".wxss").code
-    options.umds.push("./" + asset.hash + ".js")
-  }
-  await Promise.all(all)
-  if (asset.type === "page" || asset.type === "app") {
-    await packBerial(asset, options)
-    await write(asset, options)
-  }
-=======
   })
 
   await Promise.all(all)
->>>>>>> 927552b95ab0e72613042944d55cd2744324ae19
 }
 
 async function write(asset, options) {
