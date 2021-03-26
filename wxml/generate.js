@@ -9,7 +9,7 @@ function generate(asset) {
   let tree = asset.ast
   let tag = asset.parent.tag
   let children = tree.children
-  let isTemplate = tree.children[0].name === "template"
+  let iskid = asset.parent.type === "wxml"
 
   let state = {
     imports: [],
@@ -27,11 +27,12 @@ function generate(asset) {
   code += "</>"
 
   let { imports, methods } = state
-  let hook = generateHook(tag, methods, isTemplate)
+  let hook = generateHook(tag, methods, iskid)
   return { hook, code, imports }
 }
 
-function lifeCode() {
+function lifeCode(methods) {
+  let method = methods.join(",")
   let life = `onLoad,onUnload,onShow,onHide`
   let code = `fre.useEffect(()=>{
     const params = window.getUrl(window.location.href)
@@ -46,24 +47,23 @@ function lifeCode() {
   return {
     life,
     code,
+    method,
   }
 }
 
-function generateHook(tag, methods, isTemplate) {
-  let { life, code } = lifeCode(tag)
-  let decode
+function generateHook(tag, methods, iskid) {
+  let { life, code, method } = lifeCode(methods)
+  let constant
   if (tag) {
-    decode = `const {properties:data, methods:{${methods.join(
-      ","
-    )}},${life}} = useComponent(fre.useState({})[1], props,'${tag}')`
+    constant = `const {properties:data, methods:{${method}},${life}} = useComponent(fre.useState({})[1], props,'${tag}')`
   } else {
-    decode = `const {data, ${life}, ${methods.join(",")}} = usePage(${
-      isTemplate ? "null" : "fre.useState({})[1]"
+    constant = `const {data, ${life}, ${method}} = usePage(${
+      iskid ? "null" : "fre.useState({})[1]"
     }, props)`
   }
-  return isTemplate
-    ? `${decode}`
-    : `${decode}
+  return iskid
+    ? `${constant}`
+    : `${constant}
     ${code}
     `
 }
@@ -74,15 +74,15 @@ function generateNode(node, state, asset, nextNode) {
     return `${compiled}`
   } else if (node.name === "template") {
     const is = node.attributes.is
-    const name = is ? '"' + getName(asset, "template", is) + '"' : null
-    let code = name ? `{window.remotes[${name}]()}` : ""
-    if (node.children) {
-      code += `${node.children
+    if (is) {
+      const name ='"' + getName(asset, "template", is) + '"'
+      asset.symbols.set(is, getName(asset, "template", is))
+      return `{window.remotes[${name}]()}`
+    } else {
+      return node.children
         .map((item) => generateNode(item, state, asset))
-        .join("\n")}`
+        .join("\n")
     }
-    is && asset.symbols.set(is, getName(asset, "template", is))
-    return code
   } else {
     let code = `<${titleCase(node.name)} `
     code += generateProps(node, state, asset)
