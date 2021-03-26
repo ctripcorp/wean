@@ -29,7 +29,6 @@ async function packageAsset(asset, options) {
       asset.output.css += child.output.css
       asset.output.js += child.output.js
       asset.output.jsx = child.output.jsx + asset.output.jsx
-      asset.output.jsx = await packBerial(asset, options)
     }
   })
   if (asset.type === "app") {
@@ -38,10 +37,11 @@ async function packageAsset(asset, options) {
     asset.output.css = asset.siblingAssets.get(".wxss").code
     options.umds.push("./" + asset.hash + ".js")
   }
+  await Promise.all(all)
   if (asset.type === "page" || asset.type === "app") {
+    await packBerial(asset, options)
     await write(asset, options)
   }
-  await Promise.all(all)
 }
 
 async function write(asset, options) {

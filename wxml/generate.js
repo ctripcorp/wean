@@ -174,7 +174,9 @@ function generateProps(node, state, asset) {
       node.directives = node.directives || []
       node.directives.push([name, value])
     } else if (name.startsWith("bind")) {
-      state.methods.push(value)
+      if (state.methods.indexOf(value) < 0) {
+        state.methods.push(value)
+      }
       const n = name.replace("bind:", "").replace("bind", "")
       code += ` ${eventMap[n] || n}={e => ${value}(e)} `
     } else if (node.name === "import") {
