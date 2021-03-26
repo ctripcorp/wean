@@ -9,8 +9,8 @@ function generate(asset) {
   let tree = asset.ast
   let tag = asset.parent.tag
   let children = tree.children
-  let isTemplate = tree.children[0].name === "template"
-
+  let iskid = asset.parent.type === "wxml"
+  
   let state = {
     imports: [],
     methods: [],
@@ -27,7 +27,7 @@ function generate(asset) {
   code += "</>"
 
   let { imports, methods } = state
-  let hook = generateHook(tag, methods, isTemplate)
+  let hook = generateHook(tag, methods, iskid)
   return { hook, code, imports }
 }
 
@@ -49,7 +49,7 @@ function lifeCode() {
   }
 }
 
-function generateHook(tag, methods, isTemplate) {
+function generateHook(tag, methods, iskid) {
   let { life, code } = lifeCode(tag)
   let decode
   if (tag) {
@@ -58,7 +58,7 @@ function generateHook(tag, methods, isTemplate) {
     )}},${life}} = useComponent(fre.useState({})[1], props,'${tag}')`
   } else {
     decode = `const {data, ${life}, ${methods.join(",")}} = usePage(${
-      isTemplate ? "null" : "fre.useState({})[1]"
+      iskid ? "null" : "fre.useState({})[1]"
     }, props)`
   }
   return isTemplate
@@ -79,6 +79,8 @@ function generateNode(node, state, asset, nextNode) {
       is && asset.symbols.set(is, getName(asset, "template", is))
       return `{window.remotes[${name}]()}`
     } else {
+      // const name = asset.parent.symbols.get(node.attributes.name)
+
       return node.children
         .map((item) => generateNode(item, state, asset))
         .join("\n")
