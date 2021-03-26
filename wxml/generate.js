@@ -203,7 +203,11 @@ function compileExpression(expression, type) {
       if (!exps) return `"${expression}"`
       exps.forEach((e) => {
         expression = expression.replace(e, (match) => {
-          return match.replace(/{{/g, "${").replace(/}}/g, "}")
+          if (expression.length > match.length || exps.length > 1) {
+            return match.replace(/{{/g, "${").replace(/}}/g, "}")
+          } else {
+            return match.replace(/{{/g, "{").replace(/}}/g, "}")
+          }
         })
       })
       return expression.indexOf("$") > -1
