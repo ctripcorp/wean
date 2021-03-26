@@ -1,6 +1,5 @@
-function parse(tokens, type) {
+function parse(tokens) {
   let ast = {
-    type: type,
     children: [],
   }
 

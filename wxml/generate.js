@@ -7,7 +7,8 @@ const eventMap = {
 
 function generate(asset) {
   let tree = asset.ast
-  let tag = tree.type
+
+  let tag = asset.parent.tag
   let children = tree.children
 
   let state = {

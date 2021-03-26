@@ -9,7 +9,7 @@ module.exports = class Wxml extends Asset {
   }
   async parse(input) {
     const tokens = lex(input)
-    const ast = parse(tokens, this.parent.tag)
+    const ast = parse(tokens)
     this.ast = ast
   }
   async generate() {
