@@ -12,7 +12,7 @@ function generate(asset) {
 
   let state = {
     imports: [],
-    handlers: [],
+    methods: [],
   }
 
   let code = ""
@@ -28,8 +28,8 @@ function generate(asset) {
     }
   }
 
-  let { imports, handlers } = state
-  let hook = generateHook(tag, handlers, root && root.name === "template")
+  let { imports, methods } = state
+  let hook = generateHook(tag, methods, root && root.name === "template")
   return { hook, code, imports }
 }
 
@@ -51,15 +51,15 @@ function lifeCode() {
   }
 }
 
-function generateHook(tag, handlers, isTemplate) {
+function generateHook(tag, methods, isTemplate) {
   let { life, code } = lifeCode(tag)
   let decode
   if (tag) {
-    decode = `const {properties:data, methods:{${handlers.join(
+    decode = `const {properties:data, methods:{${methods.join(
       ","
     )}},${life}} = useComponent(fre.useState({})[1], props,'${tag}')`
   } else {
-    decode = `const {data, ${life}, ${handlers.join(",")}} = usePage(${
+    decode = `const {data, ${life}, ${methods.join(",")}} = usePage(${
       isTemplate ? "null" : "fre.useState({})[1]"
     }, props)`
   }
@@ -101,29 +101,18 @@ function generateNode(node, state, asset, nextNode) {
 
     if (node.name === "import") code = ""
     if (node.directives) {
-      code = generateDirect(node, code, state, nextNode)
+      code = generateDirect(node, code, nextNode)
     }
-    if (node.handlers) pushDirect(node.handlers, state.handlers)
-    if (node.imports) pushDirect(node.imports, state.imports)
-
     return code
-  }
-}
-
-function pushDirect(a, b) {
-  for (let i = 0; i < a.length; i++) {
-    const im = a[i]
-    if (b.indexOf(im) < 0) b.push(im)
   }
 }
 
 let ifcode = ""
 
-function generateDirect(node, code, state, next) {
+function generateDirect(node, code, next) {
   for (let i = 0; i < node.directives.length; i++) {
     const [name, value] = node.directives[i]
     const compiled = compileExpression(value, "direct")
-
     if (code[0] === "{") {
       code = `<>${code}</>`
     }
@@ -192,13 +181,11 @@ function generateProps(node, state, asset) {
       node.directives = node.directives || []
       node.directives.push([name, value])
     } else if (name.startsWith("bind")) {
-      node.handlers = node.handlers || []
-      node.handlers.push(value)
+      state.methods.push(value)
       const n = name.replace("bind:", "").replace("bind", "")
       code += ` ${eventMap[n] || n}={e => ${value}(e)} `
     } else if (node.name === "import") {
-      node.imports = node.imports || []
-      node.imports.push(value)
+      state.imports.push(value)
     } else {
       let compiled = compileExpression(value, "attr")
       code += `${name}=${compiled}`
@@ -229,8 +216,8 @@ function compileExpression(expression, type) {
         })
       })
       return expression.indexOf("$") > -1
-      ? "{`" + expression + "`}"
-      : expression
+        ? "{`" + expression + "`}"
+        : expression
   }
 }
 
