@@ -53,17 +53,17 @@ function lifeCode(methods) {
 
 function generateHook(tag, methods, iskid) {
   let { life, code, method } = lifeCode(methods)
-  let decode
+  let constant
   if (tag) {
-    decode = `const {properties:data, methods:{${method}},${life}} = useComponent(fre.useState({})[1], props,'${tag}')`
+    constant = `const {properties:data, methods:{${method}},${life}} = useComponent(fre.useState({})[1], props,'${tag}')`
   } else {
-    decode = `const {data, ${life}, ${method}} = usePage(${
+    constant = `const {data, ${life}, ${method}} = usePage(${
       iskid ? "null" : "fre.useState({})[1]"
     }, props)`
   }
-  return isTemplate
-    ? `${decode}`
-    : `${decode}
+  return iskid
+    ? `${constant}`
+    : `${constant}
     ${code}
     `
 }
