@@ -24,7 +24,7 @@ function generate(asset) {
       const key = c.attributes.name
       asset.id = asset.parent.symbols.get(key)
     }
-    code += generateNode(child, state, asset, next)
+    code += generateNode(kid, state, asset, next)
   }
   code += "</>"
 
