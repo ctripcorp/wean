@@ -74,15 +74,15 @@ function generateNode(node, state, asset, nextNode) {
     return `${compiled}`
   } else if (node.name === "template") {
     const is = node.attributes.is
-    const name = is ? '"' + getName(asset, "template", is) + '"' : null
-    let code = name ? `{window.remotes[${name}]()}` : ""
-    if (node.children) {
-      code += `${node.children
+    if (is) {
+      const name = is ? '"' + getName(asset, "template", is) + '"' : null
+      is && asset.symbols.set(is, getName(asset, "template", is))
+      return `{window.remotes[${name}]()}`
+    } else {
+      return node.children
         .map((item) => generateNode(item, state, asset))
-        .join("\n")}`
+        .join("\n")
     }
-    is && asset.symbols.set(is, getName(asset, "template", is))
-    return code
   } else {
     let code = `<${titleCase(node.name)} `
     code += generateProps(node, state, asset)
