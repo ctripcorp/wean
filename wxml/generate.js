@@ -18,7 +18,7 @@ function generate(asset) {
 
   let code = "<>"
   children.forEach((c) => {
-    if (c.name === 'template') {
+    if (c.name === "template") {
       const key = c.attributes.name
       asset.id = asset.parent.symbols.get(key)
     }
@@ -81,9 +81,7 @@ function generateNode(node, state, asset, nextNode) {
         .map((item) => generateNode(item, state, asset))
         .join("\n")}`
     }
-    if (is) {
-      asset.symbols.set(is, getName(asset, "template", is))
-    }
+    is && asset.symbols.set(is, getName(asset, "template", is))
     return code
   } else {
     let code = `<${titleCase(node.name)} `
