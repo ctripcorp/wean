@@ -20,10 +20,6 @@ function generate(asset) {
   for (let i = 0; i < children.length; i++) {
     const kid = children[i]
     const next = children[i + 1]
-    if (kid.name === "template") {
-      const key = c.attributes.name
-      asset.id = asset.parent.symbols.get(key)
-    }
     code += generateNode(kid, state, asset, next)
   }
   code += "</>"
@@ -81,6 +77,7 @@ function generateNode(node, state, asset, nextNode) {
       asset.symbols.set(is, getName(asset, "template", is))
       return `{window.remotes[${name}]()}`
     } else {
+      asset.id = asset.parent.symbols.get(node.attributes.name)
       return node.children
         .map((item) => generateNode(item, state, asset))
         .join("\n")
@@ -158,9 +155,7 @@ function generateDirect(node, code, next) {
 function isElse(node) {
   if (node) {
     for (const name in node.attributes) {
-      if (name.indexOf("else") > -1) {
-        return true
-      }
+      if (name.indexOf("else") > -1) return true
     }
   }
   return false
