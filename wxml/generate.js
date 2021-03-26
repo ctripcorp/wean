@@ -7,30 +7,27 @@ const eventMap = {
 
 function generate(asset) {
   let tree = asset.ast
-
   let tag = asset.parent.tag
   let children = tree.children
+  let isTemplate = tree.children[0].name === "template"
 
   let state = {
     imports: [],
     methods: [],
   }
 
-  let code = ""
-
-  if (children.length > 1) {
-    children.forEach((c) => (code += generateNode(c, state, asset)))
-  } else {
-    var root = children[0]
-    code += generateNode(root, state, asset)
-    if (root.name === "template") {
-      const key = root.attributes.name
+  let code = "<>"
+  children.forEach((c) => {
+    if (c.name === 'template') {
+      const key = c.attributes.name
       asset.id = asset.parent.symbols.get(key)
     }
-  }
+    code += generateNode(c, state, asset)
+  })
+  code += "</>"
 
   let { imports, methods } = state
-  let hook = generateHook(tag, methods, root && root.name === "template")
+  let hook = generateHook(tag, methods, isTemplate)
   return { hook, code, imports }
 }
 
