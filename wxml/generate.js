@@ -122,7 +122,7 @@ let ifcode = ""
 function generateDirect(node, code, state, next) {
   for (let i = 0; i < node.directives.length; i++) {
     const [name, value] = node.directives[i]
-    const compiled = compileExpression(value, "direact")
+    const compiled = compileExpression(value, "direct")
     if (code[0] === "{") {
       code = `<>${code}</>`
     }
@@ -227,7 +227,9 @@ function compileExpression(expression, type) {
           }
         })
       })
-      return "{`" + expression + "`}"
+      return expression.indexOf("$") > -1
+      ? "{`" + expression + "`}"
+      : expression
   }
 }
 
