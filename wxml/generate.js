@@ -17,13 +17,15 @@ function generate(asset) {
   }
 
   let code = "<>"
-  children.forEach((c) => {
-    if (c.name === "template") {
+  for (let i = 0; i < children.length; i++) {
+    const kid = children[i]
+    const next = children[i + 1]
+    if (kid.name === "template") {
       const key = c.attributes.name
       asset.id = asset.parent.symbols.get(key)
     }
-    code += generateNode(c, state, asset)
-  })
+    code += generateNode(child, state, asset, next)
+  }
   code += "</>"
 
   let { imports, methods } = state
