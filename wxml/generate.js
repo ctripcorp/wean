@@ -10,7 +10,7 @@ function generate(asset) {
   let tag = asset.parent.tag
   let children = tree.children
   let iskid = asset.parent.type === "wxml"
-  
+
   let state = {
     imports: [],
     methods: [],
@@ -31,7 +31,8 @@ function generate(asset) {
   return { hook, code, imports }
 }
 
-function lifeCode() {
+function lifeCode(methods) {
+  let method = methods.join(",")
   let life = `onLoad,onUnload,onShow,onHide`
   let code = `fre.useEffect(()=>{
     const params = window.getUrl(window.location.href)
@@ -46,18 +47,17 @@ function lifeCode() {
   return {
     life,
     code,
+    method,
   }
 }
 
 function generateHook(tag, methods, iskid) {
-  let { life, code } = lifeCode(tag)
+  let { life, code, method } = lifeCode(methods)
   let decode
   if (tag) {
-    decode = `const {properties:data, methods:{${methods.join(
-      ","
-    )}},${life}} = useComponent(fre.useState({})[1], props,'${tag}')`
+    decode = `const {properties:data, methods:{${method}},${life}} = useComponent(fre.useState({})[1], props,'${tag}')`
   } else {
-    decode = `const {data, ${life}, ${methods.join(",")}} = usePage(${
+    decode = `const {data, ${life}, ${method}} = usePage(${
       iskid ? "null" : "fre.useState({})[1]"
     }, props)`
   }
