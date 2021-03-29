@@ -79,7 +79,8 @@ async function write(asset, options) {
 async function packageJson(asset, options) {
   const siblings = asset.siblingAssets
   if (siblings) {
-    siblings.forEach(async (value, key) => {
+    const all = Array.from(siblings.keys()).map(async (key) => {
+      const value = siblings.get(key)
       switch (key) {
         case ".js":
           asset.output.js = await packJs(value, options)
@@ -92,6 +93,7 @@ async function packageJson(asset, options) {
           break
       }
     })
+    await Promise.all(all)
   }
 }
 
