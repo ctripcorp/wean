@@ -37,11 +37,6 @@ async function writeAsset(asset, options) {
 
 async function packageAsset(asset, options) {
   await packageJson(asset, options)
-  if (asset.type === "component") {
-    asset.parent.output.jsx += asset.output.jsx
-    asset.parent.output.js += asset.output.js
-    asset.parent.output.css += asset.output.css
-  }
   const all = Array.from(asset.childAssets.values()).map(async (child) => {
     await packageAsset(child, options)
   })
@@ -89,6 +84,11 @@ async function packageJson(asset, options) {
           asset.output.css = await packWxss(siblings.get(".wxss"))
       }
     })
+  }
+  if (asset.type === "component") {
+    asset.parent.output.jsx += asset.output.jsx
+    asset.parent.output.js += asset.output.js
+    asset.parent.output.css += asset.output.css
   }
 }
 
