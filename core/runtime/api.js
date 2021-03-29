@@ -1,12 +1,4 @@
 const graph = new Map()
-class App$ {
-  constructor(option) {
-    this.option = option
-  }
-  onLoad() {
-    this.option.onLoad && this.option.onLoad()
-  }
-}
 
 function Page(option) {
   // 拍平 option
@@ -30,9 +22,9 @@ function Page(option) {
     }
   }
   // 挂 setData，这里之后可以用继承
-  that.setData = function (data){
+  that.setData = function (data) {
     that.data = { ...that.data, data }
-    Page.setState && Page$.setState({})
+    Page.setState && Page.setState({})
   }
   // 挂到图上
   const childs = new Map()
@@ -40,19 +32,46 @@ function Page(option) {
   graph.set(window.location.pathname, childs)
 }
 
-class Component$ {
-  constructor(option, tag) {
-    this.option = option
-    this.tag = tag
+function Component(option) {
+  let that = this
+  that.events = {}
+  for (let name in option) {
+    const op = option[name]
+    that[name] = op
   }
-  onLoad() {
-    console.log(this)
-    this.option.onLoad && this.option.onLoad()
+  // 挂 props
+  for (const key in that.properties) {
+    that.properties[key] = Component.props[key] || that.properties[key].value
+  }
+  that.properties = { ...that.data, ...that.properties }
+
+  //挂methods
+
+  for (const key in that.methods) {
+    const fn = that.methods[key]
+    that.methods[key] = (e) => {
+      fn.call(that, e)
+    }
+  }
+
+  // 挂方法
+  that.triggerEvent = function (key, e) {
+    const event = Component.props[key]
+    event.call(that, e)
+  }
+  that.setData = function (data) {
+    that.data = { ...that.data, data }
+    Component.setState && Component.setState({})
+  }
+
+  const page = graph.get(window.location.pathname)
+  if (page) {
+    page.set(component.tag, that)
   }
 }
 
-window.App = (option) => {
-  graph.set("/", new App$(option))
+function App(option) {
+  graph.set("/", option)
   option.onLaunch()
 }
 
@@ -60,13 +79,6 @@ window.$for = (arr, fn, key) => {
   arr = arr || []
   const res = arr.map((item) => fn(item))
   return fre.h("div", { children: res })
-}
-
-window.Component = (option, tag) => {
-  const page = graph.get(window.location.pathname)
-  if (page) {
-    page.set(tag, new Component$(option, tag))
-  }
 }
 
 window.usePage = (setState) => {
@@ -77,44 +89,10 @@ window.usePage = (setState) => {
 
 window.useComponent = (setState, props, tag) => {
   const page = graph.get(window.location.pathname)
-  if (page) var option = page.get(tag)
-  let component = {
-    methods: {},
-  }
-  let properties = {}
-
-  if (option) {
-    if (!component.events) component.events = {}
-    for (const key in option.properties) {
-      properties[key] = props[key] || option.properties[key].value
-    }
-    component.properties = { ...option.data, ...properties }
-
-    for (const key in option.methods) {
-      const fn = option.methods[key]
-      component.methods[key] = (e) => {
-        fn.call(component, e)
-      }
-    }
-
-    if (option.lifetimes) {
-      component.onLoad = option.lifetimes.attached
-      component.unLoad = option.lifetimes.detached
-    }
-  }
-
-  component.triggerEvent = function (key, e) {
-    const event = props[key]
-    event.call(component, e)
-  }
-
-  if (setState) {
-    component.setData = function (data) {
-      page.data = { ...option.data, ...data }
-      setState({})
-    }
-  }
-
+  if (page) var component = page.get(tag)
+  component.setState = setState
+  component.props = props
+  component.tag = tag
   return component
 }
 
