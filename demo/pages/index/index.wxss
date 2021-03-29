@@ -1,5 +1,5 @@
 @import "../../1.wxss";
-/* @import "../../1.wxss"; */
+@import "../../2.wxss";
 
 .container{
   text-align: center;

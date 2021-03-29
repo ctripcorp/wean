@@ -363,7 +363,6 @@
       while (kid && isFn(kid.type))
           {
             kid = kid.child
-            console.log(kid)
           }
       const after = fiber.after || kid.after;
       kid.after = after;

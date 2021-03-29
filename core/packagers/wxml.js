@@ -10,9 +10,9 @@ module.exports = async function packWxml(asset, options) {
   asset.output = `${name} = ${asset.code}\n\n`
   for (const dep of asset.childAssets.values()) {
     let code = `remotes['${dep.id}'] = ${dep.code}\n\n`
-    if (cache.indexOf(dep.name) < 0) {
+    if (cache.indexOf(dep.path) < 0) {
       asset.output += code
-      cache.push(dep.name)
+      cache.push(dep.path)
     }
   }
   return asset.output

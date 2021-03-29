@@ -2,7 +2,9 @@ window.remotes = {
   View: (props) => {
     return fre.h("div", props)
   },
-  ScrollView: View,
+  ScrollView: (props) => {
+    return fre.h("div", props)
+  },
   Button: (props) => {
     const { type = "primary", size = "default", disabled } = props
     const target = window.remotes.host

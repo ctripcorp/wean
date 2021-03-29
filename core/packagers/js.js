@@ -8,9 +8,9 @@ module.exports = async function packJs(asset, options) {
     if (dep.tag) {
       defer.push(dep.code)
     } else {
-      if (cache.indexOf(dep.name) < 0) {
+      if (cache.indexOf(dep.path) < 0) {
         asset.output = dep.code + "\n" + asset.output
-        cache.push(dep.name)
+        cache.push(dep.path)
       }
     }
   }
