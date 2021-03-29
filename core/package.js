@@ -93,7 +93,7 @@ async function packageJson(asset, options) {
 }
 
 async function copySdk(options) {
-  let umds = ["./runtime/api.js", "./runtime/wx.js", "./runtime/components.js"]
+  let umds = ["./runtime/api.js", "./runtime/wx.js", "./runtime/components.js", "./runtime/fre.js"]
   let umdPromises = umds.map(async (u) => {
     const dist = Path.join(Path.resolve(options.o), u)
     await promises.mkdir(Path.dirname(dist), { recursive: true })

@@ -1,5 +1,7 @@
 window.remotes = {
-  View: (props) => fre.h("div", props),
+  View: (props) => {
+    return fre.h("div", props)
+  },
   ScrollView: (props) => {
     const target = window.remotes.host
     fre.useEffect(() => {

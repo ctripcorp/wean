@@ -78,9 +78,7 @@ window.useComponent = (setState, props, tag) => {
         fn.call(component, e)
       }
     }
-
-    console.log(option)
-
+    
     if (option.lifetimes) {
       component.onLoad = option.lifetimes.attached
       component.unLoad = option.lifetimes.detached
