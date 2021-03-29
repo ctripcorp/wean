@@ -364,6 +364,7 @@
           {
             kid = kid.child
           }
+      if(!kid) return null
       const after = fiber.after || kid.after;
       kid.after = after;
       kid.lane |= fiber.lane;
@@ -381,6 +382,7 @@
           return;
       let { type, lane, parentNode, node, ref } = fiber;
       if (isFn(type)) {
+          console.log(fiber)
           invokeHooks(fiber);
           let kid = wireKid(fiber);
           fiber.node = kid.node;

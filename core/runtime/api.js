@@ -14,7 +14,7 @@ window.Page = (option) => {
 window.$for = (arr, fn, key) => {
   arr = arr || []
   const res = arr.map((item) => fn(item))
-  return fre.h("div", { children: res })
+  return fre.h(fre.Fragment, { children: res })
 }
 
 window.Component = (option, tag) => {
@@ -70,7 +70,7 @@ window.useComponent = (setState, props, tag) => {
     for (const key in option.properties) {
       properties[key] = props[key] || option.properties[key].value
     }
-    component.properties = { ...option.data, ...properties }
+    console.log(tag)
     component.data = option.data
 
     for (const key in option.methods) {
@@ -96,10 +96,14 @@ window.useComponent = (setState, props, tag) => {
 
   if (setState) {
     component.setData = function (data) {
-      page.data = { ...option.data, ...data }
+      option.data = { ...option.data, ...data }
       setState({})
     }
+    component.setData = component.setData.bind(component)
+
   }
+
+  component.properties = { ...properties,...component.data }
 
   return component
 }

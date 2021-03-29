@@ -1,11 +1,11 @@
 window.remotes = {
-  View: (props) => {
+  View: function View(props){
     return fre.h("div", props)
   },
-  ScrollView: (props) => {
+  ScrollView: function ScrollView(props){
     return fre.h("div", props)
   },
-  Button: (props) => {
+  Button: function Button(props) {
     const { type = "primary", size = "default", disabled } = props
     const target = window.remotes.host
     const styled = goober.styled.bind({ target: target })
@@ -33,7 +33,7 @@ window.remotes = {
     `
     return fre.h(Button, props)
   },
-  Text: (props) => {
+  Text: function Text(props) {
     const userSelect = props["user-select"]
     return fre.h("span", {
       style: {
