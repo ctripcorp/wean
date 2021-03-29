@@ -32,7 +32,7 @@ function Page(option) {
   graph.set(window.location.pathname, childs)
 }
 
-function Component(option) {
+function Component(option,tag) {
   let that = this
   that.events = {}
   for (let name in option) {
@@ -40,19 +40,7 @@ function Component(option) {
     that[name] = op
   }
   // 挂 props
-  for (const key in that.properties) {
-    that.properties[key] = Component.props[key] || that.properties[key].value
-  }
   that.properties = { ...that.data, ...that.properties }
-
-  //挂methods
-
-  for (const key in that.methods) {
-    const fn = that.methods[key]
-    that.methods[key] = (e) => {
-      fn.call(that, e)
-    }
-  }
 
   // 挂方法
   that.triggerEvent = function (key, e) {
@@ -66,7 +54,7 @@ function Component(option) {
 
   const page = graph.get(window.location.pathname)
   if (page) {
-    page.set(component.tag, that)
+    page.set(tag, that)
   }
 }
 
@@ -91,8 +79,9 @@ window.useComponent = (setState, props, tag) => {
   const page = graph.get(window.location.pathname)
   if (page) var component = page.get(tag)
   component.setState = setState
-  component.props = props
-  component.tag = tag
+  for (const key in component.properties) {
+    component.properties[key] = props[key] || component.properties[key].value
+  }
   return component
 }
 
