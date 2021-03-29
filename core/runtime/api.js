@@ -1,5 +1,5 @@
 const graph = new Map()
-class App {
+class App$ {
   constructor(option) {
     this.option = option
   }
@@ -8,33 +8,53 @@ class App {
   }
 }
 
-class Page {
+class Page$ {
   constructor(option) {
-    this.option = option
+    for (let name in option) {
+      if (typeof option[name] === "function") {
+        this[name] = function (e) {
+          if (e instanceof KeyboardEvent) {
+            if (e.keyCode === 13) {
+              let ev = createEv(e)
+              op.call(this, ev)
+            }
+          } else {
+            op.call(this, e)
+          }
+        }
+      } else {
+        this[name] = option[name]
+      }
+    }
   }
   onLoad() {
-    this.option.onLoad && this.option.onLoad()
+    // this.onLoad && this.onLoad()
+  }
+  setData(data) {
+    this.data = { ...this.data, data }
+    Page$.setState && Page$.setState({})
   }
 }
 
-class Component {
+class Component$ {
   constructor(option, tag) {
     this.option = option
     this.tag = tag
   }
   onLoad() {
+    console.log(this)
     this.option.onLoad && this.option.onLoad()
   }
 }
 
 window.App = (option) => {
-  graph.set("/", new App(option))
+  graph.set("/", new App$(option))
   option.onLaunch()
 }
 
 window.Page = (option) => {
   const childs = new Map()
-  childs.set("/", new Page(option))
+  childs.set("/", new Page$(option))
   graph.set(window.location.pathname, childs)
 }
 
@@ -47,40 +67,13 @@ window.$for = (arr, fn, key) => {
 window.Component = (option, tag) => {
   const page = graph.get(window.location.pathname)
   if (page) {
-    page.set(tag, new Component(option, tag))
+    page.set(tag, new Component$(option, tag))
   }
 }
 
 window.usePage = (setState) => {
-  const option = graph.get(window.location.pathname).get("/")
-
-  let page = option
-
-  if (setState) {
-    page.setData = function (data) {
-      page.data = { ...option.data, ...data }
-      setState({})
-    }
-  }
-
-  for (let name in option) {
-    const op = option[name]
-    if (name === "setData" || (name[0] === "o" && name[1] === "n")) {
-      page[name] = op.bind(page)
-    } else if (typeof op === "function") {
-      page[name] = function (e) {
-        if (e instanceof KeyboardEvent) {
-          if (e.keyCode === 13) {
-            let ev = createEv(e)
-            op.call(page, ev)
-          }
-        } else {
-          op.call(page, e)
-        }
-      }
-    }
-  }
-  page.data = option.data
+  const page = graph.get(window.location.pathname).get("/")
+  page.setState = setState
   return page
 }
 
