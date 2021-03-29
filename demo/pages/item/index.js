@@ -1,3 +1,5 @@
+const app = getApp()
+
 Component({
   properties: {
     item: {

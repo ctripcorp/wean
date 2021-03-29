@@ -11,7 +11,7 @@ module.exports = {
     const name =
       asset.parent.symbols.get(path.node.id.name + asset.name) ||
       getName(asset, "export", path.node.id.name)
-      if (name.indexOf('$import') < 0) {
+      if (name.indexOf('$import') < 0 && !path.scope.parent) {
       rename(path.scope, path.node.id.name, name)
       path.replaceWith(path.node)
     }
@@ -22,7 +22,7 @@ module.exports = {
         asset.parent.symbols.get(decl.id.name + asset.name) ||
         getName(asset, "export", decl.id.name)
 
-      if (name.indexOf('$import') < 0) {
+      if (name.indexOf('$import') < 0 && !path.scope.parent) {
         rename(path.scope, decl.id.name, name)
         path.node.kind = "var"
         path.replaceWith(path.node)

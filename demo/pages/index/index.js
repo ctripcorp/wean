@@ -6,6 +6,8 @@ function b(){
 }
 b()
 
+const app = getApp()
+
 Page({
   data: {
     name: "",

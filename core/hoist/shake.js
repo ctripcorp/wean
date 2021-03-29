@@ -7,7 +7,6 @@ function treeShake(scope) {
     scope.crawl()
     Object.keys(scope.bindings).forEach((name) => {
       let binding = getUnusedBinding(scope.path, name)
-
       if (!binding) return
 
       binding.path.remove()
