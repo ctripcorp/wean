@@ -2,26 +2,7 @@ window.remotes = {
   View: (props) => {
     return fre.h("div", props)
   },
-  ScrollView: (props) => {
-    const target = window.remotes.host
-    fre.useEffect(() => {
-      setTimeout(() => {
-        const node = target.getElementById("wraper")
-        new JRoll(node)
-      }, 20)
-    }, [])
-    return fre.h(
-      "div",
-      {
-        id: "wraper",
-        style: {
-          height: "100vh",
-          width: "100vw",
-        },
-      },
-      fre.h("div", props)
-    )
-  },
+  ScrollView: View,
   Button: (props) => {
     const { type = "primary", size = "default", disabled } = props
     const target = window.remotes.host
