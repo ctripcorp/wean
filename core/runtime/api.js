@@ -71,17 +71,21 @@ window.useComponent = (setState, props, tag) => {
       properties[key] = props[key] || option.properties[key].value
     }
     component.properties = { ...option.data, ...properties }
+    component.data = option.data
 
     for (const key in option.methods) {
       const fn = option.methods[key]
-      component.methods[key] = (e) => {
+      const newFn = (e) => {
         fn.call(component, e)
       }
+      component.methods[key] = newFn
+      component[key] = newFn
     }
     
     if (option.lifetimes) {
-      component.onLoad = option.lifetimes.attached
-      component.unLoad = option.lifetimes.detached
+      const {attached,detached} = option.lifetimes
+      if(attached) component.onLoad =  attached.bind(component)
+      if(detached) component.unLoad = detached.bind(component)
     }
   }
 

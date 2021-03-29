@@ -25,9 +25,9 @@ module.exports = class Wxss extends Asset {
           image: "img",
         },
       }),
-      postcssSopedCss({
-        id,
-      }),
+      // postcssSopedCss({
+      //   id,
+      // }),
       postcssRpx2rem(),
     ]).process(this.input).css
   }

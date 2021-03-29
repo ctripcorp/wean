@@ -16,13 +16,13 @@ function generate(asset) {
     methods: [],
   }
 
-  let code = "<>"
+  let code = "<div>"
   for (let i = 0; i < children.length; i++) {
     const kid = children[i]
     const next = children[i + 1]
     code += generateNode(kid, state, asset, next)
   }
-  code += "</>"
+  code += "</div>"
 
   let { imports, methods } = state
   let hook = generateHook(tag, methods, iskid)
