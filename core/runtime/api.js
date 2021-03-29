@@ -8,32 +8,36 @@ class App$ {
   }
 }
 
-class Page$ {
-  constructor(option) {
-    for (let name in option) {
-      if (typeof option[name] === "function") {
-        this[name] = function (e) {
-          if (e instanceof KeyboardEvent) {
-            if (e.keyCode === 13) {
-              let ev = createEv(e)
-              op.call(this, ev)
-            }
-          } else {
-            op.call(this, e)
+function Page(option) {
+  // 拍平 option
+  let that = this
+  for (let name in option) {
+    const op = option[name]
+    if (typeof op === "function") {
+      that[name] = function (e) {
+        if (e instanceof KeyboardEvent) {
+          if (e.keyCode === 13) {
+            let ev = createEv(e)
+            op.call(that, ev)
           }
+        } else {
+          console.log(that)
+          op.call(that, e)
         }
-      } else {
-        this[name] = option[name]
       }
+    } else {
+      that[name] = op
     }
   }
-  onLoad() {
-    // this.onLoad && this.onLoad()
+  // 挂 setData，这里之后可以用继承
+  that.setData = function (data){
+    that.data = { ...that.data, data }
+    Page.setState && Page$.setState({})
   }
-  setData(data) {
-    this.data = { ...this.data, data }
-    Page$.setState && Page$.setState({})
-  }
+  // 挂到图上
+  const childs = new Map()
+  childs.set("/", that)
+  graph.set(window.location.pathname, childs)
 }
 
 class Component$ {
@@ -50,12 +54,6 @@ class Component$ {
 window.App = (option) => {
   graph.set("/", new App$(option))
   option.onLaunch()
-}
-
-window.Page = (option) => {
-  const childs = new Map()
-  childs.set("/", new Page$(option))
-  graph.set(window.location.pathname, childs)
 }
 
 window.$for = (arr, fn, key) => {
