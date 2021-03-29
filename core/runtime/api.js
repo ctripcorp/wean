@@ -1,13 +1,40 @@
 const graph = new Map()
+class App {
+  constructor(option) {
+    this.option = option
+  }
+  onLoad() {
+    this.option.onLoad && this.option.onLoad()
+  }
+}
+
+class Page {
+  constructor(option) {
+    this.option = option
+  }
+  onLoad() {
+    this.option.onLoad && this.option.onLoad()
+  }
+}
+
+class Component {
+  constructor(option, tag) {
+    this.option = option
+    this.tag = tag
+  }
+  onLoad() {
+    this.option.onLoad && this.option.onLoad()
+  }
+}
 
 window.App = (option) => {
-  graph.set("/", option)
+  graph.set("/", new App(option))
   option.onLaunch()
 }
 
 window.Page = (option) => {
   const childs = new Map()
-  childs.set("/", option)
+  childs.set("/", new Page(option))
   graph.set(window.location.pathname, childs)
 }
 
@@ -20,7 +47,7 @@ window.$for = (arr, fn, key) => {
 window.Component = (option, tag) => {
   const page = graph.get(window.location.pathname)
   if (page) {
-    page.set(tag, option)
+    page.set(tag, new Component(option, tag))
   }
 }
 
@@ -78,7 +105,7 @@ window.useComponent = (setState, props, tag) => {
         fn.call(component, e)
       }
     }
-    
+
     if (option.lifetimes) {
       component.onLoad = option.lifetimes.attached
       component.unLoad = option.lifetimes.detached
