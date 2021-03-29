@@ -37,6 +37,11 @@ async function writeAsset(asset, options) {
 
 async function packageAsset(asset, options) {
   await packageJson(asset, options)
+  if (asset.type === "component") {
+    asset.parent.output.jsx += asset.output.jsx
+    asset.parent.output.js += asset.output.js
+    asset.parent.output.css += asset.output.css
+  }
   const all = Array.from(asset.childAssets.values()).map(async (child) => {
     await packageAsset(child, options)
   })
@@ -75,25 +80,28 @@ async function packageJson(asset, options) {
   const siblings = asset.siblingAssets
   if (siblings) {
     siblings.forEach(async (value, key) => {
-      if (value) {
-        if (key === ".js")
-          asset.output.js = await packJs(siblings.get(".js"), options)
-        if (key === ".wxml")
-          asset.output.jsx = await packWxml(siblings.get(".wxml"), options)
-        if (key === ".wxss")
-          asset.output.css = await packWxss(siblings.get(".wxss"))
+      switch (key) {
+        case ".js":
+          asset.output.js = await packJs(value, options)
+          break
+        case ".wxml":
+          asset.output.jsx = await packWxml(value, options)
+          break
+        case ".wxss":
+          asset.output.css = await packWxss(value)
+          break
       }
     })
-  }
-  if (asset.type === "component") {
-    asset.parent.output.jsx += asset.output.jsx
-    asset.parent.output.js += asset.output.js
-    asset.parent.output.css += asset.output.css
   }
 }
 
 async function copySdk(options) {
-  let umds = ["./runtime/api.js", "./runtime/wx.js", "./runtime/components.js", "./runtime/fre.js"]
+  let umds = [
+    "./runtime/api.js",
+    "./runtime/wx.js",
+    "./runtime/components.js",
+    "./runtime/fre.js",
+  ]
   let umdPromises = umds.map(async (u) => {
     const dist = Path.join(Path.resolve(options.o), u)
     await promises.mkdir(Path.dirname(dist), { recursive: true })
