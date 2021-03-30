@@ -110,10 +110,10 @@
   const unit = [];
   let deadline = 0;
   const schedule = (cb) => unit.push(cb) === 1 && postMessage();
-  const scheduleWork = (callback, lane) => {
+  const scheduleWork = (callback, fiber) => {
       const job = {
           callback,
-          lane,
+          fiber,
       };
       queue.push(job);
       schedule(flushWork);
@@ -133,7 +133,8 @@
       while (job && !shouldYield()) {
           const callback = job.callback;
           job.callback = null;
-          const next = callback();
+        //   console.log(job.fiber.lane)
+          const next = callback(job.fiber);
           if (next) {
               job.callback = next;
           }
@@ -166,16 +167,19 @@
       if (fiber && !(fiber.lane & 32)) {
           fiber.lane = 2 | 32;
           fiber.sibling = null;
-          scheduleWork(reconcileWork.bind(null, fiber), fiber.lane);
+          scheduleWork(reconcileWork,fiber);
       }
   };
   const reconcileWork = (WIP) => {
+      console.log(WIP)
       while (WIP && !shouldYield())
           WIP = reconcile(WIP);
       if (WIP)
           return reconcileWork.bind(null, WIP);
       if (finish)
-          commitWork(finish);
+          {
+            commitWork(finish)
+          };
       return null;
   };
   const reconcile = (WIP) => {
@@ -382,7 +386,6 @@
           return;
       let { type, lane, parentNode, node, ref } = fiber;
       if (isFn(type)) {
-          console.log(fiber)
           invokeHooks(fiber);
           let kid = wireKid(fiber);
           fiber.node = kid.node;

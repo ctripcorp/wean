@@ -70,7 +70,6 @@ window.useComponent = (setState, props, tag) => {
     for (const key in option.properties) {
       properties[key] = props[key] || option.properties[key].value
     }
-    console.log(tag)
     component.data = option.data
 
     for (const key in option.methods) {
@@ -81,11 +80,11 @@ window.useComponent = (setState, props, tag) => {
       component.methods[key] = newFn
       component[key] = newFn
     }
-    
+
     if (option.lifetimes) {
-      const {attached,detached} = option.lifetimes
-      if(attached) component.onLoad =  attached.bind(component)
-      if(detached) component.unLoad = detached.bind(component)
+      const { attached, detached } = option.lifetimes
+      if (attached) component.onLoad = attached.bind(component)
+      if (detached) component.unLoad = detached.bind(component)
     }
   }
 
@@ -96,14 +95,13 @@ window.useComponent = (setState, props, tag) => {
 
   if (setState) {
     component.setData = function (data) {
-      option.data = { ...option.data, ...data }
+      component.data = { ...option.data, ...data }
       setState({})
     }
     component.setData = component.setData.bind(component)
-
   }
 
-  component.properties = { ...properties,...component.data }
+  component.properties = { ...properties, ...component.data }
 
   return component
 }

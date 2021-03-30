@@ -34,13 +34,12 @@ function lifeCode(methods) {
   let life = `onLoad,onUnload,onShow,onHide`
   let code = `fre.useEffect(()=>{
     const params = window.getUrl(window.location.href)
-    onShow && onShow(params)
-    return onHide && onHide(params)
-  },[])
-  fre.useLayout(()=>{
-    const params = window.getUrl(window.location.href)
     onLoad && onLoad(params)
-    return onUnload && onUnload(params)
+    onShow && onShow(params)
+    return () => {
+      onUnload && onUnload(params)
+      onHide && onHide(params)
+    }
   },[])`
   return {
     life,
