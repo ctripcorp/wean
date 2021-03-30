@@ -5,7 +5,9 @@ const build = require("./bundle")
 const pack = require("./package")
 const serve = require("./serve")
 const argv = require("./commander")
-const { BUILD_TYPE } = require("./util/constant")
+const BUILD_TYPE = {
+  BUILD: 'build'
+}
 
 async function run(argv) {
   const options = {
