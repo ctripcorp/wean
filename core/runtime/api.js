@@ -44,10 +44,10 @@ window.usePage = (setState) => {
         if (e instanceof KeyboardEvent) {
           if (e.keyCode === 13) {
             let ev = createEv(e)
-            op.call(page, ev)
+            return op.call(page, ev)
           }
         } else {
-          op.call(page, e)
+          return op.call(page, e)
         }
       }
     }
@@ -74,7 +74,7 @@ window.useComponent = (setState, props, tag) => {
     for (const key in option.methods) {
       const fn = option.methods[key]
       const newFn = (e) => {
-        fn.call(component, e)
+        return fn.call(component, e)
       }
       component.methods[key] = newFn
       component[key] = newFn
@@ -89,7 +89,7 @@ window.useComponent = (setState, props, tag) => {
 
   component.triggerEvent = function (key, e) {
     const event = props[key]
-    event.call(component, e)
+    return event.call(component, e)
   }
 
   if (setState) {
