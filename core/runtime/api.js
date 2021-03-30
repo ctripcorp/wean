@@ -13,8 +13,7 @@ window.Page = (option) => {
 
 window.$for = (arr, fn, key) => {
   arr = arr || []
-  const res = arr.map((item) => fn(item))
-  return fre.h(fre.Fragment, { children: res })
+  return arr.map((item) => fn(item))
 }
 
 window.Component = (option, tag) => {
