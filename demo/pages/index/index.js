@@ -1,5 +1,7 @@
 import {a} from './a.js'
 import d from './a.js'
+import dayjs from './dayjs.js'
+console.log(dayjs)
 
 function b(){
   a()

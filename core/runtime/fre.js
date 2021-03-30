@@ -133,7 +133,6 @@
       while (job && !shouldYield()) {
           const callback = job.callback;
           job.callback = null;
-        //   console.log(job.fiber.lane)
           const next = callback(job.fiber);
           if (next) {
               job.callback = next;
@@ -171,7 +170,6 @@
       }
   };
   const reconcileWork = (WIP) => {
-      console.log(WIP)
       while (WIP && !shouldYield())
           WIP = reconcile(WIP);
       if (WIP)
@@ -364,11 +362,10 @@
   }
   function wireKid(fiber) {
       let kid = fiber;
-      while (kid && isFn(kid.type))
+      while (isFn(kid.type))
           {
             kid = kid.child
           }
-      if(!kid) return null
       const after = fiber.after || kid.after;
       kid.after = after;
       kid.lane |= fiber.lane;

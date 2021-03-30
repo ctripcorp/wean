@@ -33,6 +33,7 @@ module.exports = {
     const init = path.node.declaration
     const name = asset.parent.symbols.get("default" + asset.name)
     path.replaceWith(path.node)
+    console.log(name)
     const newNode = t.VariableDeclaration("var", [
       t.variableDeclarator(t.identifier(name), init),
     ])
