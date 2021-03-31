@@ -7,22 +7,6 @@ module.exports = function serve(options) {
   const app = polka()
     .use(require("sirv")(options.o))
     .use(redirect)
-    .get("/tuchong/", (req, res) => {
-      fetch("https://api.tuchong.com/feed-app")
-        .then((res) => res.json())
-        .then((data) => {
-          res.end(JSON.stringify(data), "utf-8")
-        })
-    })
-    .get("/site/", (req, res) => {
-      fetch(
-        "https://fengcao.tuchong.com/rest/2/sites/12772247/posts?count=20&page=1&before_timestamp=0"
-      )
-        .then((res) => res.json())
-        .then((data) => {
-          res.end(JSON.stringify(data), "utf-8")
-        })
-    })
     .get("*", (req, res) => {
       res.redirect("/")
     })
