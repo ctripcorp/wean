@@ -67,10 +67,13 @@ wean 旨在解决链路问题，它自研编译器和打包器，对于标准小
 
 ## FAQ
 
-1. 和 taro 等有什么区别？
+<details>
+<summary>和 taro、uniapp 等有什么区别和优势？</summary>
 
+https://github.com/ctripcorp/wean/issues/59
 
+</details>
 
-#### License
+## License
 
 MIT @ctripcorp
