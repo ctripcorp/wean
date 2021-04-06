@@ -52,7 +52,7 @@ wean 旨在解决链路问题，它自研编译器和打包器，对于标准小
 
 ### Trippal
 
-<img src="https://i.loli.net/2021/04/06/I6EQr3xUeXhDJ47.jpg" >
+<img src="https://i.loli.net/2021/04/06/I6EQr3xUeXhDJ47.jpg" alt="wean logo" width="250">
 
 ## Package
 
