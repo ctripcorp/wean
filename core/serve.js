@@ -1,6 +1,5 @@
 const polka = require("polka")
 const { PORT = 1234 } = process.env
-const fetch = require("cross-fetch")
 const chalk = require("chalk")
 
 module.exports = function serve(options) {
