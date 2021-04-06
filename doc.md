@@ -30,7 +30,7 @@ $ wean
 
 剩下的只需要按照 [微信小程序开发文档](https://developers.weixin.qq.com/miniprogram/dev/framework/) 开发即可
 
-值得注意的是，并非所有的微信小程序的特性都被支持，简单地说，wean 只支持“现代特性”，比如只支持 esm 格式，其他格式的文件请从 [esbuild-cdn]](https://esbuild.vercel.app/fre@2.0.4/dist/fre.umd.js) 下载
+值得注意的是，并非所有的微信小程序的特性都被支持，简单地说，wean 只支持“现代特性”，比如只支持 esm 格式，其他格式的文件请从 [esbuild.vercel.app](https://esbuild.vercel.app/fre@2.0.4/dist/fre.umd.js) 下载
 
 ### Demo
 
