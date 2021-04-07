@@ -95,13 +95,17 @@ window.useComponent = (setState, props, tag) => {
   if (setState) {
     component.setData = function (data) {
       component.data = { ...option.data, ...data }
+      option.data = component.data
+      console.log(component.data)
       setState({})
     }
     component.setData = component.setData.bind(component)
   }
 
-  component.properties = { ...properties, ...component.data }
+  console.log(component.data)
 
+  component.properties = { ...properties, ...component.data }
+  // console.log(component.properties.side, component.data.side)
   return component
 }
 
