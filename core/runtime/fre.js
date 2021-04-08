@@ -8,6 +8,7 @@
       for (let name in Object.assign(Object.assign({}, oldProps), newProps)) {
           let oldValue = oldProps[name];
           let newValue = newProps[name];
+          
           if (oldValue === newValue || name === "children") ;
           else if (name === "style") {
               if (isStr(newValue)) {

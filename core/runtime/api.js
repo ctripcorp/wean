@@ -101,11 +101,7 @@ window.useComponent = (setState, props, tag) => {
     }
     component.setData = component.setData.bind(component)
   }
-
-  console.log(component.data)
-
   component.properties = { ...properties, ...component.data }
-  // console.log(component.properties.side, component.data.side)
   return component
 }
 
