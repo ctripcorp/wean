@@ -29,7 +29,7 @@
               dom.addEventListener(name, newValue);
           }
           else if (name in dom && !(dom instanceof SVGElement)) {
-              dom[name] = newValue || "";
+              dom[name] = newValue==='false'?false:newValue;
           }
           else if (newValue == null || newValue === false) {
               dom.removeAttribute(name);
