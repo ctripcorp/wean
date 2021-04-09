@@ -3,6 +3,9 @@ window.remotes = {
     return fre.h("div", props)
   },
   ScrollView: function ScrollView(props){
+    props.style = {
+      overflow: "scroll"
+    }
     return fre.h("div", props)
   },
   Button: function Button(props) {
