@@ -12,22 +12,19 @@ module.exports = class Wxss extends Asset {
     this.input = input
   }
 
-  addDep(){
+  addDep() {
     let that = this
     return {
       postcssPlugin: "postcss-add-dep",
       AtRule(node) {
-        if(node.name === 'import'){
-          const dep = { path: node.params.replace(/"/g,''), ext: ".wxss" }
+        if (node.name === "import") {
+          const dep = { path: node.params.replace(/"/g, ""), ext: ".wxss" }
           that.dependencies.add(dep)
-          node.type = 'comment'
+          node.type = "comment"
           node.text = JSON.stringify(dep)
         }
       },
-      Rule(node){
-        
-
-      }
+      Rule(node) {},
     }
   }
 
@@ -44,6 +41,7 @@ module.exports = class Wxss extends Asset {
           text: "span",
           navigator: "a",
           image: "img",
+          page: "#root",
         },
       }),
       this.addDep(),
