@@ -1,15 +1,14 @@
 import someWeanPlugin from 'wean-plugin-xyz'
 import somePostcssPlugin from 'postcss-plugin-xyz'
 
-
 export default async function (config) {
     switch(config.mode){
         case 'build':
             config.plugins.push(
                 // add any wean or rollup plugins
                 someWeanPlugin(),
-                // add some postcss plugin 
-                somePostcssPlugin()
+                // add some postcss plugins
+                somePostcssPlugin(),
             )
             break
         case 'serve':
