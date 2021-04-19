@@ -1,8 +1,8 @@
 const Asset = require("./asset")
-const componentTag = require("../plugins/babel-component-tag")
 const MagicString = require("magic-string")
-const { parse } = require("acorn")
-const analyse = require("./visitors/index")
+var jsx = require("acorn-jsx")
+const { Parser } = require("acorn")
+const analyse = require("../visitors/index")
 
 module.exports = class JS extends Asset {
   constructor(path, type, name) {
@@ -11,11 +11,11 @@ module.exports = class JS extends Asset {
     this.statements = []
   }
   async parse(input) {
-    this.ast = parse(input, {
+    this.ast = Parser.extend(jsx()).parse(input, {
       ecmaVersion: 7,
       sourceType: "module",
     })
-    const code = new MagicString(code, { filename: asset.path })
+    const code = new MagicString(input, { filename: asset.path })
     analyse(this.ast, code, this)
     this.statements = extendStatements()
   }
@@ -28,6 +28,7 @@ module.exports = class JS extends Asset {
       })
     )
     this.code = magicString.toString()
+    console.log(this.code)
   }
   extendStatements() {
     let allStatements = []

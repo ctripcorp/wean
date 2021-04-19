@@ -20,6 +20,7 @@
   "license": "MIT",
   "devDependencies": {
     "acorn": "^8.1.1",
+    "acorn-jsx": "^5.3.1",
     "chalk": "^4.1.0",
     "chokidar": "^3.5.1",
     "commander": "^7.1.0",

@@ -1,7 +1,13 @@
-function wean() {
+function wean(options = {}) {
   return {
-    name: "wean",
-  }
+    name: 'rollup-plugin',
+    transform(code, acron) {
+      return {
+        code: code,
+        map: { mappings: '' }
+      };
+    }
+  };
 }
 
 module.exports = {
