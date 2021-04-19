@@ -20,7 +20,7 @@ async function run(argv) {
     t: argv.t,
   }
   const dirname = Path.resolve(Path.dirname(options.e))
-  options.config = require(Path.join(dirname, 'wean.config.js'))
+  options.c = require(Path.join(dirname, 'wean.config.js'))
   start(options)
   if (options.w) {
     chokidar
