@@ -1,8 +1,8 @@
 const Asset = require("./asset")
 const MagicString = require("magic-string")
-var jsx = require("acorn-jsx")
-const { Parser } = require("acorn")
+const { parse } = require("acorn")
 const analyse = require("../visitors/index")
+const jsx = require("../plugins/wean-babel-jsx")
 
 module.exports = class JS extends Asset {
   constructor(path, type, name) {
@@ -11,12 +11,12 @@ module.exports = class JS extends Asset {
     this.statements = []
   }
   async parse(input) {
-    this.ast = Parser.extend(jsx()).parse(input, {
+    const code = jsx(input, { tag: this.parent.tag }).transform().code
+    this.ast = parse(code, {
       ecmaVersion: 7,
       sourceType: "module",
     })
-    const code = new MagicString(input, { filename: asset.path })
-    analyse(this.ast, code, this)
+    analyse(this.ast, new MagicString(code, { filename: asset.path }), this)
     this.statements = extendStatements()
   }
   async generate() {
