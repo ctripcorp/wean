@@ -19,10 +19,12 @@ async function run(argv) {
     p: argv.publicUrl,
     t: argv.t,
   }
+  const dirname = Path.resolve(Path.dirname(options.e))
+  options.config = require(Path.join(dirname, 'wean.config.js'))
   start(options)
   if (options.w) {
     chokidar
-      .watch(Path.dirname(options.e), {
+      .watch(dirname, {
         ignored: /(dist|.git)/,
         persistent: true,
         awaitWriteFinish: {
