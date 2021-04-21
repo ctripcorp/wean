@@ -38,9 +38,7 @@ module.exports = class JS extends Asset {
     let magicString = new MagicString.Bundle()
     this.statements.forEach((statement) => {
       const source = statement._source
-      if (statement.type === "ExportNamedDeclaration") {
-        source.remove(statement.start, statement.declaration.start)
-      }
+      console.log(source.toString())
       return magicString.addSource({
         content: source,
         separator: "\n",
@@ -50,9 +48,13 @@ module.exports = class JS extends Asset {
   }
   extendStatements() {
     let allStatements = []
+    const ignoreTypes = [
+      "ExportDefaultDeclaration",
+      "ImportDeclaration",
+      "ExportNamedDeclaration",
+    ]
     this.ast.body.forEach((statement) => {
-      if (statement.type === "ImportDeclaration") {
-        // import 忽略
+      if (ignoreTypes.includes(statement.type)) {
         return
       }
       let statements = this.expandStatement(statement)
@@ -62,8 +64,6 @@ module.exports = class JS extends Asset {
   }
   expandStatement(statement) {
     let result = []
-    const dependencies = Object.keys(statement._depends)
-    // this.dependencies.add(...dependencies) // 加入到 asset 的 child 里
     if (!statement._included) {
       statement._included = true
       result.push(statement)

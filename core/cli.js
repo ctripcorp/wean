@@ -42,6 +42,7 @@ async function run(argv) {
 async function start(options) {
   options.old && options.old.close()
   const adt = await build(options.e, options)
+  console.log(adt)
   console.log(chalk.green("bundle success"))
   // await pack(adt, options)
   console.log(chalk.green("package success"))
