@@ -4,6 +4,7 @@ import dayjs from './dayjs.js'
 console.log(dayjs)
 
 function b(){
+  const c = 222
   a()
 }
 b()

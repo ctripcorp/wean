@@ -2,14 +2,7 @@ class Scope {
   constructor(options = {}) {
     this.name = options.name
     this.parent = options.parent
-    this.params = options.params || [
-      "App",
-      "Page",
-      "Component",
-      "wx",
-      "getApp",
-      "getPage",
-    ]
+    this.params = options.params || []
   }
   add(name) {
     this.params.push(name)

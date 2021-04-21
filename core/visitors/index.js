@@ -10,7 +10,7 @@ function analyse(ast, magicString, module) {
     const addToScope = (declaration) => {
       let name = declaration.id.name
       scope.add(name)
-      if (!scope.parent) {
+      if (!scope.parent) { // 全局定义的变量
         statement._defines[name] = true
       }
     }
@@ -22,17 +22,18 @@ function analyse(ast, magicString, module) {
 
     traverse(statement, {
       enter(node) {
-        let newScope
         switch (node.type) {
           case "FunctionDeclaration":
             const params = node.params.map((p) => p.name)
             const name = node.id.name
             addToScope(node)
-            newScope = new Scope({
+            scope = new Scope({
               name,
               parent: scope,
               params,
             })
+            console.log(scope)
+            node._scope = scope
             break
           case "VariableDeclaration":
             node.declarations.forEach(addToScope)
@@ -41,20 +42,14 @@ function analyse(ast, magicString, module) {
           default:
             break
         }
-        if (newScope) {
-          node._scope = newScope
-          scope = newScope
-        }
       },
-      lerve(node) {
+      leave(node) {
         if (node._scope) {
           scope = scope.parent
         }
       },
     })
   })
-
-  console.log("作用域链：", scope)
 
   ast._scope = scope
 
@@ -66,7 +61,7 @@ function analyse(ast, magicString, module) {
         }
         if (node.type === "Identifier") {
           const defineScope = scope.findScope(node.name)
-          if (!defineScope) {
+          if (!defineScope) { // 找不到作用域的变量
             statement._depends[node.name] = true
           }
         }

@@ -36,7 +36,6 @@ module.exports = class JS extends Asset {
       }
       Object.keys(node._depends).forEach((name) => (this.defines[name] = node))
     })
-    console.log(Object.keys(this.defines))
     this.statements = this.extendStatements()
   }
   async generate() {
