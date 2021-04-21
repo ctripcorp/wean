@@ -16,6 +16,27 @@ module.exports = class JS extends Asset {
       ecmaVersion: 7,
       sourceType: "module",
     })
+    this.imports = {}
+    this.exports = {}
+    this.defines = {}
+    this.ast.body.forEach((node) => {
+      if (node.type === "ImportDeclaration") {
+        let path = node.source.value
+        let specifiers = node.specifiers
+        specifiers.forEach((spec) => {
+          let name = spec.imported.name
+          let localname = spec.local.name
+          this.imports[localname] = { name, localname, path }
+        })
+      } else if (node.type === "ExportNamedDeclaration") {
+        let decl = node.declaration
+        if (decl.type === "VariableDeclaration") {
+          let name = decl.declarations[0].id.name
+          this.exports[name] = { node, localname: name, desl }
+        }
+      }
+      Object.keys(node._depends).forEach((name) => (this.defines[name] = node))
+    })
     analyse(this.ast, new MagicString(code, { filename: asset.path }), this)
     this.statements = this.extendStatements()
   }
