@@ -3,7 +3,18 @@ function traverse(ast, { enter, leave }) {
 }
 
 function visit(node, parent, enter, leave) {
-  if (enter) enter(node, parent)
+  if (node.type === "CallExpression") {
+    if (
+      node.callee.name === "Component" ||
+      node.callee.name === "Page" ||
+      node.callee.name === "App"
+    ) {
+      return
+    }
+  }
+  if (enter) {
+    enter(node, parent)
+  }
 
   let childKeys = Object.keys(node).filter(
     (key) => typeof node[key] === "object"
@@ -17,6 +28,8 @@ function visit(node, parent, enter, leave) {
     }
   })
 
-  if (leave) leave(node, parent)
+  if (leave) {
+    leave(node, parent)
+  }
 }
 module.exports = traverse

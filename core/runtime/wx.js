@@ -2,7 +2,7 @@ window.wx = {
   canIUse(str) {
     return true;
   },
-  navigateTo: ({ url, duration }) => {
+  navigateTo({ url, duration }) {
     history.pushState({}, "", url);
   },
   navigateBack({ delta }) {
@@ -11,7 +11,7 @@ window.wx = {
   reLaunch({ url }) {
     window.onload = url;
   },
-  showToast: (props, timer = null, dom = null) => {
+  showToast(props, timer = null, dom = null) {
     clearTimeout(timer);
     dom = dom || document.createElement("div");
     fre.render(fre.h(window.Component.Toast, props), dom);
@@ -20,7 +20,7 @@ window.wx = {
       document.body.removeChild(dom);
     }, props.duration);
   },
-  showModal: (props, dom = null) => {
+  showModal(props, dom = null) {
     dom = dom || document.createElement("div");
     props.dom = dom;
     fre.render(fre.h(window.Component.Modal, props), dom);

@@ -37,6 +37,7 @@ function analyse(ast, magicString, module) {
           case "VariableDeclaration":
             node.declarations.forEach(addToScope)
             break
+
           default:
             break
         }
