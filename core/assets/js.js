@@ -17,22 +17,29 @@ module.exports = class JS extends Asset {
       sourceType: "module",
     })
     analyse(this.ast, new MagicString(code, { filename: asset.path }), this)
-    this.statements = extendStatements()
+    this.statements = this.extendStatements()
   }
   async generate() {
     let magicString = new MagicString.Bundle()
-    this.statements.forEach((statement) =>
-      magicString.addSource({
-        content: statement.source,
+    this.statements.forEach((statement) => {
+      const source = statement._source
+      if (statement.type === "ExportNamedDeclaration") {
+        source.remove(statement.start, statement.declaration.start)
+      }
+      return magicString.addSource({
+        content: source,
         separator: "\n",
       })
-    )
+    })
     this.code = magicString.toString()
-    console.log(this.code)
   }
   extendStatements() {
     let allStatements = []
     this.ast.body.forEach((statement) => {
+      if (statement.type === "ImportDeclaration") {
+        // import 忽略
+        return
+      }
       let statements = this.expandStatement(statement)
       allStatements.push(...statements)
     })
@@ -40,6 +47,8 @@ module.exports = class JS extends Asset {
   }
   expandStatement(statement) {
     let result = []
+    const dependencies = Object.keys(statement._depends)
+    this.dependencies.add(...dependencies) // 加入到 asset 的 child 里
     if (!statement._included) {
       statement._included = true
       result.push(statement)
