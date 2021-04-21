@@ -2,7 +2,9 @@ const Scope = require("./scope")
 const traverse = require("./traverse")
 
 function analyse(ast, magicString, module) {
-  let scope = new Scope()
+  let scope = new Scope({
+    name: "global",
+  })
 
   ast.body.forEach((statement) => {
     const addToScope = (declaration) => {
@@ -24,8 +26,10 @@ function analyse(ast, magicString, module) {
         switch (node.type) {
           case "FunctionDeclaration":
             const params = node.params.map((p) => p.name)
+            const name = node.id.name
             addToScope(node)
             newScope = new Scope({
+              name,
               parent: scope,
               params,
             })
@@ -48,6 +52,8 @@ function analyse(ast, magicString, module) {
       },
     })
   })
+
+  console.log("作用域链：", scope)
 
   ast._scope = scope
 

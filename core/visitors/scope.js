@@ -2,13 +2,13 @@ class Scope {
   constructor(options = {}) {
     this.name = options.name
     this.parent = options.parent
-    this.names = options.params || []
+    this.params = options.params || []
   }
   add(name) {
-    this.names.push(name)
+    this.params.push(name)
   }
   findScope(name) {
-    if (this.names.includes(name)) {
+    if (this.params.includes(name)) {
       return this
     }
     if (this.parent) {

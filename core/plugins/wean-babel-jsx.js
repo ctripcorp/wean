@@ -3,7 +3,7 @@ const componentTag = require("./babel-component-tag.js")
 const jsx = require("@babel/plugin-transform-react-jsx").default
 
 module.exports = {
-  name: "wean-babel-jsx",
+  name: "wean-jsx-plugin",
   transform(code, options) {
     return {
       code: transformSync(code, null, {

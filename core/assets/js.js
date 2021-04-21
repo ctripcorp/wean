@@ -17,6 +17,7 @@ module.exports = class JS extends Asset {
     this.imports = {}
     this.exports = {}
     this.defines = {}
+    analyse(this.ast, new MagicString(input, { filename: this.path }), this) // 构建作用域链，分析全局变量
     this.ast.body.forEach((node) => {
       if (node.type === "ImportDeclaration") {
         let path = node.source.value
@@ -35,7 +36,7 @@ module.exports = class JS extends Asset {
       }
       Object.keys(node._depends).forEach((name) => (this.defines[name] = node))
     })
-    analyse(this.ast, new MagicString(code, { filename: asset.path }), this)
+    console.log(Object.keys(this.defines))
     this.statements = this.extendStatements()
   }
   async generate() {
