@@ -6,9 +6,7 @@ const analyse = require("../visitors/index")
 module.exports = class JS extends Asset {
   constructor(path, type, name) {
     super(path, type, name)
-    this.modules = new Map()
     this.statements = []
-    this.exports = {}
   }
   async parse(input) {
     this.ast = parse(input, {
@@ -16,22 +14,6 @@ module.exports = class JS extends Asset {
       sourceType: "module",
     })
     analyse(this.ast, new MagicString(input, { filename: this.path })) // 构建作用域链，分析全局变量
-    this.ast.body.forEach((node) => {
-      if (node.type === "ImportDeclaration") {
-        let path = node.source.value
-        let specifiers = node.specifiers
-        specifiers.forEach((spec) => {
-          let localname = spec.local.name
-          this.dependencies.add({ name: localname, path, ext: ".js" })
-        })
-      } else if (node.type === "ExportNamedDeclaration") {
-        let decl = node.declaration
-        if (decl.type === "VariableDeclaration") {
-          let name = decl.declarations[0].id.name
-          this.exports[name] = { node, localname: name, desl } // 暂时没用
-        }
-      }
-    })
     this.statements = this.extendStatements()
   }
   async generate() {
@@ -47,27 +29,22 @@ module.exports = class JS extends Asset {
     this.code = magicString.toString()
   }
   extendStatements() {
-    let allStatements = []
-    const ignoreTypes = [
-      "ExportDefaultDeclaration",
-      "ImportDeclaration",
-      "ExportNamedDeclaration",
-    ]
+    let statements = []
     this.ast.body.forEach((statement) => {
-      if (ignoreTypes.includes(statement.type)) {
+      if (node.type === "ImportDeclaration") {
+        let path = statement.source.value
+        let specifiers = statement.specifiers
+        specifiers.forEach((spec) => {
+          let name = spec.local.name
+          this.dependencies.add({ name, path, ext: ".js" })
+        })
         return
+      } else if (node.type === "ExportNamedDeclaration") {
+        statements.push(statement.declaration)
+      } else {
+        statements.push(statement)
       }
-      let statements = this.expandStatement(statement)
-      allStatements.push(...statements)
     })
-    return allStatements
-  }
-  expandStatement(statement) {
-    let result = []
-    if (!statement._included) {
-      statement._included = true
-      result.push(statement)
-    }
-    return result
+    return statements
   }
 }

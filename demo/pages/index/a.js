@@ -4,3 +4,6 @@ export function a() {
 
 export default {}
 
+function b(){
+  console.log(222)
+}
