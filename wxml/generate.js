@@ -1,4 +1,6 @@
-const { getName } = require("../core/hoist/util")
+const getName = (name) =>{
+  return 111
+}
 
 const eventMap = {
   tap: "onClick",
