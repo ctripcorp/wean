@@ -7,12 +7,12 @@ class Scope {
   add(name) {
     this.names.push(name)
   }
-  findDefiningScope(name) {
+  findScope(name) {
     if (this.names.includes(name)) {
       return this
     }
     if (this.parent) {
-      return this.parent.findDefiningScope(name)
+      return this.parent.findScope(name)
     }
     return null
   }

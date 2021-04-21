@@ -48,5 +48,28 @@ function analyse(ast, magicString, module) {
       },
     })
   })
+
+  ast._scope = scope
+
+  ast.body.forEach((statement) => {
+    traverse(statement, {
+      enter(node) {
+        if (node._scope) {
+          scope = node._scope
+        }
+        if (node.type === "Identifier") {
+          const defineScope = scope.findScope(node.name)
+          if (!defineScope) {
+            statement._depends[node.name] = true
+          }
+        }
+      },
+      leave(node) {
+        if (node._scope) {
+          scope = scope.parent
+        }
+      },
+    })
+  })
 }
 module.exports = analyse
