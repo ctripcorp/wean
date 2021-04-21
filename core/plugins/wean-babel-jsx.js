@@ -7,8 +7,8 @@ module.exports = {
   transform(code, options) {
     return {
       code: transformSync(code, null, {
+        presets: [],
         plugins: [
-          [componentTag(), { tag: options.tag }],
           jsx(
             "^7.0",
             { pragma: "fre.h", pragmaFrag: "fre.Fragment" },

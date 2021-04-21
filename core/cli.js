@@ -43,7 +43,7 @@ async function start(options) {
   options.old && options.old.close()
   const adt = await build(options.e, options)
   console.log(chalk.green("bundle success"))
-  await pack(adt, options)
+  // await pack(adt, options)
   console.log(chalk.green("package success"))
   if (options.t === BUILD_TYPE.BUILD) {
     console.log(chalk.green("build success"))

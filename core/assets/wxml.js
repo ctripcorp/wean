@@ -13,9 +13,9 @@ module.exports = class Wxml extends Asset {
     this.ast = ast
   }
   async generate() {
-    const { hook, code: newCode, imports } = generate(this)
+    const { hook, code, imports } = generate(this)
     imports.forEach((i) => this.dependencies.add({ path: i, ext: ".wxml" }))
-    const code = jsx.transform(input, { tag: this.parent.tag }).code
+    const newCode = jsx.transform(code).code
 
     this.code = `(props)=>{
       ${hook}

@@ -8,16 +8,16 @@ module.exports = class JS extends Asset {
     super(path, type, name)
     this.modules = new Map()
     this.statements = []
+    this.imports = {}
+    this.exports = {}
+    this.depends = this.depends || {}
   }
   async parse(input) {
     this.ast = parse(input, {
       ecmaVersion: 7,
       sourceType: "module",
     })
-    this.imports = {}
-    this.exports = {}
-    this.defines = {}
-    analyse(this.ast, new MagicString(input, { filename: this.path }), this) // 构建作用域链，分析全局变量
+    analyse(this.ast, new MagicString(input, { filename: this.path })) // 构建作用域链，分析全局变量
     this.ast.body.forEach((node) => {
       if (node.type === "ImportDeclaration") {
         let path = node.source.value
@@ -34,8 +34,11 @@ module.exports = class JS extends Asset {
           this.exports[name] = { node, localname: name, desl }
         }
       }
-      Object.keys(node._depends).forEach((name) => (this.defines[name] = node))
+      Object.keys(node._depends).forEach(name=>{
+        this.depends[name] = true
+      })
     })
+    console.log(this.depends)
     this.statements = this.extendStatements()
   }
   async generate() {
@@ -67,7 +70,7 @@ module.exports = class JS extends Asset {
   expandStatement(statement) {
     let result = []
     const dependencies = Object.keys(statement._depends)
-    this.dependencies.add(...dependencies) // 加入到 asset 的 child 里
+    // this.dependencies.add(...dependencies) // 加入到 asset 的 child 里
     if (!statement._included) {
       statement._included = true
       result.push(statement)

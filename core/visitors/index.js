@@ -1,7 +1,7 @@
 const Scope = require("./scope")
 const traverse = require("./traverse")
 
-function analyse(ast, magicString, module) {
+function analyse(ast, magicString) {
   let scope = new Scope({
     name: "global",
   })
@@ -32,7 +32,6 @@ function analyse(ast, magicString, module) {
               parent: scope,
               params,
             })
-            console.log(scope)
             node._scope = scope
             break
           case "VariableDeclaration":
