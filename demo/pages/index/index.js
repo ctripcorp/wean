@@ -2,7 +2,7 @@ import {a} from './a.js'
 
 function b(){
   const c = 222
-  aa()
+  a()
 }
 b()
 

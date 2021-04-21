@@ -8,9 +8,7 @@ module.exports = class JS extends Asset {
     super(path, type, name)
     this.modules = new Map()
     this.statements = []
-    this.imports = {}
     this.exports = {}
-    this.depends = this.depends || {}
   }
   async parse(input) {
     this.ast = parse(input, {
@@ -23,22 +21,17 @@ module.exports = class JS extends Asset {
         let path = node.source.value
         let specifiers = node.specifiers
         specifiers.forEach((spec) => {
-          let name = spec.imported.name
           let localname = spec.local.name
-          this.imports[localname] = { name, localname, path }
+          this.dependencies.add({ name: localname, path, ext: ".js" })
         })
       } else if (node.type === "ExportNamedDeclaration") {
         let decl = node.declaration
         if (decl.type === "VariableDeclaration") {
           let name = decl.declarations[0].id.name
-          this.exports[name] = { node, localname: name, desl }
+          this.exports[name] = { node, localname: name, desl } // 暂时没用
         }
       }
-      Object.keys(node._depends).forEach(name=>{
-        this.depends[name] = true
-      })
     })
-    console.log(this.depends)
     this.statements = this.extendStatements()
   }
   async generate() {
