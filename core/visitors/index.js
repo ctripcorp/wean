@@ -10,7 +10,7 @@ function analyse(ast, magicString) {
     const addToScope = (declaration) => {
       let name = declaration.id.name
       scope.add(name)
-      if (!scope.parent) { // 全局定义的变量
+      if (!scope.parent) {
         statement._defines[name] = true
       }
     }
@@ -60,7 +60,7 @@ function analyse(ast, magicString) {
         }
         if (node.type === "Identifier") {
           const defineScope = scope.findScope(node.name)
-          if (!defineScope) { // 找不到作用域的变量
+          if (!defineScope) {
             statement._depends[node.name] = true
           }
         }
