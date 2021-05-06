@@ -13,7 +13,8 @@ module.exports = class JS extends Asset {
       ecmaVersion: 7,
       sourceType: "module",
     })
-    analyse(this.ast, new MagicString(input, { filename: this.path })) // 构建作用域链，分析全局变量
+    this.magicString = new MagicString(input, { filename: this.path })
+    analyse(this.ast, this.magicString) // 构建作用域链，分析全局变量
     this.statements = this.extendStatements()
   }
   async generate() {
@@ -41,7 +42,10 @@ module.exports = class JS extends Asset {
         })
         return
       } else if (statement.type === "ExportNamedDeclaration") {
-        statements.push(statement.declaration)
+        let decl = statement.declaration
+        decl._source = this.magicString.snip(decl.start, decl.end)
+        statements.push(decl)
+      } else if (statement.type === "ExportDefaultDeclaration") {
       } else {
         statements.push(statement)
       }

@@ -44,13 +44,13 @@ async function start(options) {
   const adt = await build(options.e, options)
   console.log(adt)
   console.log(chalk.green("bundle success"))
-  // await pack(adt, options)
-  // console.log(chalk.green("package success"))
-  // if (options.t === BUILD_TYPE.BUILD) {
-  //   console.log(chalk.green("build success"))
-  // } else {
-  //   options.old = serve(options)
-  // }
+  await pack(adt, options)
+  console.log(chalk.green("package success"))
+  if (options.t === BUILD_TYPE.BUILD) {
+    console.log(chalk.green("build success"))
+  } else {
+    options.old = serve(options)
+  }
 }
 
 if (argv.version) {
