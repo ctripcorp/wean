@@ -20,7 +20,7 @@ module.exports = class JS extends Asset {
     let magicString = new MagicString.Bundle()
     this.statements.forEach((statement) => {
       const source = statement._source
-      console.log(source.toString())
+      // console.log(source.toString())
       return magicString.addSource({
         content: source,
         separator: "\n",
@@ -31,7 +31,7 @@ module.exports = class JS extends Asset {
   extendStatements() {
     let statements = []
     this.ast.body.forEach((statement) => {
-      if (node.type === "ImportDeclaration") {
+      if (statement.type === "ImportDeclaration") {
         let path = statement.source.value
         let specifiers = statement.specifiers
         specifiers.forEach((spec) => {
@@ -39,12 +39,13 @@ module.exports = class JS extends Asset {
           this.dependencies.add({ name, path, ext: ".js" })
         })
         return
-      } else if (node.type === "ExportNamedDeclaration") {
+      } else if (statement.type === "ExportNamedDeclaration") {
         statements.push(statement.declaration)
       } else {
         statements.push(statement)
       }
     })
+    console.log(statements)
     return statements
   }
 }
