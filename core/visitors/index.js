@@ -14,7 +14,6 @@ function analyse(ast, magicString) {
         statement._defines[name] = true
       }
     }
-
     statement._source = magicString.snip(statement.start, statement.end)
     statement._defines = {}
     statement._includes = {}

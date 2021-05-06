@@ -20,11 +20,12 @@ module.exports = class JS extends Asset {
     let magicString = new MagicString.Bundle()
     this.statements.forEach((statement) => {
       const source = statement._source
-      // console.log(source.toString())
-      return magicString.addSource({
-        content: source,
-        separator: "\n",
-      })
+      if (source) {
+        magicString.addSource({
+          content: source,
+          separator: "\n",
+        })
+      }
     })
     this.code = magicString.toString()
   }
@@ -45,7 +46,6 @@ module.exports = class JS extends Asset {
         statements.push(statement)
       }
     })
-    console.log(statements)
     return statements
   }
 }
