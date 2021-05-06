@@ -14,7 +14,9 @@ module.exports = class JS extends Asset {
       sourceType: "module",
     })
     this.magicString = new MagicString(input, { filename: this.path })
-    analyse(this.ast, this.magicString) // 构建作用域链，分析全局变量
+
+    analyse(this.ast, this.magicString)
+    
     this.statements = this.extendStatements()
   }
   async generate() {

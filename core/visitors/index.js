@@ -15,8 +15,9 @@ function analyse(ast, magicString) {
       }
     }
     statement._source = magicString.snip(statement.start, statement.end)
-    statement._defines = {}
     statement._includes = {}
+
+    statement._defines = {}
     statement._depends = {}
 
     traverse(statement, {
