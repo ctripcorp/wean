@@ -6,8 +6,7 @@
 
 ---
 
-**:fire: Note this is early experimental! 实验阶段的主要工作是想办法让整体架构变稳定、简洁，不建议上生产。** 
-
+**:fire: Note this is early experimental! 实验阶段的主要工作是想办法让整体架构变稳定、简洁，不建议上生产。**
 
 ---
 
@@ -17,9 +16,7 @@ wean 是一个小程序构建工具，它负责将标准的微信小程序打包
 - **开箱即用** - 更现代的标准，更短的开发链路，从某种程度上缓解微信小程序的历史包袱
 - **跨双端** - 以保住微信为前提，一套代码，支持微信和 h5 两个端
 
-wean 借助 [fre](https://github.com/yisar/fre) 实现渲染，借助 [berial](https://github.com/berialjs/berial) 实现路由和沙箱，不需要 webpack 等
-
-除了基本的编译打包，wean 实现了一些先进特性：**Tree shaking**、**Module federation**、**Hot reload**，做更现代，更精简的小程序子集
+wean 借助 [fre](https://github.com/yisar/fre) 实现渲染，借助 [berial](https://github.com/berialjs/berial) 实现路由和沙箱，借助 [esbuild](https://github.com/evanw/esbuild) 实现 js 的打包
 
 ### QQ group
 
@@ -39,10 +36,6 @@ $ npm link
 $ wean
 ```
 
-剩下的只需要按照 [微信小程序开发文档](https://developers.weixin.qq.com/miniprogram/dev/framework/) 开发即可
-
-值得注意的是，并非所有的微信小程序的特性都被支持，简单地说，wean 只支持“现代特性”，比如只支持 esm 格式，其他格式的文件请从 [skycdn](https://www.skypack.dev/) 下载
-
 ### Motivation
 
 在 wean 之前，大量小程序工具使用 webpack 进行打包，各种 loader、plugin 导致整个开发链路变长
@@ -51,9 +44,9 @@ wean 旨在解决链路问题，它自研编译器和打包器，对于标准小
 
 ### Package
 
-| Package                       | Description      | Version                                                                        |
-| ----------------------------- | :--------------- | :----------------------------------------------------------------------------- |
-| [wean](packages/core) | 微信小程序打包器 | [![npm](https://img.shields.io/npm/v/wean.svg)](https://npm.im/@wean/core) |
+| Package                    | Description      | Version                                                                    |
+| -------------------------- | :--------------- | :------------------------------------------------------------------------- |
+| [wean](packages/core)      | 微信小程序打包器 | [![npm](https://img.shields.io/npm/v/wean.svg)](https://npm.im/@wean/core) |
 | [wean/wxml](packages/wxml) | wxml 编译器      | [![npm](https://img.shields.io/npm/v/wean.svg)](https://npm.im/@wean/wxml) |
 
 ### Design
