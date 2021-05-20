@@ -96,7 +96,6 @@ window.useComponent = (setState, props, tag) => {
     component.setData = function (data) {
       component.data = { ...option.data, ...data }
       option.data = component.data
-      console.log(component.data)
       setState({})
     }
     component.setData = component.setData.bind(component)
