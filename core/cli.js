@@ -39,10 +39,13 @@ async function run(argv) {
 
 async function start(options) {
   options.old && options.old.close()
+  const start = Date.now()
   const adt = await build(options.e, options)
-  console.log(chalk.green("bundle success"))
+  console.log(chalk.green(`bundle success`))
   await pack(adt, options)
+  const end = Date.now()
   console.log(chalk.green("package success"))
+  console.log(chalk.blue(`compile total time ${end - start}ms`))
   if (options.t === BUILD_TYPE.BUILD) {
     console.log(chalk.green("build success"))
   } else {
