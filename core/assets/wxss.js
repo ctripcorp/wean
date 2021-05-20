@@ -29,6 +29,7 @@ module.exports = class Wxss extends Asset {
     // const wxml = this.parent.siblingAssets.get(".wxml")
     // const id = wxml ? `data-w-${wxml.hash.slice(0, 6)}` : null
     // const scoped = false
+
     this.code = postcss([
       postcssTagReplacer({
         // css 需要替换的标签
