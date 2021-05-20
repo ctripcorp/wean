@@ -5,7 +5,7 @@ class App extends Asset {
   constructor(path, type, name) {
     super(path, type, name)
   }
-  async parse(input) {
+  async transform(input) {
     this.ast = JSON.parse(input)
     for (const key in this.ast) {
       const value = this.ast[key]
@@ -20,7 +20,6 @@ class App extends Asset {
       }
     }
   }
-  async generate() {}
 }
 
 class Page extends Asset {

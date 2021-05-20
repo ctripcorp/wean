@@ -14,8 +14,7 @@ module.exports = async function build(main, options) {
 async function loadAsset(asset) {
   if (asset.path) {
     const input = await promises.readFile(asset.path)
-    await asset.parse(input.toString())
-    await asset.generate()
+    await asset.transform(input.toString())
   }
 
   if (asset.type === "page") {
