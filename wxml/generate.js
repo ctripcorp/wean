@@ -1,8 +1,15 @@
-const { getName } = require("../core/hoist/util")
-
 const eventMap = {
   tap: "onClick",
   confirm: "onKeyDown",
+}
+
+function getName(asset, type, ...rest) {
+  return `$${asset.id}$${type}${rest.length > 0
+      ? "$" +
+      rest
+        .join("$")
+      : ""
+    }`
 }
 
 function generate(asset) {
@@ -54,9 +61,8 @@ function generateHook(tag, methods, iskid) {
   if (tag) {
     constant = `const {properties:data, methods:{${method}},${life}} = useComponent(fre.useState({})[1], props,'${tag}')`
   } else {
-    constant = `const {data, ${life}, ${method}} = usePage(${
-      iskid ? "null" : "fre.useState({})[1]"
-    }, props)`
+    constant = `const {data, ${life}, ${method}} = usePage(${iskid ? "null" : "fre.useState({})[1]"
+      }, props)`
   }
   return iskid
     ? `${constant}`
