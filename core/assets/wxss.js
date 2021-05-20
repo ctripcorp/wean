@@ -3,6 +3,7 @@ const postcss = require("postcss")
 const postcssTagReplacer = require("../plugins/postcss-tag-replacer")
 const postcssRpx2rem = require("../plugins/postcss-rpx2rem")
 const postcssSopedCss = require("../plugins/postcss-scoped-css")
+const sass = require('sass');
 
 module.exports = class Wxss extends Asset {
   constructor(path, type, name) {
@@ -21,14 +22,13 @@ module.exports = class Wxss extends Asset {
           node.text = JSON.stringify(dep)
         }
       },
-      Rule(node) {},
     }
   }
 
   async transform(input) {
-    const wxml = this.parent.siblingAssets.get(".wxml")
-    const id = wxml ? `data-w-${wxml.hash.slice(0, 6)}` : null
-    const scoped = false
+    // const wxml = this.parent.siblingAssets.get(".wxml")
+    // const id = wxml ? `data-w-${wxml.hash.slice(0, 6)}` : null
+    // const scoped = false
     this.code = postcss([
       postcssTagReplacer({
         // css 需要替换的标签

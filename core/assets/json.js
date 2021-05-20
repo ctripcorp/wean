@@ -26,7 +26,7 @@ class Page extends Asset {
   constructor(path, type, name) {
     super(path, type, name)
   }
-  async parse(input) {
+  async transform(input) {
     this.ast = JSON.parse(input)
     for (const key in this.ast) {
       const value = this.ast[key]
@@ -38,14 +38,13 @@ class Page extends Asset {
       }
     }
   }
-  async generate() {}
 }
 
 class Component extends Asset {
   constructor(path, type, name) {
     super(path, type, name)
   }
-  async parse(input) {
+  async transform(input) {
     this.ast = JSON.parse(input)
     for (const key in this.ast) {
       const value = this.ast[key]
@@ -57,7 +56,6 @@ class Component extends Asset {
       }
     }
   }
-  async generate() {}
 }
 
 module.exports = {

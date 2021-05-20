@@ -42,5 +42,7 @@
     "sirv": "^1.0.10",
     "terser": "^5.6.1"
   },
-  "dependencies": {}
+  "dependencies": {
+    "sass": "^1.32.13"
+  }
 }
