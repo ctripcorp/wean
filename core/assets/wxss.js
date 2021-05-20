@@ -8,9 +8,6 @@ module.exports = class Wxss extends Asset {
   constructor(path, type, name) {
     super(path, type, name)
   }
-  async parse(input) {
-    this.input = input
-  }
 
   addDep() {
     let that = this
@@ -28,7 +25,7 @@ module.exports = class Wxss extends Asset {
     }
   }
 
-  async generate() {
+  async transform(input) {
     const wxml = this.parent.siblingAssets.get(".wxml")
     const id = wxml ? `data-w-${wxml.hash.slice(0, 6)}` : null
     const scoped = false
@@ -49,6 +46,6 @@ module.exports = class Wxss extends Asset {
       //   id,
       // }),
       postcssRpx2rem(),
-    ]).process(this.input).css
+    ]).process(input).css
   }
 }

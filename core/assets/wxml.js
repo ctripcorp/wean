@@ -7,12 +7,10 @@ module.exports = class Wxml extends Asset {
   constructor(path, type, name) {
     super(path, type, name)
   }
-  async parse(input) {
+  async transform(input) {
     const tokens = lex(input)
     const ast = parse(tokens)
     this.ast = ast
-  }
-  async generate() {
     const { hook, code: newCode, imports } = generate(this)
     imports.forEach((i) => this.dependencies.add({ path: i, ext: ".wxml" }))
     const { code } = await babel.transformAsync(newCode, {

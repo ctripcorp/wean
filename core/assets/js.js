@@ -6,7 +6,7 @@ module.exports = class JS extends Asset {
   constructor(path, type, name) {
     super(path, type, name)
   }
-  async parse() {
+  async transform() {
     // todo, component tag
     const out = await esbuild.build({
       entryPoints: [this.path],
@@ -22,7 +22,5 @@ module.exports = class JS extends Asset {
     })
 
     this.code = String.fromCharCode.apply(null, out.outputFiles[0].contents)
-  }
-  async generate(input) {
   }
 }

@@ -16,7 +16,7 @@ wean 是一个小程序构建工具，它负责将标准的微信小程序打包
 - **开箱即用** - 更现代的标准，更短的开发链路，从某种程度上缓解微信小程序的历史包袱
 - **跨双端** - 以保住微信为前提，一套代码，支持微信和 h5 两个端
 
-wean 借助 [fre](https://github.com/yisar/fre) 实现渲染，借助 [berial](https://github.com/berialjs/berial) 实现路由和沙箱，借助 [esbuild](https://github.com/evanw/esbuild) 实现 js 的打包
+wean 借助 [fre](https://github.com/yisar/fre) 实现渲染，借助 [berial](https://github.com/berialjs/berial) 实现路由和沙箱，借助 [esbuild](https://github.com/evanw/esbuild) 实现 js 的打包，
 
 ### QQ group
 
