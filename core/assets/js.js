@@ -1,23 +1,28 @@
 const Asset = require("./asset")
-const babel = require("@babel/core")
-const traverse = require("@babel/traverse").default
-const { transformFromAst } = require("@babel/core")
-const componentTag = require("../plugins/babel-component-tag")
-const hoist = require("../hoist/hoist")
+const esbuild = require('esbuild')
+const componentTag = require('../plugins/esbuild-component-tag')
 
 module.exports = class JS extends Asset {
   constructor(path, type, name) {
     super(path, type, name)
   }
-  async parse(input) {
-    this.ast = babel.parse(input)
-    traverse(this.ast, hoist, null, this)
-  }
-  async generate() {
-    const { code } = transformFromAst(this.ast, null, {
-      presets: [],
-      plugins: [[componentTag(), { tag: this.parent.tag }]],
+  async parse() {
+    // todo, component tag
+    const out = await esbuild.build({
+      entryPoints: [this.path],
+      bundle: true,
+      format: 'esm',
+      sourcemap: false,
+      write: false,
+      outdir: 'out',
+      treeShaking: true,
+      plugins: [componentTag({
+        tag: this.parent.tag
+      })]
     })
-    this.code = code
+
+    this.code = String.fromCharCode.apply(null, out.outputFiles[0].contents)
+  }
+  async generate(input) {
   }
 }

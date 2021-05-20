@@ -16,7 +16,7 @@ window.$for = (arr, fn, key) => {
   return arr.map((item) => fn(item))
 }
 
-window.Component = (option, tag) => {
+window.Component = (tag, option) => {
   const page = graph.get(window.location.pathname)
   if (page) {
     page.set(tag, option)
