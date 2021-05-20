@@ -1,7 +1,8 @@
 const Asset = require("./asset")
 const { lex, parse, generate } = require("../../wxml/index.js")
-const babel = require("@babel/core")
-const jsx = require("@babel/plugin-transform-react-jsx").default
+
+const esbuild = require('esbuild')
+
 
 module.exports = class Wxml extends Asset {
   constructor(path, type, name) {
@@ -13,11 +14,11 @@ module.exports = class Wxml extends Asset {
     this.ast = ast
     const { hook, code: newCode, imports } = generate(this)
     imports.forEach((i) => this.dependencies.add({ path: i, ext: ".wxml" }))
-    const { code } = await babel.transformAsync(newCode, {
-      presets: [],
-      plugins: [
-        jsx("^7.0", { pragma: "fre.h", pragmaFrag: "fre.Fragment" }, __dirname),
-      ],
+
+    const { code } = esbuild.transformSync(newCode, {
+      jsxFactory: 'fre.h',
+      jsxFragment: 'fre.Fragment',
+      loader: 'jsx',
     })
 
     this.code = `(props)=>{

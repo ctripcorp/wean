@@ -19,11 +19,6 @@
   "author": "",
   "license": "MIT",
   "devDependencies": {
-    "@babel/core": "^7.12.10",
-    "@babel/plugin-transform-react-jsx": "^7.12.10",
-    "@babel/template": "^7.12.13",
-    "@babel/traverse": "^7.12.0",
-    "@babel/types": "^7.12.13",
     "chalk": "^4.1.0",
     "chokidar": "^3.5.1",
     "commander": "^7.1.0",
@@ -41,8 +36,5 @@
     "prettier": "^2.2.1",
     "sirv": "^1.0.10",
     "terser": "^5.6.1"
-  },
-  "dependencies": {
-    "sass": "^1.32.13"
   }
 }
