@@ -3,15 +3,6 @@ const eventMap = {
   confirm: "onKeyDown",
 }
 
-function getName(asset, type, ...rest) {
-  return `$${asset.id}$${type}${rest.length > 0
-      ? "$" +
-      rest
-        .join("$")
-      : ""
-    }`
-}
-
 function generate(asset) {
   let tree = asset.ast
   let tag = asset.parent.tag
@@ -76,16 +67,14 @@ function generateNode(node, state, asset, nextNode) {
     let compiled = compileExpression(node, "text")
     return `${compiled}`
   } else if (node.name === "template") {
-    const is = node.attributes.is
+    const { is, name } = node.attributes
     if (is) {
-      const name = '"' + getName(asset, "template", is) + '"'
-      asset.symbols.set(is, getName(asset, "template", is))
-      return `{window.remotes[${name}]()}`
+      return state.blocks.get(is)
     } else {
-      asset.id = asset.parent.symbols.get(node.attributes.name)
-      return node.children
+      const code = node.children
         .map((item) => generateNode(item, state, asset))
         .join("\n")
+      state.blocks.set(name, code)
     }
   } else {
     let code = `<${titleCase(node.name)} `
