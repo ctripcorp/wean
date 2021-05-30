@@ -8,6 +8,7 @@ function parse(tokens) {
     tokens,
   }
 
+
   while (state.current < tokens.length) {
     let child = parseWalk(state)
     if (child) {
@@ -89,4 +90,4 @@ function parseNode(name, attributes, children) {
     children,
   }
 }
-module.exports = parse
+// module.exports = parse
