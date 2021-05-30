@@ -1,8 +1,7 @@
 const { promises } = require("fs")
 const ejs = require("ejs")
 const Path = require("path")
-const { minify } = require("terser")
-const csso = require("csso")
+const esbuild = require('esbuild')
 const prettier = require("prettier")
 
 const manifest = []
@@ -56,7 +55,10 @@ async function write(asset, options) {
     let code = asset.output[key]
     if (key.startsWith("js")) {
       if (options.m) {
-        code = (await minify(code, {})).code
+        code = await esbuild.transform(code, {
+          loader: 'js',
+          minify: true
+        })
       } else {
         code = prettier.format(code, {
           semi: true,
@@ -65,7 +67,10 @@ async function write(asset, options) {
       }
     } else if (key === "css") {
       if (options.m) {
-        code = csso.minify(code).css
+        code = await esbuild.transform(code, {
+          loader: 'css',
+          minify: true
+        })
       } else {
         code = prettier.format(code, {
           parser: "css",
@@ -109,8 +114,11 @@ async function copySdk(options) {
     await promises.mkdir(Path.dirname(dist), { recursive: true })
     if (options.m) {
       const file = await promises.readFile(Path.join(__dirname, u))
-      const miniFile = await minify(file.toString(), {})
-      await promises.writeFile(dist, miniFile.code)
+      const code = await esbuild.transform(file.toString(), {
+        loader: 'js',
+        minify: true
+      })
+      await promises.writeFile(dist, code)
     } else {
       await promises.copyFile(Path.join(__dirname, u), dist)
     }
