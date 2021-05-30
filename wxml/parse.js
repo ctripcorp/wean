@@ -5,13 +5,14 @@ function parse(tokens) {
 
   let state = {
     current: 0,
+    prevChild: null,
     tokens,
   }
-
 
   while (state.current < tokens.length) {
     let child = parseWalk(state)
     if (child) {
+      child.pos = [child.pos, state.prevChild.pos]
       ast.children.push(child)
     }
   }
@@ -21,13 +22,11 @@ function parse(tokens) {
 function parseWalk(state) {
   let token = state.tokens[state.current]
   let prevToken = state.tokens[state.current - 1]
-  let nextToken = state.tokens[state.current + 1]
 
   function move(num) {
     state.current += num != null ? num : 1
     token = state.tokens[state.current]
     prevToken = state.tokens[state.current - 1]
-    nextToken = state.tokens[state.current + 1]
   }
 
   if (token.type === "text") {
@@ -45,13 +44,14 @@ function parseWalk(state) {
     let closeStart = token.closeStart
     let closeEnd = token.closeEnd
 
-    let node = parseNode(type, token.attributes, [])
+    let node = parseNode(type, token.attributes, [], token.pos)
     move()
     if (closeEnd === true) {
       return node
     } else if (closeStart) {
       return null
     } else if (token) {
+      state.prevChild = token
       while (
         token.type !== "tag" ||
         (token.type === "tag" &&
@@ -74,7 +74,7 @@ function parseWalk(state) {
   return
 }
 
-function parseNode(name, attributes, children) {
+function parseNode(name, attributes, children, pos) {
   let type = "node"
   if (
     name.indexOf("-") > -1 ||
@@ -88,6 +88,7 @@ function parseNode(name, attributes, children) {
     name,
     attributes,
     children,
+    pos
   }
 }
-// module.exports = parse
+module.exports = parse

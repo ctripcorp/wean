@@ -176,4 +176,4 @@ function lexAttributes(token, state) {
   token.attributes = attributes
 }
 
-// module.exports = lex
+module.exports = lex

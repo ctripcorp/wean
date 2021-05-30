@@ -7,7 +7,6 @@ module.exports = class JS extends Asset {
     super(path, type, name)
   }
   async transform() {
-    // todo, component tag
     const out = await esbuild.build({
       entryPoints: [this.path],
       bundle: true,
