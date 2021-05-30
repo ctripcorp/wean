@@ -12,6 +12,7 @@ function generate(asset) {
   let state = {
     imports: [],
     methods: [],
+    blocks: []
   }
 
   let code = "<div>"
