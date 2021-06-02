@@ -12,17 +12,7 @@ module.exports = async function packWxml(asset, options) {
   asset.output = `${name} = ${asset.code}\n\n`
   const walk = async (child) => {
     for (const dep of child.childAssets.values()) {
-      let blocks = dep.blocks
-
-      for (let key in blocks) {
-        let value = blocks[key]
-        if (keys.indexOf(key) < 0) {
-          keys.push(key)
-          asset.blockOutput += value || ''
-        } else {
-          asset.blockOutput = asset.blockOutput.replace(`$template$${key}$`, value) || ''
-        }
-      }
+      wiredBlock(dep.blocks, asset)
 
       let code = `remotes['${dep.id}'] = ${dep.code}\n\n`
       if (cache.indexOf(dep.path) < 0) {
@@ -34,8 +24,15 @@ module.exports = async function packWxml(asset, options) {
       }
     }
   }
-  for (let key in asset.blocks) {
-    let value = asset.blocks[key]
+
+  wiredBlock(asset.blocks, asset)
+  walk(asset)
+  return asset.blockOutput
+}
+
+function wiredBlock(blocks, asset) {
+  for (let key in blocks) {
+    let value = blocks[key]
     if (keys.indexOf(key) < 0) {
       keys.push(key)
       asset.blockOutput += value
@@ -43,6 +40,4 @@ module.exports = async function packWxml(asset, options) {
       asset.blockOutput = asset.blockOutput.replace(`$template$${key}$`, value) || ''
     }
   }
-  walk(asset)
-  return asset.blockOutput
 }
