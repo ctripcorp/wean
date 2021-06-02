@@ -22,7 +22,7 @@ module.exports = async function packWxml(asset, options) {
       return <>${asset.blockOutput}</>
     }
   }\n`: `remotes['${titleCase(asset.parent.tag)}'] = (props) =>{
-    const {data, properties} = useSharedData(['${asset.parent.id}','${asset.parent.tag}'])
+    const {data, properties} = useSharedData(['${asset.parent.id}'])
     with(properties){
       with(data){
         return <>${asset.blockOutput}</>
