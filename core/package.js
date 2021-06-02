@@ -91,6 +91,7 @@ async function packageJson(asset, options) {
           asset.output.js = await packJs(value, options)
           break
         case ".wxml":
+          console.log(value.path)
           asset.output.jsx = await packWxml(value, options)
           break
         case ".wxss":

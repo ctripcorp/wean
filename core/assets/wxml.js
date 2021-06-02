@@ -3,9 +3,6 @@ const { lex, parse, generate } = require("../../wxml/index.js")
 
 const esbuild = require('esbuild')
 
-let output = ''
-let keys = []
-
 module.exports = class Wxml extends Asset {
   constructor(path, type, name) {
     super(path, type, name)
@@ -15,13 +12,9 @@ module.exports = class Wxml extends Asset {
     const ast = parse(tokens)
     this.ast = ast
     let { hook, code, imports, blocks } = generate(this)
-
     this.blocks = blocks
-    // console.log(output)
     imports.forEach((i) => this.dependencies.add({ path: i, ext: ".wxml" }))
-
     code  = this.esbuildTransform(code)
-
 
     this.code = `(props)=>{
       ${hook}

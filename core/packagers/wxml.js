@@ -2,13 +2,8 @@ const { titleCase } = require("./util")
 const esbuild = require('esbuild')
 
 module.exports = async function packWxml(asset, options) {
-  const cache = []
   const keys = []
   asset.blockOutput = ''
-  const name =
-    asset.parent.type === "page"
-      ? `const $${asset.parent.id}`
-      : `remotes['${titleCase(asset.parent.tag)}']`
 
   const walk = async (child) => {
     for (const dep of child.childAssets.values()) {
@@ -21,9 +16,20 @@ module.exports = async function packWxml(asset, options) {
 
   wiredBlock(asset.blocks, keys, asset)
   walk(asset)
-  const pre = `${name} = (props) => {
-    return <>${asset.blockOutput}</>
-  }\n`
+  const pre = asset.parent.type === "page" ? `const $${asset.parent.id} = (props) => {
+    const {data} = useSharedData(['${asset.parent.id}'])
+    with(data){
+      return <>${asset.blockOutput}</>
+    }
+  }\n`: `remotes['${titleCase(asset.parent.tag)}'] = (props) =>{
+    const {data, properties} = useSharedData(['${asset.parent.id}','${asset.parent.tag}'])
+    with(properties){
+      with(data){
+        return <>${asset.blockOutput}</>
+      }
+    }
+  }`
+
 
   const { code } = esbuild.transformSync(pre, {
     jsxFactory: 'fre.h',
