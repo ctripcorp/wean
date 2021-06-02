@@ -26,10 +26,9 @@ function generate(asset) {
     code += block
   }
   code += "</div>"
-  console.log(state.blocks)
   let { imports, methods } = state
   let hook = generateHook(tag, methods, iskid)
-  return { hook, code, imports }
+  return { hook, code, imports, blocks: state.blocks }
 }
 
 function lifeCode(methods) {
@@ -66,7 +65,7 @@ function generateHook(tag, methods, iskid) {
     ${code}
     `
 }
-function generateNode(node, state, asset, nextNode ) {
+function generateNode(node, state, asset, nextNode) {
   if (typeof node === "string") {
     let compiled = compileExpression(node, "text")
     return `${compiled}`

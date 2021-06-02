@@ -15,6 +15,7 @@ function parse(tokens) {
       child.pos = [child.pos, state.prevChild.pos]
       ast.children.push(child)
     }
+
   }
   return ast
 }
