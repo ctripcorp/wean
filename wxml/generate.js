@@ -3,6 +3,8 @@ const eventMap = {
   confirm: "onKeyDown",
 }
 
+let clock = 0
+
 function generate(asset) {
   let tree = asset.ast
   let tag = asset.parent.tag
@@ -12,17 +14,19 @@ function generate(asset) {
   let state = {
     imports: [],
     methods: [],
-    blocks: []
+    blocks: {}
   }
 
   let code = "<div>"
   for (let i = 0; i < children.length; i++) {
     const kid = children[i]
     const next = children[i + 1]
-    code += generateNode(kid, state, asset, next)
+    const block = generateNode(kid, state, asset, next)
+    state.blocks[clock++] = block
+    code += block
   }
   code += "</div>"
-
+  console.log(state.blocks)
   let { imports, methods } = state
   let hook = generateHook(tag, methods, iskid)
   return { hook, code, imports }
@@ -62,20 +66,22 @@ function generateHook(tag, methods, iskid) {
     ${code}
     `
 }
-
-function generateNode(node, state, asset, nextNode) {
+function generateNode(node, state, asset, nextNode ) {
   if (typeof node === "string") {
     let compiled = compileExpression(node, "text")
     return `${compiled}`
   } else if (node.name === "template") {
     const { is, name } = node.attributes
     if (is) {
-      return state.blocks.get(is)
+      state.blocks[is] = true
+      return ''
     } else {
-      const code = node.children
+      let code = node.children
         .map((item) => generateNode(item, state, asset))
         .join("\n")
-      state.blocks.set(name, code)
+      state.blocks[name] = code
+      return code
+
     }
   } else {
     let code = `<${titleCase(node.name)} `
