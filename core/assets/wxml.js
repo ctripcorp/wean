@@ -16,19 +16,12 @@ module.exports = class Wxml extends Asset {
     this.ast = ast
     let { hook, code, imports, blocks } = generate(this)
 
+    this.blocks = blocks
+    // console.log(output)
+    imports.forEach((i) => this.dependencies.add({ path: i, ext: ".wxml" }))
+
     code  = this.esbuildTransform(code)
 
-    for (let key in blocks) {
-      let value = blocks[key]
-      if (keys.indexOf(key) < 0) {
-        keys.push(key)
-        output += value
-      } else {
-        output = output.replace(`$template$${key}$`, value)
-      }
-    }
-    console.log(output)
-    imports.forEach((i) => this.dependencies.add({ path: i, ext: ".wxml" }))
 
     this.code = `(props)=>{
       ${hook}

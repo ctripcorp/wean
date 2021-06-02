@@ -53,7 +53,8 @@ async function write(asset, options) {
   for (const key in asset.output) {
     let path = `${asset.outputPath}.${key}`
     let code = asset.output[key]
-    if (key.startsWith("js")) {
+    console.log(key)
+    if (key === 'js') {
       if (options.m) {
         code = await esbuild.transform(code, {
           loader: 'js',

@@ -72,7 +72,7 @@ function generateNode(node, state, asset, nextNode) {
   } else if (node.name === "template") {
     const { is, name } = node.attributes
     if (is) {
-      state.blocks[is] = true
+      state.blocks[is] = ''
       return `$template$${is}$`
     } else {
       let code = node.children
