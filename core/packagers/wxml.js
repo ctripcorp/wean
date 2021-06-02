@@ -9,28 +9,31 @@ module.exports = async function packWxml(asset, options) {
     asset.parent.type === "page"
       ? `const $${asset.parent.id}`
       : `remotes['${titleCase(asset.parent.tag)}']`
-  asset.output = `${name} = ${asset.code}\n\n`
+
   const walk = async (child) => {
     for (const dep of child.childAssets.values()) {
-      wiredBlock(dep.blocks, asset)
-
-      let code = `remotes['${dep.id}'] = ${dep.code}\n\n`
-      if (cache.indexOf(dep.path) < 0) {
-        asset.output += code
-        cache.push(dep.path)
-      }
+      wiredBlock(dep.blocks, keys, asset)
       if (dep.childAssets.size) {
         await walk(dep)
       }
     }
   }
 
-  wiredBlock(asset.blocks, asset)
+  wiredBlock(asset.blocks, keys, asset)
   walk(asset)
-  return asset.blockOutput
+  const pre = `${name} = (props) => {
+    return <>${asset.blockOutput}</>
+  }\n`
+
+  const { code } = esbuild.transformSync(pre, {
+    jsxFactory: 'fre.h',
+    jsxFragment: 'fre.Fragment',
+    loader: 'jsx',
+  })
+  return code
 }
 
-function wiredBlock(blocks, asset) {
+function wiredBlock(blocks, keys, asset) {
   for (let key in blocks) {
     let value = blocks[key]
     if (keys.indexOf(key) < 0) {
