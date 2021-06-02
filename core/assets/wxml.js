@@ -3,6 +3,8 @@ const { lex, parse, generate } = require("../../wxml/index.js")
 
 const esbuild = require('esbuild')
 
+let output = ''
+let keys = []
 
 module.exports = class Wxml extends Asset {
   constructor(path, type, name) {
@@ -12,14 +14,21 @@ module.exports = class Wxml extends Asset {
     const tokens = lex(input)
     const ast = parse(tokens)
     this.ast = ast
-    const { hook, code: newCode, imports } = generate(this)
-    imports.forEach((i) => this.dependencies.add({ path: i, ext: ".wxml" }))
+    let { hook, code, imports, blocks } = generate(this)
 
-    const { code } = esbuild.transformSync(newCode, {
-      jsxFactory: 'fre.h',
-      jsxFragment: 'fre.Fragment',
-      loader: 'jsx',
-    })
+    code  = this.esbuildTransform(code)
+
+    for (let key in blocks) {
+      let value = blocks[key]
+      if (keys.indexOf(key) < 0) {
+        keys.push(key)
+        output += value
+      } else {
+        output = output.replace(`$template$${key}$`, value)
+      }
+    }
+    console.log(output)
+    imports.forEach((i) => this.dependencies.add({ path: i, ext: ".wxml" }))
 
     this.code = `(props)=>{
       ${hook}
@@ -27,5 +36,13 @@ module.exports = class Wxml extends Asset {
         return ${code}
       }
     }`
+  }
+  esbuildTransform(input){
+    const { code } = esbuild.transformSync(input + '', {
+      jsxFactory: 'fre.h',
+      jsxFragment: 'fre.Fragment',
+      loader: 'jsx',
+    })
+    return code
   }
 }

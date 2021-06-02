@@ -73,7 +73,7 @@ function generateNode(node, state, asset, nextNode) {
     const { is, name } = node.attributes
     if (is) {
       state.blocks[is] = true
-      return ''
+      return `$template$${is}$`
     } else {
       let code = node.children
         .map((item) => generateNode(item, state, asset))
