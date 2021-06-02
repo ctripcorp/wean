@@ -5,6 +5,16 @@ const esbuild = require('esbuild')
 
 module.exports = async function packBerial(asset, options) {
   const name = `berial-${random()}`
+  const { code } = esbuild.transformSync(`<>${asset.output.jsx}</>`, {
+    jsxFactory: 'fre.h',
+    jsxFragment: 'fre.Fragment',
+    loader: 'jsx',
+  })
+  asset.output.jsx = `
+  function $${asset.id}(){
+    return ${code}
+  }
+  `
   asset.output.jsx += `
     window['${name}'] = {
       async bootstrap({host}){
@@ -21,14 +31,9 @@ module.exports = async function packBerial(asset, options) {
       }
     }
     `
-  const { code } = esbuild.transformSync(`<>${asset.output.jsx}</>`, {
-    jsxFactory: 'fre.h',
-    jsxFragment: 'fre.Fragment',
-    loader: 'jsx',
-  })
   asset.output.jsx = `
     (function({C,directs,wx}, remotes) {
-      ${code}
+      ${asset.output.jsx}
     })(window,window.remotes);
     `
   const edir = Path.resolve(Path.dirname(options.e))
