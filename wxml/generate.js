@@ -7,9 +7,7 @@ let clock = 0
 
 function generate(asset) {
   let tree = asset.ast
-  let tag = asset.parent.tag
   let children = tree.children
-  let iskid = asset.parent.type === "wxml"
 
   let state = {
     imports: [],
@@ -17,54 +15,15 @@ function generate(asset) {
     blocks: {}
   }
 
-  let code = "<div>"
   for (let i = 0; i < children.length; i++) {
     const kid = children[i]
     const next = children[i + 1]
     const block = generateNode(kid, state, asset, next)
     state.blocks[clock++] = block
-    code += block
   }
-  code += "</div>"
-  let { imports, methods } = state
-  let hook = generateHook(tag, methods, iskid)
-  return { hook, code, imports, blocks: state.blocks }
+  return { imports:state.imports, blocks: state.blocks }
 }
 
-function lifeCode(methods) {
-  let method = methods.join(",")
-  let life = `onLoad,onUnload,onShow,onHide`
-  let code = `fre.useEffect(()=>{
-    const params = window.getUrl(window.location.href)
-    onLoad && onLoad(params)
-    onShow && onShow(params)
-    return () => {
-      onUnload && onUnload(params)
-      onHide && onHide(params)
-    }
-  },[])`
-  return {
-    life,
-    code,
-    method,
-  }
-}
-
-function generateHook(tag, methods, iskid) {
-  let { life, code, method } = lifeCode(methods)
-  let constant
-  if (tag) {
-    constant = `const {properties:data, methods:{${method}},${life}} = useComponent(fre.useState({})[1], props,'${tag}')`
-  } else {
-    constant = `const {data, ${life}, ${method}} = usePage(${iskid ? "null" : "fre.useState({})[1]"
-      }, props)`
-  }
-  return iskid
-    ? `${constant}`
-    : `${constant}
-    ${code}
-    `
-}
 function generateNode(node, state, asset, nextNode) {
   if (typeof node === "string") {
     let compiled = compileExpression(node, "text")
@@ -186,8 +145,7 @@ function generateProps(node, state, asset) {
       code += `${name}=${compiled}`
     }
   }
-  code += ` ${getHash(asset, node)} >`
-  return code
+  return code + '>'
 }
 
 function compileExpression(expression, type) {
@@ -209,20 +167,6 @@ function compileExpression(expression, type) {
         ? "{`" + expression + "`}"
         : expression
   }
-}
-
-function getHash(asset, node) {
-  if (!node.attributes.class) return ""
-  let hash = ""
-  if (asset.parent.tag) {
-    hash = asset.hash.slice(0, 6)
-  } else {
-    let p = asset.parent
-    if (p.parent.type !== "wxml") p = p.parent
-    const wxml = p.siblingAssets.get(".wxml") || asset
-    hash = wxml.hash.slice(0, 6)
-  }
-  return `data-w-${hash}`
 }
 
 const titleCase = (str) =>

@@ -1,9 +1,8 @@
 const { titleCase } = require("./util")
 const esbuild = require('esbuild')
 
-module.exports = async function packWxml(asset, options) {
+module.exports = async function packWxml(asset) {
   const keys = []
-  asset.blockOutput = ''
 
   const walk = async (child) => {
     for (const dep of child.childAssets.values()) {
@@ -19,13 +18,13 @@ module.exports = async function packWxml(asset, options) {
   const pre = asset.parent.type === "page" ? `const $${asset.parent.id} = (props) => {
     const {data} = useSharedData(['${asset.parent.id}'])
     with(data){
-      return <>${asset.blockOutput}</>
+      return <>${asset.output}</>
     }
   }\n`: `remotes['${titleCase(asset.parent.tag)}'] = (props) =>{
     const {data, properties} = useSharedData(['${asset.parent.id}'])
     with(properties){
       with(data){
-        return <>${asset.blockOutput}</>
+        return <>${asset.output}</>
       }
     }
   }`
@@ -43,9 +42,9 @@ function wiredBlock(blocks, keys, asset) {
     let value = blocks[key]
     if (keys.indexOf(key) < 0) {
       keys.push(key)
-      asset.blockOutput += value
+      asset.output += value
     } else {
-      asset.blockOutput = asset.blockOutput.replace(`$template$${key}$`, value) || ''
+      asset.output = asset.output.replace(`$template$${key}$`, value) || ''
     }
   }
 }
