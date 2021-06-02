@@ -53,30 +53,14 @@ async function write(asset, options) {
   for (const key in asset.output) {
     let path = `${asset.outputPath}.${key}`
     let code = asset.output[key]
-    if (key === 'js') {
-      if (options.m) {
-        code = await esbuild.transform(code, {
-          loader: 'js',
-          minify: true
-        })
-      } else {
-        code = prettier.format(code, {
-          semi: true,
-          parser: "babel",
-        })
-      }
-    } else if (key === "css") {
-      if (options.m) {
-        code = await esbuild.transform(code, {
-          loader: 'css',
-          minify: true
-        })
-      } else {
-        code = prettier.format(code, {
-          parser: "css",
-        })
-      }
+
+    if (options.m) {
+      code = await esbuild.transform(code, {
+        loader: key,
+        minify: true
+      })
     }
+
     await promises.writeFile(path, code)
   }
 }

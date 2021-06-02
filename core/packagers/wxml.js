@@ -30,8 +30,7 @@ module.exports = async function packWxml(asset, options) {
     }
   }`
 
-
-  const { code } = esbuild.transformSync(pre, {
+  const { code } = await esbuild.transform(pre, {
     jsxFactory: 'fre.h',
     jsxFragment: 'fre.Fragment',
     loader: 'jsx',
