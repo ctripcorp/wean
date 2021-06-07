@@ -2,7 +2,6 @@ const { promises } = require("fs")
 const ejs = require("ejs")
 const Path = require("path")
 const esbuild = require('esbuild')
-const prettier = require("prettier")
 
 const manifest = []
 
@@ -14,17 +13,14 @@ const packWxml = require("./packagers/wxml.js")
 const packBerial = require("./packagers/berial.js")
 
 module.exports = async function pack(asset, options) {
-  options.umds = []
   await packageAsset(asset, options)
   await writeAsset(asset, options)
-  await copySdk(options)
   await generateEntry(options)
 }
 
 async function writeAsset(asset, options) {
   asset.outputPath = Path.resolve(options.o, asset.hash)
   asset.output.js = asset.siblingAssets.get(".js").code
-  options.umds.push("./" + asset.hash + ".js")
   await write(asset, options)
 
   const childs = Array.from(asset.childAssets.values()).map(async (page) => {
@@ -86,34 +82,8 @@ async function packageJson(asset, options) {
   }
 }
 
-async function copySdk(options) {
-  let umds = [
-    "./runtime/api.js",
-    "./runtime/wx.js",
-    "./runtime/components.js",
-    "./runtime/fre.js",
-  ]
-  let umdPromises = umds.map(async (u) => {
-    const dist = Path.join(Path.resolve(options.o), u)
-    await promises.mkdir(Path.dirname(dist), { recursive: true })
-    if (options.m) {
-      const file = await promises.readFile(Path.join(__dirname, u))
-      const code = await esbuild.transform(file.toString(), {
-        loader: 'js',
-        minify: true
-      })
-      await promises.writeFile(dist, code)
-    } else {
-      await promises.copyFile(Path.join(__dirname, u), dist)
-    }
-  })
-  await Promise.all(umdPromises)
-  options.umds = umds.concat(options.umds)
-}
-
 async function generateEntry(options) {
   const html = await ejs.renderFile(Path.resolve(__dirname, "index.ejs"), {
-    umds: options.umds,
     manifest,
   })
   await promises.writeFile(
