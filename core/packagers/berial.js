@@ -1,7 +1,6 @@
 const { manifest } = require("../package.js")
-const { random, titleCase } = require("./util")
+const { random } = require("./util")
 const Path = require("path")
-const esbuild = require('esbuild')
 
 module.exports = async function packBerial(asset, options) {
   const name = `berial-${random()}`
