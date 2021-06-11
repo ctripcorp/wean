@@ -2,7 +2,6 @@ const { promises } = require("fs")
 const ejs = require("ejs")
 const Path = require("path")
 const esbuild = require('esbuild')
-const prettier = require("prettier")
 
 const manifest = []
 
@@ -14,17 +13,14 @@ const packWxml = require("./packagers/wxml.js")
 const packBerial = require("./packagers/berial.js")
 
 module.exports = async function pack(asset, options) {
-  options.umds = []
   await packageAsset(asset, options)
   await writeAsset(asset, options)
-  await copySdk(options)
-  await generateEntry(options)
+  await generateEntry(asset, options)
 }
 
 async function writeAsset(asset, options) {
   asset.outputPath = Path.resolve(options.o, asset.hash)
   asset.output.js = asset.siblingAssets.get(".js").code
-  options.umds.push("./" + asset.hash + ".js")
   await write(asset, options)
 
   const childs = Array.from(asset.childAssets.values()).map(async (page) => {
@@ -53,30 +49,14 @@ async function write(asset, options) {
   for (const key in asset.output) {
     let path = `${asset.outputPath}.${key}`
     let code = asset.output[key]
-    if (key.startsWith("js")) {
-      if (options.m) {
-        code = await esbuild.transform(code, {
-          loader: 'js',
-          minify: true
-        })
-      } else {
-        code = prettier.format(code, {
-          semi: true,
-          parser: "babel",
-        })
-      }
-    } else if (key === "css") {
-      if (options.m) {
-        code = await esbuild.transform(code, {
-          loader: 'css',
-          minify: true
-        })
-      } else {
-        code = prettier.format(code, {
-          parser: "css",
-        })
-      }
+
+    if (options.m) {
+      code = await esbuild.transform(code, {
+        loader: key,
+        minify: true
+      })
     }
+
     await promises.writeFile(path, code)
   }
 }
@@ -102,38 +82,15 @@ async function packageJson(asset, options) {
   }
 }
 
-async function copySdk(options) {
-  let umds = [
-    "./runtime/api.js",
-    "./runtime/wx.js",
-    "./runtime/components.js",
-    "./runtime/fre.js",
-  ]
-  let umdPromises = umds.map(async (u) => {
-    const dist = Path.join(Path.resolve(options.o), u)
-    await promises.mkdir(Path.dirname(dist), { recursive: true })
-    if (options.m) {
-      const file = await promises.readFile(Path.join(__dirname, u))
-      const code = await esbuild.transform(file.toString(), {
-        loader: 'js',
-        minify: true
-      })
-      await promises.writeFile(dist, code)
-    } else {
-      await promises.copyFile(Path.join(__dirname, u), dist)
-    }
-  })
-  await Promise.all(umdPromises)
-  options.umds = umds.concat(options.umds)
-}
-
-async function generateEntry(options) {
-  const html = await ejs.renderFile(Path.resolve(__dirname, "index.ejs"), {
-    umds: options.umds,
-    manifest,
-  })
+async function generateEntry(asset, options) {
+  const pages = manifest
+  const json = {
+    info: asset.ast,
+    pages
+  }
+  let out = JSON.stringify(json)
   await promises.writeFile(
-    Path.join(Path.resolve(options.o), "index.html"),
-    html
+    Path.join(Path.resolve(options.o), "manifest.json"),
+    out
   )
 }

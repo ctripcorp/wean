@@ -1,25 +1,8 @@
 const { manifest } = require("../package.js")
-const { random, titleCase } = require("./util")
+const { random } = require("./util")
 const Path = require("path")
 
 module.exports = async function packBerial(asset, options) {
-  const name = `berial-${random()}`
-  asset.output.jsx += `
-    window['${name}'] = {
-      async bootstrap({host}){
-        const div = document.createElement('div');
-        div.id = "root";
-        host.appendChild(div)
-      },
-      async mount({host}){
-        window.remotes.host = host;
-        fre.render(fre.h('div',{},fre.h($${asset.id})),host.getElementById("root"));
-      },
-      async unmount({host}){
-        host.getElementById("root").innerHTML = ""
-      }
-    }
-    `
   asset.output.jsx = `
     (function({C,directs,wx}, remotes) {
       ${asset.output.jsx}
@@ -36,24 +19,11 @@ module.exports = async function packBerial(asset, options) {
   const basename = options.p ? `${"/" + Path.basename(options.p)}` : ""
   const hash = prefix + asset.hash
   manifest.push({
-    name,
+    id: asset.id,
+    info: asset.ast,
     scripts: [hash + ".js", hash + ".jsx"],
     styles: [hash + ".css"],
     path: `${basename + path}`,
-    allowList: [
-      "fre",
-      "usePage",
-      "App",
-      "Component",
-      "$for",
-      "getApp",
-      "getPage",
-      "remotes",
-      "useComponent",
-      "wx",
-      "getUrl",
-      "Page",
-    ],
   })
   return asset.output.jsx
 }

@@ -16,7 +16,7 @@ module.exports = class JS extends Asset {
       outdir: 'out',
       treeShaking: true,
       plugins: [componentTag({
-        tag: this.parent.tag
+        id: this.parent.id + ''
       })]
     })
 
