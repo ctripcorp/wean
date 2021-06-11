@@ -15,7 +15,7 @@ const packBerial = require("./packagers/berial.js")
 module.exports = async function pack(asset, options) {
   await packageAsset(asset, options)
   await writeAsset(asset, options)
-  await generateEntry(options)
+  await generateEntry(asset, options)
 }
 
 async function writeAsset(asset, options) {
@@ -82,12 +82,15 @@ async function packageJson(asset, options) {
   }
 }
 
-async function generateEntry(options) {
-  const html = await ejs.renderFile(Path.resolve(__dirname, "index.ejs"), {
-    manifest,
-  })
+async function generateEntry(asset, options) {
+  const pages = manifest
+  const json = {
+    info: asset.ast,
+    pages
+  }
+  let out = JSON.stringify(json)
   await promises.writeFile(
-    Path.join(Path.resolve(options.o), "index.html"),
-    html
+    Path.join(Path.resolve(options.o), "manifest.json"),
+    out
   )
 }

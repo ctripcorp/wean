@@ -46,11 +46,11 @@ async function start(options) {
   const end = Date.now()
   console.log(chalk.green("package success"))
   console.log(chalk.blue(`compile total time ${end - start}ms`))
-  if (options.t === BUILD_TYPE.BUILD) {
-    console.log(chalk.green("build success"))
-  } else {
-    options.old = serve(options)
-  }
+  // if (options.t === BUILD_TYPE.BUILD) {
+  //   console.log(chalk.green("build success"))
+  // } else {
+  //   options.old = serve(options)
+  // }
 }
 
 if (argv.version) {

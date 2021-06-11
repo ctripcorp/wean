@@ -19,7 +19,8 @@ module.exports = async function packBerial(asset, options) {
   const basename = options.p ? `${"/" + Path.basename(options.p)}` : ""
   const hash = prefix + asset.hash
   manifest.push({
-    name:asset.name,
+    id: asset.id,
+    info: asset.ast,
     scripts: [hash + ".js", hash + ".jsx"],
     styles: [hash + ".css"],
     path: `${basename + path}`,
