@@ -16,8 +16,7 @@ module.exports = async function packWxml(asset) {
   wiredBlock(asset.blocks, keys, asset)
   walk(asset)
   const pre = asset.parent.type === "page" ? `const $${asset.parent.id} = (props) => {
-    const {data} = useSharedData(['${asset.parent.id}'])
-    with(data){
+    with(props.data){
       return <>${asset.output}</>
     }
   }\n`: `remotes['${titleCase(asset.parent.tag)}'] = (props) =>{
