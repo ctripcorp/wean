@@ -68,7 +68,7 @@ function generateDirect(node, code, next) {
     const [name, value] = node.directives[i]
     const compiled = compileExpression(value, "direct")
     if (code[0] === "{") {
-      code = `<>${code}</>`
+      code = `<div>${code}</div>`
     }
     if (name === "wx:for") {
       const item = findItem(node)
