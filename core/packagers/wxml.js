@@ -12,7 +12,7 @@ module.exports = async function packWxml(asset) {
       }
     }
   }
-
+  asset.output = ''
   wiredBlock(asset.blocks, keys, asset)
   walk(asset)
   const pre = asset.parent.type === "page" ? `const $${asset.parent.id} = (props) => {
