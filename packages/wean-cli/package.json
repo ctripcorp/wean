@@ -1,0 +1,24 @@
+{
+  "name": "@wean/cli",
+  "version": "0.0.1",
+  "description": "🍀 一个小程序编译器前端的脚手架",
+  "license": "MIT",
+  "main": "src/index.js",
+  "bin": {
+    "wean": "bin/wean.js"
+  },
+  "scripts": {
+    "dev": "wean -e ./demo/app.json -o ./dist/",
+    "build": "wean build -e ./demo/app.json -o ./dist/ -m",
+    "debug": "node --inspect ./core/cli.js -e ./demo/app.json -o ./dist/"
+  },
+  "dependencies": {
+    "chalk": "4.1.1",
+    "chokidar": "3.5.1",
+    "commander": "7.2.0",
+    "ejs": "3.1.6",
+    "polka": "0.5.2",
+    "sirv": "1.0.12",
+    "wean": "workspace:0.0.1"
+  }
+}
