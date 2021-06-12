@@ -1,37 +1,27 @@
 {
-  "name": "wean",
-  "version": "0.0.1",
-  "description": "",
-  "main": "index.js",
-  "bin": {
-    "wean": "bin/index.js"
-  },
   "scripts": {
-    "dev": "wean -e ./demo/app.json -o ./dist/",
-    "build": "wean build -e ./demo/app.json -o ./dist/ -m",
-    "debug": "node --inspect ./core/cli.js -e ./demo/app.json -o ./dist/"
+    "prepare": "is-ci || husky install",
+    "dev": "pnpm dev --filter @wean/cli",
+    "build": "pnpm build --filter @wean/cli",
+    "debug": "pnpm debug --filter @wean/cli"
   },
-  "repository": {
-    "type": "git",
-    "url": "git@github.com/ctripcorp/wean.git"
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
   },
-  "keywords": [],
-  "author": "",
-  "license": "MIT",
+  "lint-staged": {
+    "*.{js,ts,tsx,json,md}": "prettier --write",
+    "package.json": "pnpx sort-package-json"
+  },
   "devDependencies": {
-    "chalk": "^4.1.0",
-    "chokidar": "^3.5.1",
-    "commander": "^7.1.0",
-    "cross-fetch": "^3.0.6",
-    "ejs": "^3.1.6",
-    "esbuild": "^0.12.1",
-    "md5": "^2.3.0",
-    "nanoid": "^3.1.21",
-    "nodemon": "^2.0.6",
-    "polka": "^0.5.2",
-    "postcss": "^8.2.2",
-    "postcss-selector-parser": "^6.0.4",
-    "prettier": "^2.2.1",
-    "sirv": "^1.0.10"
+    "@changesets/cli": "2.16.0",
+    "@commitlint/cli": "12.1.4",
+    "@commitlint/config-conventional": "12.1.4",
+    "husky": "6.0.0",
+    "is-ci": "3.0.0",
+    "lint-staged": "11.0.0",
+    "prettier": "2.3.1",
+    "sort-package-json": "1.50.0"
   }
 }

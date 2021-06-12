@@ -1,0 +1,9 @@
+{
+  "name": "@wean/wxml",
+  "version": "0.0.1",
+  "description": "🍀 小程序编译器前端的wxml解析器",
+  "main": "src/index.js",
+  "files": [
+    "src"
+  ]
+}
