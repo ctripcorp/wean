@@ -15,12 +15,15 @@ function generate(asset) {
     blocks: {}
   }
 
+
   for (let i = 0; i < children.length; i++) {
     const kid = children[i]
     const next = children[i + 1]
     const block = generateNode(kid, state, asset, next)
     state.blocks[clock++] = block
   }
+
+  console.log(state.blocks)
   return { imports:state.imports, blocks: state.blocks }
 }
 
@@ -38,7 +41,7 @@ function generateNode(node, state, asset, nextNode) {
         .map((item) => generateNode(item, state, asset))
         .join("\n")
       state.blocks[name] = code
-      return code
+      return ''
 
     }
   } else {
