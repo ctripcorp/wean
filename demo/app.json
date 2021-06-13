@@ -5,7 +5,7 @@
   "window": {
     "navigationBarBackgroundColor": "#fff",
     "navigationBarTextStyle": "black",
-    "navigationBarTitleText": "todomvc",
+    "navigationBarTitleText": "v3-demo-todomvc",
     "backgroundColor": "#eeeeee",
     "backgroundTextStyle": "light",
     "enablePullDownRefresh": true

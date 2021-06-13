@@ -1,47 +1,46 @@
 @import "../../1.wxss";
 @import "../../2.wxss";
 
-.container{
+.container {
   text-align: center;
-  padding:40rpx;
+  padding: 40rpx;
 }
-.title{
+.title {
   font-size: 100rpx;
-  color:#EAD7D7;
+  color: #ead7d7;
   animation: move 3s infinite;
 }
-.list{
+.list {
   margin-top: 30rpx;
   text-align: left;
-  border:1px solid #E6E6E6;
+  border: 1px solid #e6e6e6;
+  background: #fff;
   box-shadow: 0 0 10rpx #878787;
 }
-.footer{
+.footer {
   padding: 10px;
-  position:relative;
-  color:#878787;
+  position: relative;
+  color: #878787;
   font-size: 28rpx;
-  justify-content:space-between;
+  justify-content: space-between;
 }
-.footer:before{
-  content: '';
-	position: absolute;
-	right: 0;
-	bottom: 0;
-	left: 0;
-	height: 100rpx;
-	overflow: hidden;
-	box-shadow: 0 2rpx 2rpx rgba(0, 0, 0, 0.2),
-	            0 16rpx 0 -6rpx #f6f6f6,
-	            0 18rpx 2rpx -6rpx rgba(0, 0, 0, 0.2),
-	            0 32rpx 0 -12rpx #f6f6f6,
-	            0 34rpx 4rpx -12rpx rgba(0, 0, 0, 0.2);
+.footer:before {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 100rpx;
+  overflow: hidden;
+  box-shadow: 0 2rpx 2rpx rgba(0, 0, 0, 0.2), 0 16rpx 0 -6rpx #f6f6f6,
+    0 18rpx 2rpx -6rpx rgba(0, 0, 0, 0.2), 0 32rpx 0 -12rpx #f6f6f6,
+    0 34rpx 4rpx -12rpx rgba(0, 0, 0, 0.2);
 }
-.clear{
-  border:1px solid #D9D9D9;
-  padding:5rpx;
-  border-radius:10rpx;
-  z-index:1000;
+.clear {
+  border: 1px solid #d9d9d9;
+  padding: 5rpx;
+  border-radius: 10rpx;
+  z-index: 1000;
 }
 
 .list-items {
