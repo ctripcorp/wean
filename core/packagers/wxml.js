@@ -16,7 +16,7 @@ module.exports = async function packWxml(asset) {
   wiredBlock(asset.blocks, keys, asset)
   walk(asset)
   const pre = asset.parent.type === "page" ? `const $${asset.parent.id} = (props) => {
-    const {data} = props.option
+    const {data} = props
     with(data){
       return <div>${asset.output}</div>
     }

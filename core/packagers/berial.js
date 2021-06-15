@@ -6,7 +6,9 @@ module.exports = async function packBerial(asset, options) {
   asset.output.jsx = `
     (function({C,directs,wx}, remotes) {
       ${asset.output.jsx}
-      fre.createRoot(document.getElementById('root')).render(fre.h($${asset.id},{option:option,pageid:pageid}))
+      window.root = fre.createRoot(document.getElementById('root'))
+      window.flushPage = (data) => window.root.render(fre.h($${asset.id},{data:data,pageid:pageid}))
+      window.flushPage(data)
     })(window,window.remotes);
     `
   const edir = Path.resolve(Path.dirname(options.e))
