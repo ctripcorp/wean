@@ -16,13 +16,19 @@ module.exports = async function packWxml(asset) {
   wiredBlock(asset.blocks, keys, asset)
   walk(asset)
   const pre = asset.parent.type === "page" ? `const $${asset.parent.id} = (props) => {
-    const {data} = props
-    with(data){
+    const [state, setState] = fre.useState(props.data)
+    fre.useEffect(()=>{
+      window.components[${asset.parent.id}] = (data) => setState(data)
+    },[])
+    with(state){
       return <div>${asset.output}</div>
     }
   }\n`: `remotes['${titleCase(asset.parent.tag)}'] = (props) =>{
-    const {data, properties} = useComponent(['${asset.parent.id}'])
-    with(properties){
+    const [state, setState] = fre.useState(props.data)
+    fre.useEffect(()=>{
+      window.components[${asset.parent.id}] = (data) => setState(data)
+    },[])
+    with(state){
       with(data){
         return <div>${asset.output}</div>
       }
