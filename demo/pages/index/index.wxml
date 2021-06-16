@@ -8,7 +8,7 @@
       <input bindconfirm="addtodo" placeholder="What needs to be done?" value="{{name}}" id="test"></input>
     </view>
     <block wx:for="{{list}}" wx:key="id">
-      <!-- <use-item item="{{item}}" bindmyevent="clickIco" bindclear="clear" /> -->
+      <use-item item="{{item}}" bindmyevent="clickIco" bindclear="clear" />
     </block>
     <template is="footer"></template>
   </view>

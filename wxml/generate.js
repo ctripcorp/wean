@@ -23,7 +23,7 @@ function generate(asset) {
     state.blocks[clock++] = block
   }
 
-  return { imports:state.imports, blocks: state.blocks }
+  return { imports: state.imports, blocks: state.blocks }
 }
 
 function generateNode(node, state, asset, nextNode) {
@@ -139,7 +139,7 @@ function generateProps(node, state, asset) {
         state.methods.push(value)
       }
       const n = name.replace("bind:", "").replace("bind", "")
-      code += ` ${eventMap[n] || n}={$handleEvent("${value}", props.pageid)} `
+      code += ` ${eventMap[n] || n}={$handleEvent("${value}", props.pageid, ${node.type === 'component' ? "'" + node.name + "'" : null})} `
     } else if (node.name === "import") {
       state.imports.push(value)
     } else {
