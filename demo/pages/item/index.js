@@ -2,7 +2,7 @@ const app = getApp()
 
 Component({
   properties: {
-    item: {
+    iitem: {
       type: Object,
       value: {},
     },
