@@ -1,9 +1,9 @@
-import {a} from './a.js'
+import { a } from './a.js'
 import d from './a.js'
 import dayjs from './dayjs.js'
 console.log(dayjs)
 
-function b(){
+function b() {
   a()
 }
 b()
@@ -16,9 +16,9 @@ Page({
     editname: "",
     list: [],
     leftcount: 0,
-    a:true,
-    b:true,
-    c:false
+    a: true,
+    b: true,
+    c: false
   },
 
   onShow: function () {
@@ -80,6 +80,17 @@ Page({
     this.setleftcount()
     this.setData(this.data)
   },
+
+  toast() {
+    wx.showToast({ title: "222" })
+  },
+
+  motal(){
+    wx.showModal({
+      title: '333',
+    })
+  },
+
 
   setleftcount() {
     this.data.leftcount = this.data.list.filter(
