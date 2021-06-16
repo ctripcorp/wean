@@ -12,6 +12,6 @@
     </block>
     <template is="footer"></template>
   </view>
-  <button type="warn" bindtap="toast">showToast</button>
+  <button type="warn" bindtap="toast" style="margin-top:30px">showToast</button>
   <button type="primary" bindtap="motal">showMotal</button>
 </view>

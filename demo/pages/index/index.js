@@ -21,9 +21,18 @@ Page({
     c: false
   },
 
+  onLoad() {
+    console.log('onLoad')
+  },
+
   onShow: function () {
+    console.log('onShow')
     this.setleftcount()
     this.setData(this.data)
+  },
+
+  onReady: function () {
+    console.log('onReady')
   },
 
   selectAll() {
@@ -82,10 +91,15 @@ Page({
   },
 
   toast() {
-    wx.showToast({ title: "222" })
+    wx.showToast({
+      title: "222", 
+      success(res) {
+        console.log(res)
+      }
+    })
   },
 
-  motal(){
+  motal() {
     wx.showModal({
       title: '333',
     })
