@@ -21,15 +21,15 @@ module.exports = async function packWxml(asset) {
       window.components[${asset.parent.id}] = (data) => setState(data)
     },[])
     with(state){
-      return <div>${asset.output}</div>
+      return <div ref={()=>\$ready(${asset.parent.id})}>${asset.output}</div>
     }
   }\n`: `remotes['${titleCase(asset.parent.tag)}'] = (props) =>{
     const [state, setState] = fre.useState({})
     fre.useEffect(()=>{
-      window.components[${asset.parent.id}] = (data) => setState((c)=>Object.assign(c,data))
+      window.components[${asset.parent.id}] = (data) => setState(data)
     },[])
     with({...props,...state}){
-      return <div>${asset.output}</div>
+      return <div ref={()=>\$ready(${asset.parent.id})}>${asset.output}</div>
     }
   }`
 
