@@ -139,7 +139,7 @@ function generateProps(node, state, asset) {
         state.methods.push(value)
       }
       const n = name.replace("bind:", "").replace("bind", "")
-      code += ` ${eventMap[n] || n}={$handleEvent("${value}", props.pageid, ${node.type === 'component' ? "'" + node.name + "'" : null}, "${n}")} `
+      code += ` ${eventMap[n] || n}={$handleEvent("${value}", ${getId(asset)}, "${n}")} `
     } else if (node.name === "import") {
       state.imports.push(value)
     } else {
@@ -148,6 +148,14 @@ function generateProps(node, state, asset) {
     }
   }
   return code + '>'
+}
+
+function getId(asset) {
+  let p = asset.parent
+  while (p.type === 'wxml') {
+    p = p.parent
+  }
+  return p.id
 }
 
 function compileExpression(expression, type) {
