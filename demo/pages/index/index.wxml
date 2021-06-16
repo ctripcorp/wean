@@ -12,4 +12,5 @@
     </block>
     <template is="footer"></template>
   </view>
+  <button type="warn">222</button>
 </view>
