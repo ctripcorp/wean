@@ -43,6 +43,12 @@ function generateNode(node, state, asset, nextNode) {
       return ''
 
     }
+  } else if (node.name === 'slot') {
+    const { name } = node.attributes
+    if (name) {
+      state.blocks[name] = ''
+      return `$slot$${name}$`
+    }
   } else {
     let code = `<${titleCase(node.name)} `
     code += generateProps(node, state, asset)
@@ -55,7 +61,15 @@ function generateNode(node, state, asset, nextNode) {
     }
     code += `</${titleCase(node.name)}>`
 
-    if (node.name === "import") code = ""
+    if (Object.keys(node.attributes).indexOf('slot') > -1) {
+      // slot
+      state.blocks[node.attributes.slot] = code
+      return ''
+    }
+
+    if (node.name === "import") {
+      return ''
+    }
     if (node.directives) {
       code = generateDirect(node, code, nextNode)
     }

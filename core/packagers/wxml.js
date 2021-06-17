@@ -50,7 +50,9 @@ function wiredBlock(blocks, keys, asset) {
       keys.push(key)
       asset.output += value
     } else {
-      asset.output = asset.output.replace(`$template$${key}$`, value) || ''
+      asset.output = asset.output
+        .replace(`$template$${key}$`, value)
+        .replace(`$slot$${key}$`, value) || ''
     }
   }
 }
