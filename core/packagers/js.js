@@ -1,14 +1,14 @@
 module.exports = async function packJs(asset, options) {
   const defer = []
   const cache = []
-  asset.output = asset.code
+  asset.out = asset.code
   const walk = async (child) => {
     for (const dep of child.childAssets.values()) {
       if (dep.tag) {
         defer.push(dep.code)
       } else {
         if (cache.indexOf(dep.path) < 0) {
-          asset.output = dep.code + "\n" + asset.output
+          asset.out = dep.code + "\n" + asset.out
           cache.push(dep.path)
         }
       }
@@ -17,10 +17,11 @@ module.exports = async function packJs(asset, options) {
       }
     }
 
+
     for (const code of defer) {
-      asset.output += "\n" + code
+      asset.out += "\n" + code
     }
   }
   walk(asset)
-  return asset.output + "\n\n"
+  return asset.out + "\n\n"
 }

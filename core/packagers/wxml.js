@@ -10,7 +10,7 @@ module.exports = async function packWxml(asset) {
       }
     }
   }
-  asset.output = ''
+  asset.out = ''
   wiredBlock(asset.blocks, asset)
   walk(asset)
   const pre = asset.parent.type === "page" ? `const $${asset.parent.id} = (props) => {
@@ -20,7 +20,7 @@ module.exports = async function packWxml(asset) {
       $ready(${asset.parent.id})
     },[])
     with(state){
-      return <div>${asset.output}</div>
+      return <div>${asset.out}</div>
     }
   }\n`: `remotes['${titleCase(asset.parent.tag)}'] = (props) =>{
     const [state, setState] = fre.useState({})
@@ -29,7 +29,7 @@ module.exports = async function packWxml(asset) {
       $ready(${asset.parent.id})
     },[])
     with({...props,...state}){
-      return <div>${asset.output}</div>
+      return <div>${asset.out}</div>
     }
   }`
 
@@ -45,11 +45,11 @@ function wiredBlock(blocks, asset) {
   for (let key in blocks) {
     let value = blocks[key]
     if (isNaN(+key)) {
-      asset.output = asset.output
+      asset.out = asset.out
         .replace(`$template$${key}$`, value)
         .replace(`$slot$${key}$`, value) || ''
     } else {
-      asset.output += value
+      asset.out += value
     }
   }
 }

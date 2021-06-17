@@ -32,16 +32,27 @@ async function writeAsset(asset, options) {
 
 async function packageAsset(asset, options) {
   await packageJson(asset, options)
-  if (asset.type === "component") {
-    asset.parent.output.jsx += asset.output.jsx
-    asset.parent.output.js += asset.output.js
-    asset.parent.output.css += asset.output.css
+  const page = getPage(asset)
+  if (asset.type === "component" && page) {
+    console.log(page)
+    page.output.jsx += asset.output.jsx
+    page.output.js += asset.output.js
+    page.output.css += asset.output.css
   }
   const all = Array.from(asset.childAssets.values()).map(async (child) => {
     await packageAsset(child, options)
   })
 
   await Promise.all(all)
+}
+
+function getPage(asset) {
+  let p = asset
+  while (p && (p = p.parent)) {
+    if (p.type === 'page') {
+      return p
+    }
+  }
 }
 
 async function write(asset, options) {

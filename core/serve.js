@@ -6,6 +6,9 @@ module.exports = function serve(options) {
   const app = polka()
     .use(require("sirv")(options.o))
     .use(redirect)
+    .get("/",(req,res)=>{
+      res.end('hello world')
+    })
     .get("*", (req, res) => {
       res.redirect("/")
     })
