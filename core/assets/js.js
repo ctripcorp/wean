@@ -1,17 +1,11 @@
 const Asset = require("./asset")
 const esbuild = require('esbuild')
 const componentTag = require('../plugins/esbuild-component-tag')
+const {getId} = require('../packagers/util')
 
 module.exports = class JS extends Asset {
   constructor(path, type, name) {
     super(path, type, name)
-  }
-  getId(asset) {
-    let p = asset.parent
-    while (p && p.type === 'wxml') {
-      p = p.parent
-    }
-    return p ? p.id : null
   }
 
   async transform() {
@@ -26,7 +20,7 @@ module.exports = class JS extends Asset {
       plugins: [componentTag({
         id: this.parent.id + '',
         tag: this.parent.tag,
-        pid: this.getId(this.parent)
+        pid: getId(this.parent)
       })]
     })
 

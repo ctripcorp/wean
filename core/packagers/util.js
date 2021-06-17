@@ -14,7 +14,16 @@ const random = function randomString(len) {
   return letter
 }
 
+function getId(asset) {
+  let p = asset.parent
+  while (p && p.type === 'wxml') {
+    p = p.parent
+  }
+  return p ? p.id : null
+}
+
 module.exports = {
   titleCase: titleCase,
   random: random,
+  getId: getId
 }

@@ -1,3 +1,5 @@
+const { getId } = require('../core/packagers/util')
+
 const eventMap = {
   tap: "onClick",
   confirm: "onKeyDown",
@@ -153,7 +155,7 @@ function generateProps(node, state, asset) {
         state.methods.push(value)
       }
       const n = name.replace("bind:", "").replace("bind", "")
-      code += ` ${eventMap[n] || n}={$handleEvent("${value}", "${n}")} `
+      code += ` ${eventMap[n] || n}={$handleEvent("${value}", "${getId(asset)}", "${n}")} `
     } else if (node.name === "import") {
       state.imports.push(value)
     } else {
