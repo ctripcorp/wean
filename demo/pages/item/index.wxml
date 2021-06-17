@@ -4,6 +4,7 @@
     <input class="aaa {{iitem.completed?'completed':''}}" bindconfirm="edittodo" data-id="{{iitem.id}}" value="{{iitem.name}}"></input>
     <icon type="clear" bind:tap="clear"></icon>
     <slot name="aaa"></slot>
+    <child-child bind:eee="eee"></child-child>
     <button bind:tap="clear">aaa</button>
 </view>
 <!-- <view>222</view> -->

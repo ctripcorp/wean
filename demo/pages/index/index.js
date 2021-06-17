@@ -25,6 +25,10 @@ Page({
     console.log('onLoad')
   },
 
+  eee(e){
+    console.log(123)
+  },
+
   navigateTo(){
     wx.navigateTo({
       url: '/pages/child/index?aaa=1&bbb=2',
