@@ -6,7 +6,9 @@ module.exports = options => {
         setup(build) {
             build.onLoad({ filter: /.+/ }, async ({ path }) => {
                 const source = await fs.promises.readFile(path, "utf8")
-                const code = source.replace('Component(', `Component('${options.id}','${options.tag}', `).replace('Page(', `Page('${options.id}', `)
+                const code = source.
+                    replace('Component(', `Component('${options.id}','${options.tag}','${options.pid}', `)
+                    .replace('Page(', `Page('${options.id}', `)
                 return {
                     contents: code,
                 }

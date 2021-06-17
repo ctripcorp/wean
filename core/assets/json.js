@@ -51,7 +51,7 @@ class Component extends Asset {
       if (key === "usingComponents") {
         for (const k in value) {
           const v = value[k]
-          this.dependencies.add({ path: v, tag: k, type: ".component" })
+          this.dependencies.add({ path: v, tag: k, type: ".component", ext: ".component" })
         }
       }
     }

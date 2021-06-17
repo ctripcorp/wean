@@ -6,6 +6,14 @@ module.exports = class JS extends Asset {
   constructor(path, type, name) {
     super(path, type, name)
   }
+  getId(asset) {
+    let p = asset.parent
+    while (p && p.type === 'wxml') {
+      p = p.parent
+    }
+    return p ? p.id : null
+  }
+
   async transform() {
     const out = await esbuild.build({
       entryPoints: [this.path],
@@ -17,7 +25,8 @@ module.exports = class JS extends Asset {
       treeShaking: true,
       plugins: [componentTag({
         id: this.parent.id + '',
-        tag: this.parent.tag
+        tag: this.parent.tag,
+        pid: this.getId(this.parent)
       })]
     })
 
