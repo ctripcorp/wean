@@ -1,6 +1,5 @@
 <view class="container">
   <import src="./footer.wxml"></import>
-  <import src="./slot.wxml"></import>
   <view class="title">
     <text>todos</text>
   </view>
@@ -10,7 +9,6 @@
     </view>
     <block wx:for="{{list}}" wx:key="id">
       <use-item iitem="{{item}}" bindmyevent="clickIco" bindclear="clear">
-        <slot name="aaa"></slot>
       </use-item>
     </block>
     <template is="footer" data="{{leftcount}}"></template>

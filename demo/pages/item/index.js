@@ -12,6 +12,7 @@ Component({
       this.triggerEvent("myevent", e)
     },
     clear(e) {
+      console.log('222')
       this.triggerEvent("clear", e)
     },
   },
