@@ -2,18 +2,16 @@ const { titleCase } = require("./util")
 const esbuild = require('esbuild')
 
 module.exports = async function packWxml(asset) {
-  const keys = []
-
   const walk = async (child) => {
     for (const dep of child.childAssets.values()) {
-      wiredBlock(dep.blocks, keys, asset)
+      wiredBlock(dep.blocks, asset)
       if (dep.childAssets.size) {
         await walk(dep)
       }
     }
   }
   asset.output = ''
-  wiredBlock(asset.blocks, keys, asset)
+  wiredBlock(asset.blocks, asset)
   walk(asset)
   const pre = asset.parent.type === "page" ? `const $${asset.parent.id} = (props) => {
     const [state, setState] = fre.useState(props.data)
@@ -43,16 +41,15 @@ module.exports = async function packWxml(asset) {
   return code
 }
 
-function wiredBlock(blocks, keys, asset) {
+function wiredBlock(blocks, asset) {
   for (let key in blocks) {
     let value = blocks[key]
-    if (keys.indexOf(key) < 0) {
-      keys.push(key)
-      asset.output += value
-    } else {
+    if (isNaN(+key)) {
       asset.output = asset.output
         .replace(`$template$${key}$`, value)
         .replace(`$slot$${key}$`, value) || ''
+    } else {
+      asset.output += value
     }
   }
 }

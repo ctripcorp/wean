@@ -1,8 +1,8 @@
-<template name="footer">
+<!-- <template name="footer">
     <view class="footer">
         <text>{{leftcount}} items left</text>
         <view class="clear" bind:tap="clearCompleted" wx:if='{{list.length-leftcount>0}}'>
             clear completed
         </view>
     </view>
-</template>
+</template> -->

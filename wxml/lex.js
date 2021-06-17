@@ -84,6 +84,7 @@ function lexTag(state) {
 
   if (isCloseEnd || isCloseStart) {
     tagToken.pos = state.current - 1
+    tagToken.len = input.length
     if (isCloseEnd) {
       tagToken.closeEnd = true
     }
@@ -92,9 +93,9 @@ function lexTag(state) {
     }
   } else {
     tagToken.pos = current
+    tagToken.len = input.length
   }
 }
-
 function lexType(state) {
   let input = state.input
   let current = state.current

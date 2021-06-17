@@ -1,3 +1,5 @@
+let prev = 0
+
 function parse(tokens) {
   let ast = {
     children: [],
@@ -5,18 +7,22 @@ function parse(tokens) {
 
   let state = {
     current: 0,
-    prevChild: null,
+    previ: 0,
     tokens,
   }
 
   while (state.current < tokens.length) {
     let child = parseWalk(state)
     if (child) {
-      child.pos = [child.pos, state.prevChild.pos]
+      const start = tokens[prev].pos || 0
+      const c = tokens[state.current]
+      const end = c ? c.pos : tokens[state.current-1].len
+      child.pos = [start, end]
+      prev = state.current
       ast.children.push(child)
     }
-
   }
+  prev = 0
   return ast
 }
 
@@ -45,14 +51,13 @@ function parseWalk(state) {
     let closeStart = token.closeStart
     let closeEnd = token.closeEnd
 
-    let node = parseNode(type, token.attributes, [], token.pos)
+    let node = parseNode(type, token.attributes, [], token.current)
     move()
     if (closeEnd === true) {
       return node
     } else if (closeStart) {
       return null
     } else if (token) {
-      state.prevChild = token
       while (
         token.type !== "tag" ||
         (token.type === "tag" &&
