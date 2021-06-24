@@ -25,6 +25,10 @@ Page({
     console.log('onLoad')
   },
 
+  eeevent(detail,option){
+    console.log('triggerEvent',detail)
+  },
+
   eee(e){
     console.log(123)
   },

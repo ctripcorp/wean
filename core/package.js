@@ -34,7 +34,6 @@ async function packageAsset(asset, options) {
   await packageJson(asset, options)
   const page = getPage(asset)
   if (asset.type === "component" && page) {
-    console.log(page)
     page.output.jsx += asset.output.jsx
     page.output.js += asset.output.js
     page.output.css += asset.output.css
