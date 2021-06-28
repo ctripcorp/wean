@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+  <html>
+  <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>wean-demo</title>
+      <link rel="stylesheet" type="text/css" href="//at.alicdn.com/t/font_2365862_1fzp0ur9aqn.css">
+      <style>
+      *{
+        margin:0;
+        padding:0
+      }
+      html {
+        font-size: calc(100vw / 7.50);
+      }
+      body{
+        --primary-color: #2577e3;
+        --primary-border-color: #1d67dd;
+        --warn-color: #e65f40;
+        --warn-border-color: #E64340;
+        --default-color: #f0f2f5;
+        --default-border-color: #eaecef;
+        --link-color: #576b95;
+        --outline-color: #bfd7fd;
+        font-size: 14px;
+        font-family: "Helvetica Neue", Helvetica, Arial, "PingFang SC", "Hiragino Sans GB", "Heiti SC", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
+      }
+      </style>
+      <script src="https://unpkg.com/fre@2.0.4/dist/fre.umd.js"></script>
+      <script src="https://unpkg.com/goober@2.0.35/dist/goober.umd.js"></script>
+      <script src="https://unpkg.com/berial@0.1.7/dist/berial.js"></script>
+  </head>
+  <body>
+    <%-
+      manifest.map(function(arg){
+        return `<${arg.name}></${arg.name}>`
+      }).join("\n")
+    _%>
+
+    <script>
+      goober.setup(fre.h);
+      berial.register(<%- JSON.stringify(manifest) %>)
+    </script>
+  </body>
+  </html>

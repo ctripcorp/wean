@@ -17,7 +17,6 @@ function generate(asset) {
     blocks: {}
   }
 
-
   for (let i = 0; i < children.length; i++) {
     const kid = children[i]
     const next = children[i + 1]

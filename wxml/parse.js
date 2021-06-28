@@ -21,6 +21,7 @@ function parse(tokens) {
       prev = state.current
       ast.children.push(child)
     }
+
   }
   prev = 0
   return ast
