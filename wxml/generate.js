@@ -170,13 +170,13 @@ function compileExpression(expression, type) {
   const exp = /(?<={{).*(?=}})/gm
   switch (type) {
     case 'direct':
-      return tokens.map(t => t.match(exp) ? t.match(exp)[0] : t).join(' ')
+      return tokens.map(t => exp.test(t) ? t.match(exp)[0] : t).join(' ')
     case 'text':
-      return tokens.map(t => t.match(exp) ? `{${t.match(exp)[0]}}` : t).join(' ')
+      return tokens.map(t => exp.test(t) ? `{${t.match(exp)[0]}}` : t).join(' ')
     case 'component':
-      return tokens.map(t => t.match(exp) ? `{${t.match(exp)[0]}}` : `"${t}"`).join(' ')
+      return tokens.map(t => exp.test(t) ? `{${t.match(exp)[0]}}` : `"${t}"`).join(' ')
     case 'node':
-      return "{`" + tokens.map(t => t.match(exp) ? "${" + t.match(exp)[0] + "}" : `${t}`).join(' ') + "`}"
+      return "{`" + tokens.map(t => exp.test(t) ? "${" + t.match(exp)[0] + "}" : `${t}`).join(' ') + "`}"
   }
 }
 
