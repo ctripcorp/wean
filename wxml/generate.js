@@ -89,12 +89,8 @@ function generateDirect(node, code, next) {
     }
     if (name === "wx:for") {
       const item = findItem(node)
-      code = `{$for(
-                  ${compiled}, 
-                  (${item}) => (${code})
-              )}`
+      code = `{$for(${compiled},(${item}) => (${code}))}`
     }
-
     if (name === "wx:if") {
       ifcode += `{${compiled}?${code}:`
       if (isElse(next)) {
@@ -104,7 +100,6 @@ function generateDirect(node, code, next) {
         ifcode = ""
       }
     }
-
     if (name === "wx:elseif") {
       ifcode += `${compiled}?${code}:`
       if (isElse(next)) {
@@ -114,7 +109,6 @@ function generateDirect(node, code, next) {
         ifcode = ""
       }
     }
-
     if (name === "wx:else") {
       if (ifcode === "") {
         ifcode += `{!${compiled}?${code}:null}`
