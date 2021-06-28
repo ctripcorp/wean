@@ -166,23 +166,17 @@ function generateProps(node, state, asset) {
 }
 
 function compileExpression(expression, type) {
-  const exps = expression.match(/{{(.+)}}/g)
+  const tokens = expression.match(/(\S+)/gim)
+  const exp = /(?<={{).*(?=}})/gm
   switch (type) {
-    case "direct":
-      return expression.replace(/{{/g, "").replace(/}}/g, "")
-    case "text":
-      return exps
-        ? expression.replace(/{{/g, "{").replace(/}}/g, "}")
-        : expression
-    case "component":
-      if (!exps) return `"${expression}"`
-      return expression.replace(/{{/g, "{").replace(/}}/g, "}")
-    case "node":
-      if (!exps) return `"${expression}"`
-      expression = expression.replace(/{{/g, "${").replace(/}}/g, "}")
-      return expression.indexOf("$") > -1
-        ? "{`" + expression + "`}"
-        : expression
+    case 'direct':
+      return tokens.map(t => t.match(exp) ? t.match(exp)[0] : t).join(' ')
+    case 'text':
+      return tokens.map(t => t.match(exp) ? `{${t.match(exp)[0]}}` : t).join(' ')
+    case 'component':
+      return tokens.map(t => t.match(exp) ? `{${t.match(exp)[0]}}` : `"${t}"`).join(' ')
+    case 'node':
+      return "{`" + tokens.map(t => t.match(exp) ? "${" + t.match(exp)[0] + "}" : `${t}`).join(' ') + "`}"
   }
 }
 
