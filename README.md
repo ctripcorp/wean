@@ -40,7 +40,7 @@ $ wean
 
 在 wean 之前，大量小程序工具使用 webpack 进行打包，各种 loader、plugin 导致整个开发链路变长，编译耗时超级长，调试困难
 
-wean 旨在解决链路问题，它自研编译器和打包器，对于 todolist 项目，可以做到毫秒级别编译
+wean 旨在解决链路问题，它自研编译器和打包器，对同样的小程序项目，wean 大约比 taro（+webpack）快一百倍
 
 ### Package
 
