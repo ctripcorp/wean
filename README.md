@@ -38,9 +38,9 @@ $ wean
 
 ### Motivation
 
-在 wean 之前，大量小程序工具使用 webpack 进行打包，各种 loader、plugin 导致整个开发链路变长，编译耗时超级长，调试困难
+在 wean 之前，大量小程序工具使用 babel + webpack 进行打包，各种 loader 、plugin 导致整个开发链路变长，O(n^n) 一遍又一遍的 ast 遍历，复杂度指数级增长，编译耗时超级长，调试也超级困难
 
-wean 旨在解决链路问题，它自研编译器和打包器，对同样的小程序项目，wean 大约比 taro（+webpack）快一百倍
+wean 旨在解决链路问题，它自研编译器和打包器，整体复杂度维持在 O(n)，没有任何 AST 操作，同一个小程序项目，wean 大约比 taro（+webpack）快一百倍
 
 ### Package
 
