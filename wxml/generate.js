@@ -153,13 +153,15 @@ function generateProps(node, state, asset) {
       state.imports.push(value)
     } else {
       let compiled = compileExpression(value, node.type)
-      code += `${name}=${compiled}`
+      code += `${name}=${compiled || "true"}`
     }
   }
   return code + '>'
 }
 
 function compileExpression(expression, type) {
+  const tokens = expression.match(/(\S+)/gim)
+  if (!tokens || tokens.length === 0) return null
   const tokens = expression.match(/(\S+)/gim) || []
   const exp = /(?<={{).*(?=}})/gm
   switch (type) {
