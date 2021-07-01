@@ -73,7 +73,6 @@ function lexComment(state) {
 }
 
 function lexTag(state) {
-  let current = state.current
   let input = state.input
   let isCloseStart = input.charAt(state.current + 1) === '/'
   state.current += isCloseStart ? 2 : 1
@@ -82,19 +81,13 @@ function lexTag(state) {
   let isCloseEnd = input.charAt(state.current) === '/'
   state.current += isCloseEnd ? 2 : 1
 
-  if (isCloseEnd || isCloseStart) {
-    tagToken.pos = state.current - 1
-    tagToken.len = input.length
-    if (isCloseEnd) {
-      tagToken.closeEnd = true
-    }
-    if (isCloseStart) {
-      tagToken.closeStart = true
-    }
-  } else {
-    tagToken.pos = current
-    tagToken.len = input.length
+  if (isCloseEnd) {
+    tagToken.closeEnd = true
   }
+  if (isCloseStart) {
+    tagToken.closeStart = true
+  }
+
 }
 function lexType(state) {
   let input = state.input

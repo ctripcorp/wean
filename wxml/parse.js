@@ -1,4 +1,3 @@
-let prev = 0
 
 function parse(tokens) {
   let ast = {
@@ -7,23 +6,16 @@ function parse(tokens) {
 
   let state = {
     current: 0,
-    previ: 0,
     tokens,
   }
 
   while (state.current < tokens.length) {
     let child = parseWalk(state)
     if (child) {
-      const start = tokens[prev].pos || 0
-      const c = tokens[state.current]
-      const end = c ? c.pos : tokens[state.current-1].len
-      child.pos = [start, end]
-      prev = state.current
       ast.children.push(child)
     }
 
   }
-  prev = 0
   return ast
 }
 
@@ -52,7 +44,7 @@ function parseWalk(state) {
     let closeStart = token.closeStart
     let closeEnd = token.closeEnd
 
-    let node = parseNode(type, token.attributes, [], token.current)
+    let node = parseNode(type, token.attributes, [])
     move()
     if (closeEnd === true) {
       return node
@@ -81,7 +73,7 @@ function parseWalk(state) {
   return
 }
 
-function parseNode(name, attributes, children, pos) {
+function parseNode(name, attributes, children) {
   let type = "node"
   if (
     name.indexOf("-") > -1 ||
@@ -94,8 +86,7 @@ function parseNode(name, attributes, children, pos) {
     type,
     name,
     attributes,
-    children,
-    pos
+    children
   }
 }
 module.exports = parse
