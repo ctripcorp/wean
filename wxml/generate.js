@@ -167,6 +167,7 @@ function generateProps(node, state, asset) {
 
 function compileExpression(expression, type) {
   const tokens = expression.match(/(\S+)/gim)
+  if (!tokens) return ''
   const exp = /(?<={{).*(?=}})/gm
   switch (type) {
     case 'direct':
