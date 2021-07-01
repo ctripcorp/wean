@@ -32,12 +32,15 @@ module.exports = async function packWxml(asset) {
       return <div>${asset.out}</div>
     }
   }`
+  try {
+    var { code } = await esbuild.transform(pre, {
+      jsxFactory: 'fre.h',
+      jsxFragment: 'fre.Fragment',
+      loader: 'jsx',
+    })
+  } catch (e) {
+  }
 
-  const { code } = await esbuild.transform(pre, {
-    jsxFactory: 'fre.h',
-    jsxFragment: 'fre.Fragment',
-    loader: 'jsx',
-  })
   return code
 }
 

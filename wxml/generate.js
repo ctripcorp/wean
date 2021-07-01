@@ -159,7 +159,7 @@ function generateProps(node, state, asset) {
       state.imports.push(value)
     } else {
       let compiled = compileExpression(value, node.type)
-      code += `${name}=${compiled}`
+      code += `${name}=${compiled || "true"}`
     }
   }
   return code + '>'
@@ -167,7 +167,7 @@ function generateProps(node, state, asset) {
 
 function compileExpression(expression, type) {
   const tokens = expression.match(/(\S+)/gim)
-  if (!tokens) return ''
+  if (!tokens || tokens.length === 0) return null
   const exp = /(?<={{).*(?=}})/gm
   switch (type) {
     case 'direct':
