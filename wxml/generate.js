@@ -89,12 +89,8 @@ function generateDirect(node, code, next) {
     }
     if (name === "wx:for") {
       const item = findItem(node)
-      code = `{$for(
-                  ${compiled}, 
-                  (${item}) => (${code})
-              )}`
+      code = `{$for(${compiled},(${item}) => (${code}))}`
     }
-
     if (name === "wx:if") {
       ifcode += `{${compiled}?${code}:`
       if (isElse(next)) {
@@ -104,7 +100,6 @@ function generateDirect(node, code, next) {
         ifcode = ""
       }
     }
-
     if (name === "wx:elseif") {
       ifcode += `${compiled}?${code}:`
       if (isElse(next)) {
@@ -114,7 +109,6 @@ function generateDirect(node, code, next) {
         ifcode = ""
       }
     }
-
     if (name === "wx:else") {
       if (ifcode === "") {
         ifcode += `{!${compiled}?${code}:null}`
@@ -168,6 +162,7 @@ function generateProps(node, state, asset) {
 function compileExpression(expression, type) {
   const tokens = expression.match(/(\S+)/gim)
   if (!tokens || tokens.length === 0) return null
+  const tokens = expression.match(/(\S+)/gim) || []
   const exp = /(?<={{).*(?=}})/gm
   switch (type) {
     case 'direct':
