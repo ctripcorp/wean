@@ -44,8 +44,8 @@ async function loadAsset(asset) {
   }
 
   const dependencies = Array.from(asset.dependencies)
+  
   const childs = dependencies.map(async (dep) => {
-
     const depAsset = await resolveAsset(
       dep.path.replace(dep.ext, "") + dep.ext,
       asset.path
