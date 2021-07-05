@@ -60,12 +60,12 @@ async function write(asset, options) {
     let path = `${asset.outputPath}.${key}`
     let code = asset.output[key]
 
-    if (options.m) {
-      code = await esbuild.transform(code, {
-        loader: key,
-        minify: true
-      })
-    }
+    // if (options.m) {
+    //   code = await esbuild.transform(code, {
+    //     loader: key,
+    //     minify: true
+    //   })
+    // }
 
     await promises.writeFile(path, code)
   }
