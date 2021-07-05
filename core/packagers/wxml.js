@@ -17,7 +17,8 @@ module.exports = async function packWxml(asset) {
     const [state, setState] = fre.useState(props.data)
     fre.useEffect(()=>{
       window.components[${asset.parent.id}] = (data) => setState(data)
-      $ready(${asset.parent.id})
+      $mount(${asset.parent.id})
+      return () => $mount(${asset.parent.id})
     },[])
     with(state){
       return <div>${asset.out}</div>
@@ -26,7 +27,8 @@ module.exports = async function packWxml(asset) {
     const [state, setState] = fre.useState({})
     fre.useEffect(()=>{
       window.components[${asset.parent.id}] = (data) => setState(data)
-      $ready(${asset.parent.id})
+      $mount(${asset.parent.id})
+      return () => $mount(${asset.parent.id})
     },[])
     with({...props,...state}){
       return <div>${asset.out}</div>
