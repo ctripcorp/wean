@@ -1,10 +1,10 @@
 const chokidar = require("chokidar")
-const chalk = require("chalk")
 const Path = require("path")
 const build = require("./bundle")
 const pack = require("./package")
 const serve = require("./serve")
 const argv = require("./commander")
+const ora = require('ora')
 const BUILD_TYPE = {
   BUILD: 'build'
 }
@@ -31,7 +31,7 @@ async function run(argv) {
         },
       })
       .on("change", (path) => {
-        console.log(chalk.green(`rebuild ${path}`))
+        console.log(`rebuild ${path}`)
         start(options)
       })
   }
@@ -39,13 +39,12 @@ async function run(argv) {
 
 async function start(options) {
   options.old && options.old.close()
+  const spinner = ora('start compiling').start()
   const start = Date.now()
   const adt = await build(options.e, options)
-  console.log(chalk.green(`bundle success`))
   await pack(adt, options)
   const end = Date.now()
-  console.log(chalk.green("package success"))
-  console.log(chalk.blue(`compile total time ${end - start}ms`))
+  spinner.succeed(`compile total time ${end - start}ms`)
   // if (options.t === BUILD_TYPE.BUILD) {
   //   console.log(chalk.green("build success"))
   // } else {
@@ -54,7 +53,7 @@ async function start(options) {
 }
 
 if (argv.version) {
-  console.log(chalk('version:', require('../package.json').version))
+  console.log('version:', require('../package.json').version)
 } else {
   run(argv)
 }

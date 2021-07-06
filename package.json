@@ -19,7 +19,6 @@
   "author": "",
   "license": "MIT",
   "devDependencies": {
-    "chalk": "^4.1.0",
     "chokidar": "^3.5.1",
     "commander": "^7.1.0",
     "cross-fetch": "^3.0.6",
@@ -28,6 +27,7 @@
     "md5": "^2.3.0",
     "nanoid": "^3.1.21",
     "nodemon": "^2.0.6",
+    "ora": "^5.4.1",
     "polka": "^0.5.2",
     "postcss": "^8.2.2",
     "postcss-selector-parser": "^6.0.4",
