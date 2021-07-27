@@ -1,4 +1,6 @@
 const Asset = require("./asset")
+const fs = require('fs')
+const path = require('path')
 
 class App extends Asset {
   // app.json
@@ -17,6 +19,13 @@ class App extends Asset {
       }
       if (key === "usingComponents") {
         // toto 公共组件
+      }
+      if (key === 'tabBar') {
+        // tabbar 只需要处理附件，不需要实现
+        value.list.forEach(item => {
+          item.iconPath = path.join(path.dirname(this.path), item.iconPath)
+          item.selectedIconPath = path.join(path.dirname(this.path), item.selectedIconPath)
+        })
       }
     }
   }
