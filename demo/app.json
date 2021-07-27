@@ -3,6 +3,20 @@
     "pages/index/index",
     "pages/child/index"
   ],
+  "tabBar": {
+    "custom": true,
+    "color": "#000000",
+    "selectedColor": "#000000",
+    "backgroundColor": "#000000",
+    "list": [
+      {
+        "pagePath": "page/component/index",
+        "text": "组件",
+        "iconPath": "./public/0.png",
+        "selectedIconPath": "./public/1.png"
+      }
+    ]
+  },
   "window": {
     "navigationBarBackgroundColor": "#fff",
     "navigationBarTextStyle": "black",
