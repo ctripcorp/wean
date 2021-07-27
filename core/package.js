@@ -99,10 +99,12 @@ async function generateEntry(asset, options) {
   const tabbars = asset.ast.tabBar.list
   const all = tabbars.map(async item => {
     let { iconPath, selectedIconPath } = item
-    const $1 = Path.basename(iconPath)
-    const $2 = Path.basename(selectedIconPath)
-    await promises.copyFile(iconPath, Path.join(o, 'public', $1))
-    await promises.copyFile(selectedIconPath, Path.join(o, 'public', $2))
+    const $1 = Path.join(o, 'public', Path.basename(iconPath))
+    const $2 = Path.join(o, 'public', Path.basename(selectedIconPath))
+    await promises.copyFile(iconPath, $1)
+    item.iconPath = $1
+    await promises.copyFile(selectedIconPath, $2)
+    item.selectedIconPath = $2
   })
   await Promise.all(all)
 
