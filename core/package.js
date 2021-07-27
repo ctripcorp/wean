@@ -93,10 +93,23 @@ async function packageJson(asset, options) {
 }
 
 async function generateEntry(asset, options) {
+  const o = Path.resolve(options.o)
+  await promises.mkdir(Path.join(o, 'public'), { recursive: true })
+
+  const tabbars = asset.ast.tabBar.list
+  const all = tabbars.map(async item => {
+    let { iconPath, selectedIconPath } = item
+    const $1 = Path.basename(iconPath)
+    const $2 = Path.basename(selectedIconPath)
+    await promises.copyFile(iconPath, Path.join(o, 'public', $1))
+    await promises.copyFile(selectedIconPath, Path.join(o, 'public', $2))
+  })
+  await Promise.all(all)
+
   const pages = manifest
   const json = {
     info: asset.ast,
-    pages
+    pages,
   }
   let out = JSON.stringify(json)
   await promises.writeFile(
