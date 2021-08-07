@@ -1,8 +1,8 @@
 const { getId } = require('../core/packagers/util')
 
 const eventMap = {
-  catchtap: "onClick",
-  catchconfirm: "onKeyDown",
+  tap: "onClick",
+  confirm: "onKeyDown",
 }
 
 let clock = 0
@@ -148,7 +148,7 @@ function generateProps(node, state, asset) {
         state.methods.push(value)
       }
       const n = name.replace(/^bind(:?)/, 'catch')
-      code += ` ${eventMap[n] || n}={$handleEvent("${value}", "${getId(asset)}", "${n}")} `
+      code += ` ${wriedName(n)}={$handleEvent("${value}", "${getId(asset)}", "${n}")} `
     } else if (node.name === "import") {
       state.imports.push(value)
     } else {
@@ -157,6 +157,15 @@ function generateProps(node, state, asset) {
     }
   }
   return code + '>'
+}
+
+function wriedName(key) {
+  key = key.replace(/^(bind|catch)[a-z]/, '');
+  if (key in eventMap) {
+    return eventMap[key]
+  } else {
+    return 'on' + key[0].toUpperCase() + key.substr(1)
+  }
 }
 
 function compileExpression(expression, type) {
