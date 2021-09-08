@@ -21,7 +21,7 @@ module.exports = async function packWxml(asset) {
       return () => $unmount(${asset.parent.id})
     },[])
     with(state){
-      return <div>${asset.out}</div>
+      return <>${asset.out}</>
     }
   }\n`: `remotes['${titleCase(asset.parent.tag)}'] = (props) =>{
     const [state, setState] = fre.useState({})
@@ -31,7 +31,7 @@ module.exports = async function packWxml(asset) {
       return () => $unmount(${asset.parent.id})
     },[])
     with({...props,...state}){
-      return <div>${asset.out}</div>
+      return <>${asset.out}</>
     }
   }`
   try {

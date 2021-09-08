@@ -1,8 +1,6 @@
 const Asset = require("./asset")
 const { lex, parse, generate } = require("../../wxml/index.js")
 
-const esbuild = require('esbuild')
-
 module.exports = class Wxml extends Asset {
   constructor(path, type, name) {
     super(path, type, name)
