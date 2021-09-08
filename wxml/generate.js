@@ -148,7 +148,7 @@ function generateProps(node, state, asset) {
         state.methods.push(value)
       }
       const n = name.replace(/^bind(:?)/, 'catch')
-      code += ` ${eventMap[n] || n}={$handleEvent("${value}", "${getId(asset)}", "${n}")} `
+      code += ` ${eventMap[n] || n.slice(5)}={$handleEvent("${value}", "${getId(asset)}", "${n}")} `
     } else if (node.name === "import") {
       state.imports.push(value)
     } else {
